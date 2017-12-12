@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools">
+
+    <data class=".HomeActivityBinding">
+
+        <variable
+            name="viewModel"
+            type="com.thirdwavelist.coficiando.features.home.HomeActivityViewModel" />
+
+    </data>
+
+    <merge
+        tools:context="com.thirdwavelist.coficiando.features.home.HomeActivity"
+        tools:layout_height="match_parent"
+        tools:layout_width="match_parent"
+        tools:parentTag="FrameLayout">
+    </merge>
+</layout>
