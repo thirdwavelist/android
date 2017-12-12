@@ -10,7 +10,8 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class HomeActivityViewModel(private val cafeRepository: Repository<CafeItem>) : ViewModel() {
+class HomeActivityViewModel(private val repository: Repository<CafeItem>,
+                            val adapter: CafeAdapter) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
@@ -19,7 +20,7 @@ class HomeActivityViewModel(private val cafeRepository: Repository<CafeItem>) : 
     }
 
     fun getCafes() {
-        disposables += cafeRepository
+        disposables += repository
             .getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -44,22 +45,15 @@ class HomeActivityViewModel(private val cafeRepository: Repository<CafeItem>) : 
         when (it.status) {
             Status.LOADING -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-//                    adapter.replaceItems(it.data)
-//                    isLoading = false
+                    adapter.setItems(it.data)
                 }
-            }
-            Status.ERROR -> {
-//                if (adapter.isEmpty()) {
-//                    isError = true
-//                    isLoading = false
-//                }
             }
             Status.SUCCESS -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-//                    adapter.replaceItems(it.data)
+                    adapter.setItems(it.data)
                 }
-//                isError = (adapter.isEmpty() && it.data?.isEmpty() ?: true)
-//                isLoading = false
+            }
+            Status.ERROR -> {
             }
         }
 

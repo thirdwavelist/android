@@ -22,7 +22,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        viewModelFactory = ViewModelFactory(cafeRepository)
+        viewModelFactory = ViewModelFactory(cafeRepository, CafeAdapter(arrayListOf()))
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(HomeActivityViewModel::class.java)
         binding.viewModel = viewModel
     }

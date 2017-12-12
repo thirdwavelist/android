@@ -30,11 +30,11 @@ object NetworkModule {
     @Provides
     @Singleton
     @JvmStatic
-    internal fun provideOkHttpClient(cache: Cache/*, @CachePreference cachePreference: String*/): OkHttpClient {
+    internal fun provideOkHttpClient(cache: Cache, @CachePreference cachePreference: String): OkHttpClient {
         return OkHttpClient.Builder()
             .debuggable(BuildConfig.DEBUG)
             .userAgent(BuildConfig.APPLICATION_ID)
-//            .cachePreference(cachePreference)
+            .cachePreference(cachePreference)
             .cache(cache)
             .build()
     }
