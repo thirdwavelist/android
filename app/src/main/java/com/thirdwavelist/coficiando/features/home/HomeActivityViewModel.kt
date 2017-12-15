@@ -52,6 +52,7 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (!newText.isEmpty()) { subject.onNext(newText) }
+                else { loadCafes() }
                 return true
             }
         })

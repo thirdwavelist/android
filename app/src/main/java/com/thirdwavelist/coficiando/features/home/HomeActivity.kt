@@ -19,7 +19,9 @@ import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 import android.databinding.adapters.TextViewBindingAdapter.setText
 import android.support.v4.view.MenuItemCompat
+import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.SearchView
+import android.widget.ImageButton
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
@@ -106,8 +108,13 @@ class HomeActivity : DaggerAppCompatActivity() {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main, menu)
 
-        menu.findItem(R.id.action_search).let{
+        menu.findItem(R.id.action_search).let {
             viewModel.enableSearch(it.actionView as SearchView)
+
+//            (it.actionView.findViewById(android.support.v7.appcompat.R.id.search_close_btn) as AppCompatImageView)
+//                .setOnClickListener {
+//                    viewModel.loadCafes()
+//                }
         }
         return true
     }

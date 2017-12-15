@@ -5,7 +5,6 @@ import android.content.Intent
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.net.Uri
-import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.startActivity
 import android.view.View
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
