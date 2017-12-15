@@ -19,5 +19,9 @@ data class CafeItem(
     @Embedded
     val social: SocialItem,
     @ColumnInfo(name = "place_id")
-    val googlePlaceId: String
+    val googlePlaceId: String,
+    @Embedded
+    val gearInfo: GearInfoItem,
+    @Embedded
+    val beanInfo: BeanInfoItem
 )

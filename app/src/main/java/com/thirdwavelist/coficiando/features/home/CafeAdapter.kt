@@ -22,27 +22,8 @@ import io.reactivex.schedulers.Schedulers
 
 
 class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
-    override fun getFilter() = object : Filter() {
-        override fun performFiltering(charSequence: CharSequence): FilterResults {
-            val results = mutableListOf<CafeItem>()
-            val searchQuery = charSequence.toString()
-            if (searchQuery.isNotEmpty()) {
-                data.forEach {
-                    if (it.name.contains(searchQuery, ignoreCase = true)) results.add(it)
-                }
-            }
 
-            return FilterResults().also {
-                it.values = results
-                it.count = results.size
-            }
-        }
-
-        override fun publishResults(charSequence: CharSequence, results: FilterResults) {
-            data = results.values as List<CafeItem>
-        }
-
-    }
+    private var itemClickListener: (position: Int) -> Unit = { _ -> run {} }
 
     var data = initialData
         set(newData) {
@@ -91,10 +72,38 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: CafeItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_cafe, parent, false)
-        return CafeItemViewHolder(binding)
+        return CafeItemViewHolder(binding).also { it.setItemClickListener(itemClickListener) }
     }
 
     override fun getItemCount() = data.size
+
+    override fun getFilter() = object : Filter() {
+        override fun performFiltering(charSequence: CharSequence): FilterResults {
+            val results = mutableListOf<CafeItem>()
+            val searchQuery = charSequence.toString()
+            if (searchQuery.isNotEmpty()) {
+                data.forEach {
+                    if (it.name.contains(searchQuery, ignoreCase = true)) results.add(it)
+                }
+            }
+
+            return FilterResults().also {
+                it.values = results
+                it.count = results.size
+            }
+        }
+
+        override fun publishResults(charSequence: CharSequence, results: FilterResults) {
+            data = results.values as List<CafeItem>
+        }
+
+    }
+
+    fun setItemClickListener(itemClickListener: (position: Int) -> Unit) {
+        this.itemClickListener = itemClickListener
+    }
+
+    fun getItem(position: Int) = data[position]
 
     class CafeItemViewModel(title: String,
                             thumbnailUri: Uri,
@@ -118,6 +127,14 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
                 is CafeItemViewModel -> binding.setVariable(BR.viewModel, viewModel)
             }
             binding.executePendingBindings()
+        }
+
+        fun setItemClickListener(itemClickListener: (position: Int) -> Unit) {
+            binding.root.setOnClickListener {
+                if (adapterPosition != RecyclerView.NO_POSITION) {
+                    itemClickListener(adapterPosition)
+                }
+            }
         }
     }
 }

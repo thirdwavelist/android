@@ -19,7 +19,7 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
         add(disposable)
     }
 
-    fun getCafes() {
+    fun loadCafes() {
         disposables += repository
             .getAll()
             .subscribeOn(Schedulers.io())

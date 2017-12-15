@@ -3,14 +3,14 @@ package com.thirdwavelist.coficiando.features.home
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.view.Menu
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
+import com.thirdwavelist.coficiando.features.details.DetailsActivity
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
-import dagger.android.DaggerActivity
+import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
-class HomeActivity : DaggerActivity() {
+class HomeActivity : DaggerAppCompatActivity() {
 
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var binding: HomeActivityBinding
@@ -24,13 +24,16 @@ class HomeActivity : DaggerActivity() {
         binding.viewModel = viewModel
 
         binding.recycler.layoutManager = LinearLayoutManager(this@HomeActivity)
+        viewModel.adapter.setItemClickListener { position ->
+            viewModel.adapter.getItem(position).let {
+                startActivity(DetailsActivity.getStartIntent(
+                    this@HomeActivity,
+                    it.id
+                ))
+            }
+        }
 
-        viewModel.getCafes()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
+        viewModel.loadCafes()
     }
 
     override fun onStop() {

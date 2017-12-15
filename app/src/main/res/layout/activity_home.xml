@@ -11,13 +11,7 @@
 
     </data>
 
-    <merge
-        tools:context="com.thirdwavelist.coficiando.features.home.HomeActivity"
-        tools:layout_height="match_parent"
-        tools:layout_width="match_parent"
-        tools:parentTag="FrameLayout">
-
-        <android.support.v7.widget.RecyclerView
+    <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,5 +20,4 @@
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
             tools:listitem="@layout/item_cafe"
             tools:visibility="visible" />
-    </merge>
 </layout>
