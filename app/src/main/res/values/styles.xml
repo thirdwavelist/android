@@ -36,4 +36,8 @@
         <item name="rippleColor">@android:color/white</item>
     </style>
 
+    <style name="AppTheme.SearchView" parent="Widget.AppCompat.SearchView">
+        <item name="queryHint">@string/search_hint</item>
+    </style>
+
 </resources>

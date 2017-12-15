@@ -9,6 +9,11 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import android.support.v7.widget.SearchView
+import io.reactivex.Observable
+import io.reactivex.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
+
 
 class HomeActivityViewModel(private val repository: Repository<CafeItem>,
                             val adapter: CafeAdapter) : ViewModel() {
@@ -35,6 +40,30 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
                     /* do nothing */
                 }
             )
+    }
+
+    fun enableSearch(searchView: SearchView) {
+        val subject = BehaviorSubject.create<String>()
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                subject.onComplete()
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (!newText.isEmpty()) { subject.onNext(newText) }
+                return true
+            }
+        })
+
+        subject
+            .subscribeOn(Schedulers.computation())
+            .debounce(300, TimeUnit.MILLISECONDS)
+            .filter({ item -> item.length > 1 })
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ query ->
+                adapter.filter.filter(query)
+            })
     }
 
     fun dispose() {

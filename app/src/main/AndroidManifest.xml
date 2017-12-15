@@ -11,8 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".features.home.HomeActivity"
+        <activity
+            android:name=".features.home.HomeActivity"
             android:theme="@style/AppTheme.TransparentActionBar">
             <meta-data
                 android:name="android.app.searchable"
@@ -27,11 +27,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".features.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
     </application>
 
 </manifest>
