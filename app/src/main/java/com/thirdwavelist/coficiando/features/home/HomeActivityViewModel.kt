@@ -1,16 +1,20 @@
 package com.thirdwavelist.coficiando.features.home
 
+import android.app.SearchManager
 import android.arch.lifecycle.ViewModel
-import com.thirdwavelist.coficiando.storage.repository.Repository
-import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import android.database.Cursor
+import android.database.MatrixCursor
+import android.provider.BaseColumns
+import android.support.v7.widget.SearchView
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
+import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.repository.Repository
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import android.support.v7.widget.SearchView
-import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
@@ -19,6 +23,8 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
                             val adapter: CafeAdapter) : ViewModel() {
 
     private val disposables = CompositeDisposable()
+
+    val autocompleteAdapter = BehaviorSubject.create<Cursor>()
 
     private operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
         add(disposable)
@@ -30,13 +36,16 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {/* onNext */
+                {
+                    /* onNext */
                     handleResponse(it)
                 },
-                {/* onError */
+                {
+                    /* onError */
                     handleError()
                 },
-                {/* onComplete */
+                {
+                    /* onComplete */
                     /* do nothing */
                 }
             )
@@ -51,8 +60,11 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                if (!newText.isEmpty()) { subject.onNext(newText) }
-                else { loadCafes() }
+                if (!newText.isEmpty()) {
+                    subject.onNext(newText)
+                } else {
+                    loadCafes()
+                }
                 return true
             }
         })
@@ -85,10 +97,26 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             Status.SUCCESS -> {
                 if (it.data != null && it.data.isNotEmpty()) {
                     adapter.data = it.data
+
+                    updateAutocomplete(it.data)
                 }
             }
             Status.ERROR -> {
             }
         }
+    }
+
+    private fun updateAutocomplete(data: List<CafeItem>) {
+        Observable.fromCallable {
+            MatrixCursor(arrayOf(BaseColumns._ID, SearchManager.SUGGEST_COLUMN_TEXT_1)).also { cursor ->
+                var i = 0;
+                data.map { String(it.name.toCharArray()) }.distinct().forEach {
+                    cursor.addRow(arrayOf(i++, it))
+                }
+            }
+        }
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ autocompleteAdapter.onNext(it) }, { /* do nothing */})
     }
 }

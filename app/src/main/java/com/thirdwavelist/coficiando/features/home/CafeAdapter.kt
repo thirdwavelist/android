@@ -78,9 +78,9 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
     override fun getItemCount() = data.size
 
     override fun getFilter() = object : Filter() {
-        override fun performFiltering(charSequence: CharSequence): FilterResults {
+        override fun performFiltering(charSequence: CharSequence?): FilterResults {
             val results = mutableListOf<CafeItem>()
-            val searchQuery = charSequence.toString()
+            val searchQuery = charSequence?.toString() ?: ""
             if (searchQuery.isNotEmpty()) {
                 data.forEach {
                     if (it.name.contains(searchQuery, ignoreCase = true)) results.add(it)
@@ -93,8 +93,10 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
             }
         }
 
-        override fun publishResults(charSequence: CharSequence, results: FilterResults) {
-            data = results.values as List<CafeItem>
+        override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
+            if (results != null) {
+                data = results.values as List<CafeItem>
+            }
         }
 
     }

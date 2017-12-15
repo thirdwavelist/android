@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".features.home.HomeActivity"
-            android:theme="@style/AppTheme.TransparentActionBar">
+            android:theme="@style/AppTheme.TransparentActionBar"
+            android:launchMode="singleTop">
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
@@ -30,6 +31,10 @@
         <activity
             android:name=".features.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
+
+        <provider android:name=".components.search.MySuggestionProvider"
+            android:authorities="com.example.MySuggestionProvider"
+            android:exported="false"/>
     </application>
 
 </manifest>
