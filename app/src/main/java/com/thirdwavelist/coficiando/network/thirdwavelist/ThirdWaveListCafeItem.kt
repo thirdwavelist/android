@@ -27,8 +27,8 @@ data class ThirdWaveListCafeItem(
     @SerializedName("bean_origin_single") val beanOriginSingle: Boolean?,
     @SerializedName("bean_origin_blend") val beanOriginBlend: Boolean?,
     @SerializedName("bean_roast_light") val beanRoastLight: Boolean?,
-    @SerializedName("bean_roast_light") val beanRoastMedium: Boolean?,
-    @SerializedName("bean_roast_light") val beanRoastDark: Boolean?,
+    @SerializedName("bean_roast_medium") val beanRoastMedium: Boolean?,
+    @SerializedName("bean_roast_dark") val beanRoastDark: Boolean?,
     @SerializedName("price_doppio") val priceDoppio: String?,
     @SerializedName("extra_google_placeid") val googlePlaceId: String?
 ) {

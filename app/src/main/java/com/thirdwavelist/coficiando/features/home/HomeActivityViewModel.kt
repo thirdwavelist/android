@@ -37,6 +37,10 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             )
     }
 
+    fun dispose() {
+        disposables.clear()
+    }
+
     private fun handleError() {
         TODO("not implemented yet")
     }
@@ -45,17 +49,16 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
         when (it.status) {
             Status.LOADING -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.setItems(it.data)
+                    adapter.data = it.data
                 }
             }
             Status.SUCCESS -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.setItems(it.data)
+                    adapter.data = it.data
                 }
             }
             Status.ERROR -> {
             }
         }
-
     }
 }

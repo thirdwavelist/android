@@ -7,6 +7,7 @@ import com.thirdwavelist.coficiando.storage.repository.Repository
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.cafe.SocialItem
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
@@ -25,7 +26,7 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
         return createCombinedFlowable(local, remote, Function { response ->
             response
                 .filter { it.isValid() }
-                .map { CafeItem(it.id, it.name!!, it.thumbnail!!) }
+                .map { CafeItem(it.id, it.name!!, it.thumbnail!!, SocialItem(it.socialFacebook, it.socialInstagram, it.socialWebsite), it.googlePlaceId!!) }
         }, { dao.insertAll(it) })
     }
 

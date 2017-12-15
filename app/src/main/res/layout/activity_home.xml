@@ -21,10 +21,10 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             app:adapter="@{viewModel.adapter}"
             tools:layoutManager="android.support.v7.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_playlist"
+            tools:listitem="@layout/item_cafe"
             tools:visibility="visible" />
     </merge>
 </layout>

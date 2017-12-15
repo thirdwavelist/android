@@ -2,6 +2,7 @@ package com.thirdwavelist.coficiando.features.shared
 
 import android.databinding.BindingAdapter
 import android.net.Uri
+import android.view.View
 import android.widget.ImageView
 
 @BindingAdapter("image")

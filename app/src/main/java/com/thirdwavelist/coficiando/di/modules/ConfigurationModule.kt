@@ -5,8 +5,8 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.di.qualifiers.ApiKey
 import com.thirdwavelist.coficiando.di.qualifiers.CacheDuration
-import com.thirdwavelist.coficiando.di.qualifiers.CachePreference
 import com.thirdwavelist.coficiando.di.qualifiers.CacheSize
+import com.thirdwavelist.coficiando.network.CachePreference
 import dagger.Provides
 import javax.inject.Singleton
 
@@ -16,8 +16,7 @@ object ConfigurationModule {
     private const val CONFIG_KEY_API = "key_api"
     private const val CACHE_SIZE_1MB = 1024 * 1024L
     private const val CACHE_DURATION_ONE_DAY_IN_SECONDS = 60 * 60 * 24L
-    private const val PUBLIC_CACHE_PREFERENCE = "public, only-if-cached"
-    
+
     @Provides
     @JvmStatic
     @Singleton
@@ -54,6 +53,7 @@ object ConfigurationModule {
     @Provides
     @JvmStatic
     @Singleton
-    @CachePreference
-    fun provideCachePreference() = PUBLIC_CACHE_PREFERENCE
+    fun provideCachePreference() =
+        CachePreference("public, only-if-cached, max-stale=$CACHE_DURATION_ONE_DAY_IN_SECONDS",
+            "public, max-age=$CACHE_DURATION_ONE_DAY_IN_SECONDS")
 }
