@@ -5,35 +5,69 @@
     <group>
         <item
             android:id="@+id/nav_switch_city"
-            android:title="Switch city" app:actionLayout="@layout/widget_menu_text"/>
+            android:title="Switch city"
+            app:actionLayout="@layout/widget_menu_text" />
     </group>
 
     <item android:title="Brew method">
         <menu>
-            <group>
-                <item android:title="Espresso" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Aeropress" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Pour over" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Cold brew" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Syphon"  app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Full immersion" app:actionLayout="@layout/widget_menu_check"/>
+            <group android:id="@+id/brew_method_group">
+                <item
+                    android:id="@+id/brew_method_espresso"
+                    android:title="Espresso"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/brew_method_aeropress"
+                    android:title="Aeropress"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/brew_method_pour_over"
+                    android:title="Pour over"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/brew_method_cold_brew"
+                    android:title="Cold brew"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/brew_method_syphon"
+                    android:title="Syphon"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/brew_method_full_immersion"
+                    android:title="Full immersion"
+                    app:actionLayout="@layout/widget_menu_check" />
             </group>
         </menu>
     </item>
     <item android:title="Bean origin">
         <menu>
-            <group>
-                <item android:title="Single" app:actionLayout="@layout/widget_menu_check"  />
-                <item android:title="Blend" app:actionLayout="@layout/widget_menu_check"  />
+            <group android:id="@+id/bean_origin">
+                <item
+                    android:id="@+id/bean_origin_single"
+                    android:title="Single"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/bean_origin_blend"
+                    android:title="Blend"
+                    app:actionLayout="@layout/widget_menu_check" />
             </group>
         </menu>
     </item>
     <item android:title="Bean roast">
         <menu>
-            <group>
-                <item android:title="Light" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Medium" app:actionLayout="@layout/widget_menu_check"/>
-                <item android:title="Dark" app:actionLayout="@layout/widget_menu_check"/>
+            <group android:id="@+id/bean_roast">
+                <item
+                    android:id="@+id/bean_roast_light"
+                    android:title="Light"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/bean_roast_medium"
+                    android:title="Medium"
+                    app:actionLayout="@layout/widget_menu_check" />
+                <item
+                    android:id="@+id/bean_roast_dark"
+                    android:title="Dark"
+                    app:actionLayout="@layout/widget_menu_check" />
             </group>
         </menu>
     </item>

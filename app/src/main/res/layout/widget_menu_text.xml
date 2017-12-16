@@ -4,5 +4,5 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical"
-    android:text="Budapest"
+    android:text="Budapest 🇭🇺"
     android:textColor="@android:color/darker_gray"/>

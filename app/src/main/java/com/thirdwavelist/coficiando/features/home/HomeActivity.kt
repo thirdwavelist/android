@@ -6,15 +6,17 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.AppCompatImageView
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.CheckBox
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.features.details.DetailsActivity
@@ -34,7 +36,6 @@ class HomeActivity : DaggerAppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        addDrawerItems();
         setupDrawer();
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
@@ -44,7 +45,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter())
         binding.viewModel = viewModel
 
-        binding.recycler.layoutManager = LinearLayoutManager(this@HomeActivity)
+        binding.recycler.layoutManager = getLayoutManager()
         viewModel.adapter.setItemClickListener { position ->
             viewModel.adapter.getItem(position).let {
                 startActivity(DetailsActivity.getStartIntent(
@@ -59,16 +60,28 @@ class HomeActivity : DaggerAppCompatActivity() {
         handleIntent(intent)
     }
 
+    private fun getLayoutManager(): RecyclerView.LayoutManager {
+        val smallestWidth = resources.configuration.smallestScreenWidthDp
+
+        if (smallestWidth >= 600){
+            return GridLayoutManager(this@HomeActivity, 2)
+        } else {
+            return if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                LinearLayoutManager(this@HomeActivity)
+            } else {
+                GridLayoutManager(this@HomeActivity, 2)
+            }
+        }
+    }
+
     override fun onStop() {
         viewModel.dispose()
         super.onStop()
     }
 
-    private fun addDrawerItems() {
-//        binding.drawerList.setOnItemClickListener({ _, _, _, _ -> Toast.makeText(this@HomeActivity, "Time for an upgrade!", Toast.LENGTH_SHORT).show() })
-    }
-
     private fun setupDrawer() {
+        (binding.drawerList.menu.findItem(R.id.brew_method_espresso).actionView as CheckBox).isChecked = false
+
         drawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
 
             /** Called when a drawer has settled in a completely open state.  */
@@ -127,10 +140,11 @@ class HomeActivity : DaggerAppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Activate the navigation drawer toggle
-        return if (drawerToggle.onOptionsItemSelected(item)) {
-            true
-        } else super.onOptionsItemSelected(item)
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
 
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onNewIntent(intent: Intent) {
