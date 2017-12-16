@@ -65,9 +65,7 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun addDrawerItems() {
-        val osArray = arrayOf("Android", "iOS", "Windows", "OS X", "Linux")
-        binding.drawerList.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, osArray)
-        binding.drawerList.setOnItemClickListener({ _, _, _, _ -> Toast.makeText(this@HomeActivity, "Time for an upgrade!", Toast.LENGTH_SHORT).show() })
+//        binding.drawerList.setOnItemClickListener({ _, _, _, _ -> Toast.makeText(this@HomeActivity, "Time for an upgrade!", Toast.LENGTH_SHORT).show() })
     }
 
     private fun setupDrawer() {
