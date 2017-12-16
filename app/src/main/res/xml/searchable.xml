@@ -2,4 +2,5 @@
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:hint="@string/search_hint"
     android:label="@string/app_name"
+    android:searchSuggestAuthority="com.thirdwavelist.coficiando.components.search.MySuggestionProvider"
     android:voiceSearchMode="showVoiceSearchButton|launchRecognizer" />

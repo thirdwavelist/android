@@ -2,13 +2,12 @@ package com.thirdwavelist.coficiando.features.home
 
 import android.app.SearchManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.widget.CursorAdapter.FLAG_AUTO_REQUERY
-import android.support.v4.widget.CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER
-import android.support.v4.widget.SimpleCursorAdapter
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.Menu
@@ -21,12 +20,7 @@ import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.features.details.DetailsActivity
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
 import dagger.android.support.DaggerAppCompatActivity
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import android.content.Intent
-import android.media.MediaCodec.MetricsConstants.MODE
-import android.provider.SearchRecentSuggestions
-import com.thirdwavelist.coficiando.components.search.MySuggestionProvider
 
 
 class HomeActivity : DaggerAppCompatActivity() {
@@ -47,7 +41,7 @@ class HomeActivity : DaggerAppCompatActivity() {
         supportActionBar?.setHomeButtonEnabled(true);
         supportActionBar?.title = "Third Wave List"
 
-        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter(arrayListOf()))
+        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter())
         binding.viewModel = viewModel
 
         binding.recycler.layoutManager = LinearLayoutManager(this@HomeActivity)
@@ -73,7 +67,6 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun addDrawerItems() {
         val osArray = arrayOf("Android", "iOS", "Windows", "OS X", "Linux")
         binding.drawerList.adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, osArray)
-
         binding.drawerList.setOnItemClickListener({ _, _, _, _ -> Toast.makeText(this@HomeActivity, "Time for an upgrade!", Toast.LENGTH_SHORT).show() })
     }
 
@@ -114,19 +107,22 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         menu.findItem(R.id.action_search).let {
             viewModel.enableSearch(it.actionView as SearchView)
-            (it.actionView as SearchView).let { searchView ->
-                searchView.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as SearchManager).getSearchableInfo(componentName))
-                searchView.suggestionsAdapter = SimpleCursorAdapter(
-                    searchView.context, android.R.layout.simple_list_item_1, null,
-                    arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1),
-                    intArrayOf(android.R.id.text1), FLAG_REGISTER_CONTENT_OBSERVER
-                )
-                viewModel.autocompleteAdapter
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(Schedulers.newThread())
-                    .subscribe({ searchView.suggestionsAdapter.changeCursor(it) }, { /* do nothing */})
+            (it.actionView as SearchView).let {
+                it.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as SearchManager).getSearchableInfo(componentName))
+                (it.findViewById(R.id.search_close_btn) as AppCompatImageView).setOnClickListener {
+                    viewModel.adapter.resetData()
+                    invalidateOptionsMenu()
+                }
             }
 
+            it.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+                override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                    viewModel.adapter.resetData()
+                    return true
+                }
+
+                override fun onMenuItemActionExpand(p0: MenuItem?) = true
+            })
         }
         return true
     }
@@ -147,9 +143,6 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
-            val suggestions = SearchRecentSuggestions(this,
-                MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE)
-            suggestions.saveRecentQuery(query, null)
             viewModel.adapter.filter.filter(query)
         }
     }

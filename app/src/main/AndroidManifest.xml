@@ -31,10 +31,6 @@
         <activity
             android:name=".features.details.DetailsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-
-        <provider android:name=".components.search.MySuggestionProvider"
-            android:authorities="com.example.MySuggestionProvider"
-            android:exported="false"/>
     </application>
 
 </manifest>

@@ -36,6 +36,7 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
                     GearInfoItem(it.gearEspressoMachine, it.gearGrinder),
                     BeanInfoItem(it.beanOrigin, it.beanRoaster)
                 ) }
+                .distinct()
         }, { dao.insertAll(it) })
     }
 

@@ -21,11 +21,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
+class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
 
     private var itemClickListener: (position: Int) -> Unit = { _ -> run {} }
 
-    var data = initialData
+    var initialData: MutableList<CafeItem>? = null
+        set(value) {
+            if (field == null && value != null && value.isNotEmpty()) {
+                field = value
+            }
+        }
+
+    var data = listOf<CafeItem>()
         set(newData) {
             Observable.fromCallable {
                 val currItems = data
@@ -82,7 +89,7 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
             val results = mutableListOf<CafeItem>()
             val searchQuery = charSequence?.toString() ?: ""
             if (searchQuery.isNotEmpty()) {
-                data.forEach {
+                initialData?.forEach {
                     if (it.name.contains(searchQuery, ignoreCase = true)) results.add(it)
                 }
             }
@@ -139,4 +146,6 @@ class CafeAdapter(initialData: List<CafeItem> = listOf()) : RecyclerView.Adapter
             }
         }
     }
+
+    fun resetData() { data = initialData ?: listOf()}
 }
