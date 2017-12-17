@@ -76,4 +76,6 @@
     <string name="drawer_bean_roast_light">Light</string>
     <string name="drawer_bean_roast_medium">Medium</string>
     <string name="drawer_bean_roast_dark">Dark</string>
+    <string name="alt_navigation_drawer_open">Open navigation drawer</string>
+    <string name="alt_navigation_drawer_close">Close navigation drawer</string>
 </resources>
