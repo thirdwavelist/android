@@ -2,10 +2,15 @@ package com.thirdwavelist.coficiando.features.home
 
 import android.arch.lifecycle.ViewModel
 import android.support.v7.widget.SearchView
+import android.view.MenuItem
+import android.widget.CompoundButton
+import android.widget.Switch
+import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
 import com.thirdwavelist.coficiando.storage.repository.Repository
+import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

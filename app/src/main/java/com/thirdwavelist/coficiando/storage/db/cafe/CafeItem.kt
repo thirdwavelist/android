@@ -23,5 +23,7 @@ data class CafeItem(
     @Embedded
     val gearInfo: GearInfoItem,
     @Embedded
-    val beanInfo: BeanInfoItem
+    val beanInfo: BeanInfoItem,
+    @Embedded
+    val brewInfo: BrewInfoItem
 )

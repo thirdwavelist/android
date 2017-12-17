@@ -2,6 +2,7 @@ package com.thirdwavelist.coficiando.features.home
 
 import android.content.Intent
 import android.databinding.DataBindingUtil
+import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.net.Uri
 import android.support.v4.content.ContextCompat.startActivity
@@ -15,13 +16,19 @@ import android.widget.Filterable
 import com.thirdwavelist.coficiando.BR
 import com.thirdwavelist.coficiando.CafeItemBinding
 import com.thirdwavelist.coficiando.R
+import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
+import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
+import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 
-class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
+class CafeAdapter(private val filterPrefs: FilterPrefsManager,
+                  private val userPrefs: UserPrefsManager)
+    : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
 
     private var itemClickListener: (position: Int) -> Unit = { _ -> run {} }
 
@@ -33,23 +40,41 @@ class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Fi
         }
 
     var data = listOf<CafeItem>()
-        set(newData) {
-            Observable.fromCallable {
-                val currItems = data
-
-                DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                    override fun getOldListSize() = currItems.size
-                    override fun getNewListSize() = newData.size
-                    override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) = currItems[oldItemPosition] == newData[newItemPosition]
-                    override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) = currItems[oldItemPosition].id == newData[newItemPosition].id
-                })
+        set(value) {
+            // FIXME: Move the diffUtil calculations to the background thread with RxJava
+            var newData = value
+            val currItems = data
+            if (userPrefs.isFilteringEnabled) {
+                newData = newData
+                    .filter {
+                        (it.brewInfo.hasEspresso == filterPrefs.isInterestedInBrewMethodEspresso ||
+                            it.brewInfo.hasAeropress == filterPrefs.isInterestedInBrewMethodAeropress ||
+                            it.brewInfo.hasPourOver == filterPrefs.isInterestedInBrewMethodPourOver ||
+                            it.brewInfo.hasColdBrew == filterPrefs.isInterestedInBrewMethodColdBrew ||
+                            it.brewInfo.hasSyphon == filterPrefs.isInterestedInBrewMethodSyphon ||
+                            it.brewInfo.hasFullImmersive == filterPrefs.isInterestedInBrewMethodFullImmersive) &&
+                            (it.beanInfo.hasSingleOrigin == (filterPrefs.beanOriginType == BeanOriginType.SINGLE) &&
+                                it.beanInfo.hasBlendOrigin == (filterPrefs.beanOriginType == BeanOriginType.BLEND) &&
+                                (it.beanInfo.hasLightRoast == (filterPrefs.beanRoastType == BeanRoastType.LIGHT) &&
+                                    it.beanInfo.hasMediumRoast == (filterPrefs.beanRoastType == BeanRoastType.MEDIUM) &&
+                                    it.beanInfo.hasDarkRoast == (filterPrefs.beanRoastType == BeanRoastType.DARK)))
+                    }
             }
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    field = newData
-                    it.dispatchUpdatesTo(this@CafeAdapter)
-                }
+
+            val diffResults = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                override fun getOldListSize() = currItems.size
+
+                override fun getNewListSize() = newData.size
+
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                    currItems[oldItemPosition] == newData[newItemPosition]
+
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
+                    currItems[oldItemPosition].id == newData[newItemPosition].id
+            })
+            field = newData
+            diffResults.dispatchUpdatesTo(this@CafeAdapter)
+
         }
 
     override fun onBindViewHolder(holder: CafeItemViewHolder, position: Int) {
@@ -72,7 +97,14 @@ class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Fi
                 startActivity(holder.itemView.context, intent, null)
             }
 
-            holder.bind(CafeItemViewModel(it.name, it.thumbnail, "Facebook", socialAction, navigateToAction))
+            holder.bind(CafeItemViewModel(title = it.name,
+                thumbnailUri = it.thumbnail,
+                hasEspresso = it.brewInfo.hasEspresso,
+                hasAeropress = it.brewInfo.hasAeropress,
+                hasColdBrew = it.brewInfo.hasColdBrew,
+                hasPourOver = it.brewInfo.hasPourOver,
+                hasSyphon = it.brewInfo.hasSyphon,
+                hasImmersive = it.brewInfo.hasFullImmersive))
         }
     }
 
@@ -105,7 +137,6 @@ class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Fi
                 data = results.values as List<CafeItem>
             }
         }
-
     }
 
     fun setItemClickListener(itemClickListener: (position: Int) -> Unit) {
@@ -116,18 +147,21 @@ class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Fi
 
     class CafeItemViewModel(title: String,
                             thumbnailUri: Uri,
-                            socialText: String,
-                            private val socialActionIntent: () -> Unit = {},
-                            private val navigateToActionIntent: () -> Unit = {}) {
+                            hasEspresso: Boolean,
+                            hasAeropress: Boolean,
+                            hasColdBrew: Boolean,
+                            hasPourOver: Boolean,
+                            hasSyphon: Boolean,
+                            hasImmersive: Boolean) {
 
         val title = ObservableField<String>(title)
         val thumbnail = ObservableField<Uri>(thumbnailUri)
-        val social = ObservableField<String>(socialText)
-
-        @Suppress("UNUSED_PARAMETER")
-        fun socialAction(view: View) = socialActionIntent.invoke()
-        @Suppress("UNUSED_PARAMETER")
-        fun navigateToAction(view: View) = navigateToActionIntent.invoke()
+        val hasEspresso = ObservableBoolean(hasEspresso)
+        val hasAeropress = ObservableBoolean(hasAeropress)
+        val hasColdBrew = ObservableBoolean(hasColdBrew)
+        val hasPourOver = ObservableBoolean(hasPourOver)
+        val hasSyphon = ObservableBoolean(hasSyphon)
+        val hasImmersive = ObservableBoolean(hasImmersive)
     }
 
     class CafeItemViewHolder(private val binding: CafeItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -147,5 +181,7 @@ class CafeAdapter() : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Fi
         }
     }
 
-    fun resetData() { data = initialData ?: listOf()}
+    fun resetData() {
+        data = initialData ?: listOf()
+    }
 }

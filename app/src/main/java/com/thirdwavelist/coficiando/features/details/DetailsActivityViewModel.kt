@@ -8,6 +8,8 @@ import android.net.Uri
 import android.support.v4.content.ContextCompat.startActivity
 import android.view.View
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.cafe.availableOriginTypes
+import com.thirdwavelist.coficiando.storage.db.cafe.availableRoastTypes
 import com.thirdwavelist.coficiando.storage.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,8 +23,21 @@ class DetailsActivityViewModel(private val repository: Repository<CafeItem>) : V
     val googlePlaceId = ObservableField<String>("")
     val espressoMachineName = ObservableField<String>("")
     val grinderMachineName = ObservableField<String>("")
-    val beanOrigin = ObservableField<String>("")
+    val availableBeanOrigin = ObservableField<String>("")
+    val availableBeanRoast = ObservableField<String>("")
+    val hasEspresso = ObservableBoolean()
+    val hasAeropress = ObservableBoolean()
+    val hasColdBrew = ObservableBoolean()
+    val hasPourOver = ObservableBoolean()
+    val hasSyphon = ObservableBoolean()
+    val hasImmersive = ObservableBoolean()
     val isFinishedLoading = ObservableBoolean()
+    val hasFacebook = ObservableBoolean()
+    val facebookUri = ObservableField<Uri>(Uri.EMPTY)
+    val hasInstagram = ObservableBoolean()
+    val instagramUri = ObservableField<Uri>(Uri.EMPTY)
+    val hasWebsite = ObservableBoolean()
+    val websiteUri = ObservableField<Uri>(Uri.EMPTY)
     val isError = ObservableBoolean()
 
     fun mapAction(view: View)  {
@@ -30,6 +45,33 @@ class DetailsActivityViewModel(private val repository: Repository<CafeItem>) : V
             action = Intent.ACTION_VIEW
             addCategory(Intent.CATEGORY_BROWSABLE)
             data = Uri.parse("https://www.google.com/maps/search/?api=1&query=0,0&query_place_id=${googlePlaceId.get()}")
+        }
+        startActivity(view.context, intent, null)
+    }
+
+    fun navigateToFacebook(view: View)  {
+        val intent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            addCategory(Intent.CATEGORY_BROWSABLE)
+            data = facebookUri.get()
+        }
+        startActivity(view.context, intent, null)
+    }
+
+    fun navigateToInstagram(view: View)  {
+        val intent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            addCategory(Intent.CATEGORY_BROWSABLE)
+            data = instagramUri.get()
+        }
+        startActivity(view.context, intent, null)
+    }
+
+    fun navigateToWebsite(view: View)  {
+        val intent = Intent().apply {
+            action = Intent.ACTION_VIEW
+            addCategory(Intent.CATEGORY_BROWSABLE)
+            data = websiteUri.get()
         }
         startActivity(view.context, intent, null)
     }
@@ -71,6 +113,19 @@ class DetailsActivityViewModel(private val repository: Repository<CafeItem>) : V
         googlePlaceId.set(it.googlePlaceId)
         espressoMachineName.set(it.gearInfo.espressoMachineName)
         grinderMachineName.set(it.gearInfo.grinderMachineName)
-        beanOrigin.set(it.beanInfo.origin)
+        availableBeanOrigin.set(it.beanInfo.availableOriginTypes())
+        availableBeanRoast.set(it.beanInfo.availableRoastTypes())
+        hasFacebook.set(it.social.facebookUri != Uri.EMPTY)
+        facebookUri.set(it.social.facebookUri ?: Uri.EMPTY)
+        hasInstagram.set(it.social.instagramUri != Uri.EMPTY)
+        instagramUri.set(it.social.instagramUri ?: Uri.EMPTY)
+        hasWebsite.set(it.social.homepageUri != Uri.EMPTY)
+        websiteUri.set(it.social.homepageUri ?: Uri.EMPTY)
+        hasEspresso.set(it.brewInfo.hasEspresso)
+        hasAeropress.set(it.brewInfo.hasAeropress)
+        hasColdBrew.set(it.brewInfo.hasColdBrew)
+        hasSyphon.set(it.brewInfo.hasSyphon)
+        hasPourOver.set(it.brewInfo.hasPourOver)
+        hasImmersive.set(it.brewInfo.hasFullImmersive)
     }
 }

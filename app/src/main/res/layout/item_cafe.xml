@@ -20,7 +20,8 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/cardview_light_background">
 
             <ImageView
                 android:id="@+id/thumbnail"
@@ -51,40 +52,78 @@
                 card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"
                 tools:text="Title" />
 
-            <Button
-                android:id="@+id/socialLink"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:autoLink="web"
-                android:onClick="@{viewModel::socialAction}"
-                android:text="@{viewModel.social}"
-                card_view:layout_constraintEnd_toStartOf="@+id/guideline4"
-                card_view:layout_constraintStart_toStartOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/title"
-                tools:text="Social" />
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                card_view:layout_constraintStart_toStartOf="@+id/guideline"
+                card_view:layout_constraintTop_toBottomOf="@+id/title">
 
-            <Button
-                android:id="@+id/textView"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:autoLink="web"
-                android:linksClickable="true"
-                android:onClick="@{viewModel::navigateToAction}"
-                android:text="Navigate to"
-                card_view:layout_constraintStart_toStartOf="@+id/guideline4"
-                card_view:layout_constraintTop_toBottomOf="@+id/title" />
+                <ImageView
+                    android:id="@+id/has_espresso"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ic_espresso"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasEspresso}" />
+
+                <ImageView
+                    android:id="@+id/has_pour_over"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_pourover"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasPourOver}" />
+
+                <ImageView
+                    android:id="@+id/has_cold_brew"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_coldbrew"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasColdBrew}" />
+
+                <ImageView
+                    android:id="@+id/has_immersive"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_immersive"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasImmersive}" />
+
+                <ImageView
+                    android:id="@+id/has_aeropress"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_aeropress"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasAeropress}" />
+
+                <ImageView
+                    android:id="@+id/has_syphon"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ic_syphon"
+                    android:gravity="start"
+                    app:isVisible="@{viewModel.hasSyphon}" />
+
+            </LinearLayout>
 
             <android.support.constraint.Guideline
-                android:id="@+id/guideline4"
+                android:id="@+id/guideline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"

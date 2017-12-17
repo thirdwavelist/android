@@ -6,6 +6,7 @@ import com.thirdwavelist.coficiando.network.thirdwavelist.ThirdWaveListService
 import com.thirdwavelist.coficiando.storage.repository.Repository
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanInfoItem
+import com.thirdwavelist.coficiando.storage.db.cafe.BrewInfoItem
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
 import com.thirdwavelist.coficiando.storage.db.cafe.GearInfoItem
@@ -28,13 +29,28 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
         return createCombinedFlowable(local, remote, Function { response ->
             response
                 .filter { it.isValid() }
-                .map { CafeItem(it.id,
-                    it.name!!,
-                    it.thumbnail!!,
-                    SocialItem(it.socialFacebook, it.socialInstagram, it.socialWebsite),
-                    it.googlePlaceId!!,
-                    GearInfoItem(it.gearEspressoMachine, it.gearGrinder),
-                    BeanInfoItem(it.beanOrigin, it.beanRoaster)
+                .map { CafeItem(id = it.id,
+                    name = it.name!!,
+                    thumbnail = it.thumbnail!!,
+                    social = SocialItem(facebookUri = if (it.socialFacebook !=null && it.socialFacebook.toString().isNotBlank()) it.socialFacebook else null,
+                        instagramUri = if (it.socialInstagram != null && it.socialInstagram.toString().isNotBlank()) it.socialInstagram else null,
+                        homepageUri =  if (it.socialWebsite != null && it.socialWebsite.toString().isNotBlank()) it.socialWebsite else null),
+                    googlePlaceId = it.googlePlaceId!!,
+                    gearInfo = GearInfoItem(espressoMachineName = it.gearEspressoMachine,
+                        grinderMachineName = it.gearGrinder),
+                    beanInfo = BeanInfoItem(origin = it.beanOrigin,
+                        roaster = it.beanRoaster,
+                        hasSingleOrigin = it.beanOriginSingle ?: false,
+                        hasBlendOrigin = it.beanOriginBlend ?: false,
+                        hasLightRoast = it.beanRoastLight ?: false,
+                        hasMediumRoast = it.beanRoastMedium ?: false,
+                        hasDarkRoast = it.beanRoastDark ?: false),
+                    brewInfo = BrewInfoItem(hasEspresso = it.doesServeEspresso ?: false,
+                        hasAeropress = it.doesServeAeropress ?: false,
+                        hasColdBrew = it.doesServeColdBrew ?: false,
+                        hasFullImmersive = it.doesServeFullImmersive ?: false,
+                        hasPourOver = it.doesServePourOver ?: false,
+                        hasSyphon = it.doesServeSyphon ?: false)
                 ) }
                 .distinct()
         }, { dao.insertAll(it) })

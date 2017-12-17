@@ -3,8 +3,22 @@
     <string name="search_hint">Search by name…</string>
     <string name="action_search">Search</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="alt_navigation_drawer_open">Open navigation drawer</string>
+    <string name="alt_navigation_drawer_close">Close navigation drawer</string>
+    <string name="alt_bean_info_icon">Bean infomation</string>
+    <string name="alt_espresso_machine_icon">Espresso machine</string>
+    <string name="alt_grinder_machine_icon">Grinder</string>
+    <string name="alt_detail_thumbnail">Thumbnail</string>
+    <string name="alt_syphon_icon">Syphon</string>
+    <string name="alt_aeropress_icon">Aeropress</string>
+    <string name="alt_full_immersive_icon">Full immersive</string>
+    <string name="alt_cold_brew_icon">Cold brew</string>
+    <string name="alt_pour_over_icon">Pour over</string>
+    <string name="alt_espresso_icon">Espresso</string>
+
+    <string name="instagram_button_label">Instagram</string>
+    <string name="website_button_label">Website</string>
+    <string name="details_brew_method_headline">Available brewing methods:</string>
 
     <string name="action_opensource">Open Source</string>
     <string name="action_settings">Settings</string>

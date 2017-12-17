@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.databinding.DataBindingUtil
 import android.os.Bundle
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.AppCompatImageView
 import android.support.v7.widget.GridLayoutManager
@@ -16,11 +15,16 @@ import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.CheckBox
+import android.widget.Switch
+import android.widget.CompoundButton
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.features.details.DetailsActivity
+import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
+import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
+import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
+import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 import dagger.android.support.DaggerAppCompatActivity
 import javax.inject.Inject
 
@@ -31,19 +35,19 @@ class HomeActivity : DaggerAppCompatActivity() {
     private lateinit var binding: HomeActivityBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject lateinit var cafeRepository: CafeRepository
+    @Inject lateinit var filterPrefs: FilterPrefsManager
+    @Inject lateinit var userPrefs: UserPrefsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-
-        setupDrawer();
+        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter(filterPrefs, userPrefs))
+        binding.viewModel = viewModel
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setHomeButtonEnabled(true);
-        supportActionBar?.title = "Third Wave List"
 
-        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter())
-        binding.viewModel = viewModel
+        setupDrawer();
 
         binding.recycler.layoutManager = getLayoutManager()
         viewModel.adapter.setItemClickListener { position ->
@@ -63,7 +67,7 @@ class HomeActivity : DaggerAppCompatActivity() {
     private fun getLayoutManager(): RecyclerView.LayoutManager {
         val smallestWidth = resources.configuration.smallestScreenWidthDp
 
-        if (smallestWidth >= 600){
+        if (smallestWidth >= 600) {
             return GridLayoutManager(this@HomeActivity, 2)
         } else {
             return if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -80,9 +84,7 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupDrawer() {
-        (binding.drawerList.menu.findItem(R.id.brew_method_espresso).actionView as CheckBox).isChecked = false
-
-        drawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+        drawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout, R.string.alt_navigation_drawer_open, R.string.alt_navigation_drawer_close) {
 
             /** Called when a drawer has settled in a completely open state.  */
             override fun onDrawerOpened(drawerView: View) {
@@ -99,6 +101,116 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         drawerToggle.isDrawerIndicatorEnabled = true
         binding.drawerLayout.addDrawerListener(drawerToggle)
+        setupMenuItems()
+    }
+
+    private fun setupMenuItems() {
+        val enableFiltersChangeListener = CompoundButton.OnCheckedChangeListener { checkBox, value ->
+            when (checkBox?.id) {
+                R.id.nav_enable_filters -> {
+                    userPrefs.isFilteringEnabled = value
+                    updateMenuItemState(value)
+                }
+            }
+        }
+        val filterModeChangeListener = CompoundButton.OnCheckedChangeListener { checkBox, value ->
+            updateFilterPreference(checkBox?.id, value)
+        }
+
+        ((binding.drawerList.menu.findItem(R.id.nav_enable_filters)).actionView as Switch).let {
+            it.isChecked = userPrefs.isFilteringEnabled
+            it.setOnCheckedChangeListener(enableFiltersChangeListener)
+        }
+
+        (binding.drawerList.menu.findItem(R.id.brew_method_espresso).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodEspresso
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+
+        (binding.drawerList.menu.findItem(R.id.brew_method_aeropress).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodAeropress
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+        (binding.drawerList.menu.findItem(R.id.brew_method_cold_brew).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodColdBrew
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+        (binding.drawerList.menu.findItem(R.id.brew_method_pour_over).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodPourOver
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+        (binding.drawerList.menu.findItem(R.id.brew_method_syphon).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodSyphon
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+        (binding.drawerList.menu.findItem(R.id.brew_method_full_immersion).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.isInterestedInBrewMethodFullImmersive
+            it.setOnCheckedChangeListener(filterModeChangeListener)
+        }
+        (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.beanOriginType == BeanOriginType.SINGLE
+            it.setOnCheckedChangeListener({ checkBox, value ->
+                if (value) {
+                    updateFilterPreference(checkBox?.id, value)
+                    (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).isChecked = false
+                }
+            })
+        }
+        (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.beanOriginType == BeanOriginType.BLEND
+            it.setOnCheckedChangeListener({ checkBox, value ->
+                if (value) {
+                    updateFilterPreference(checkBox?.id, value)
+                    (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).isChecked = false
+                }
+            })
+        }
+        (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.LIGHT
+            it.setOnCheckedChangeListener({ checkBox, value ->
+                if (value) {
+                    updateFilterPreference(checkBox?.id, value)
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
+                }
+            })
+        }
+        (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.MEDIUM
+            it.setOnCheckedChangeListener({ checkBox, value ->
+                if (value) {
+                    updateFilterPreference(checkBox?.id, value)
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
+                }
+            })
+        }
+        (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).let {
+            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.DARK
+            it.setOnCheckedChangeListener({ checkBox, value ->
+                if (value) {
+                    updateFilterPreference(checkBox?.id, value)
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
+                    (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
+                }
+            })
+        }
+
+        updateMenuItemState(isEnabled = userPrefs.isFilteringEnabled)
+    }
+
+    private fun updateMenuItemState(isEnabled: Boolean) {
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_espresso), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_aeropress), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_cold_brew), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_pour_over), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_syphon), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_full_immersion), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_origin_single), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_origin_blend), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_light), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_medium), isEnabled)
+        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_dark), isEnabled)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -157,5 +269,30 @@ class HomeActivity : DaggerAppCompatActivity() {
             val query = intent.getStringExtra(SearchManager.QUERY)
             viewModel.adapter.filter.filter(query)
         }
+    }
+
+    private fun updateFilterPreference(id: Int?, value: Boolean) {
+        when (id) {
+            R.id.brew_method_espresso -> filterPrefs.isInterestedInBrewMethodEspresso = value
+            R.id.brew_method_aeropress -> filterPrefs.isInterestedInBrewMethodAeropress = value
+            R.id.brew_method_cold_brew -> filterPrefs.isInterestedInBrewMethodColdBrew = value
+            R.id.brew_method_pour_over -> filterPrefs.isInterestedInBrewMethodPourOver = value
+            R.id.brew_method_syphon -> filterPrefs.isInterestedInBrewMethodSyphon = value
+            R.id.brew_method_full_immersion -> filterPrefs.isInterestedInBrewMethodFullImmersive = value
+            R.id.bean_origin_single -> filterPrefs.beanOriginType = BeanOriginType.SINGLE
+            R.id.bean_origin_blend -> filterPrefs.beanOriginType = BeanOriginType.BLEND
+            R.id.bean_roast_light -> filterPrefs.beanRoastType = BeanRoastType.LIGHT
+            R.id.bean_roast_medium -> filterPrefs.beanRoastType = BeanRoastType.MEDIUM
+            R.id.bean_roast_dark -> filterPrefs.beanRoastType = BeanRoastType.DARK
+        }
+        viewModel.adapter.resetData()
+    }
+
+    private fun enableMenuItems(menuItem: MenuItem, value: Boolean) {
+        menuItem.let {
+            it.isEnabled = value
+            (it.actionView as CompoundButton).isEnabled = value
+        }
+        viewModel.adapter.resetData()
     }
 }
