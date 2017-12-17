@@ -151,6 +151,7 @@ class HomeActivity : DaggerAppCompatActivity() {
 
         ((binding.drawerList.menu.findItem(R.id.nav_enable_filters)).actionView as Switch).let {
             it.isChecked = false
+            userPrefs.isFilteringEnabled = false
             it.setOnCheckedChangeListener(enableFiltersChangeListener)
         }
 
