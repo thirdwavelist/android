@@ -33,7 +33,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@color/colorPrimary" />
+                tools:background="@color/colorPrimary"
+                android:contentDescription="@string/alt_item_cafe_thumbnail" />
 
             <TextView
                 android:id="@+id/title"
@@ -68,7 +69,8 @@
                     android:layout_marginStart="16dp"
                     android:background="@drawable/ic_espresso"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasEspresso}" />
+                    app:isVisible="@{viewModel.hasEspresso}"
+                    android:contentDescription="@string/alt_item_cafe_espresso_icon" />
 
                 <ImageView
                     android:id="@+id/has_pour_over"
@@ -78,7 +80,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_pourover"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasPourOver}" />
+                    app:isVisible="@{viewModel.hasPourOver}"
+                    android:contentDescription="@string/alt_item_cafe_pour_over_icon" />
 
                 <ImageView
                     android:id="@+id/has_cold_brew"
@@ -88,7 +91,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_coldbrew"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasColdBrew}" />
+                    app:isVisible="@{viewModel.hasColdBrew}"
+                    android:contentDescription="@string/alt_item_cafe_cold_brew_icon" />
 
                 <ImageView
                     android:id="@+id/has_immersive"
@@ -98,7 +102,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_immersive"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasImmersive}" />
+                    app:isVisible="@{viewModel.hasImmersive}"
+                    android:contentDescription="@string/alt_item_cafe_immersive_icon" />
 
                 <ImageView
                     android:id="@+id/has_aeropress"
@@ -108,7 +113,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_aeropress"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasAeropress}" />
+                    app:isVisible="@{viewModel.hasAeropress}"
+                    android:contentDescription="@string/alt_item_cafe_aeropress_icon" />
 
                 <ImageView
                     android:id="@+id/has_syphon"
@@ -118,7 +124,8 @@
                     android:layout_marginStart="8dp"
                     android:background="@drawable/ic_syphon"
                     android:gravity="start"
-                    app:isVisible="@{viewModel.hasSyphon}" />
+                    app:isVisible="@{viewModel.hasSyphon}"
+                    android:contentDescription="@string/alt_item_cafe_syphon_icon" />
 
             </LinearLayout>
 

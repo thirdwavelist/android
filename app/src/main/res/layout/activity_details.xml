@@ -322,7 +322,7 @@
                     android:layout_marginTop="32dp"
                     android:autoLink="web"
                     android:onClick="@{viewModel::navigateToFacebook}"
-                    android:text="facebook_button_label"
+                    android:text="@string/facebook_button_label"
                     app:isVisible="@{viewModel.hasFacebook}"
                     app:layout_constraintBottom_toTopOf="@+id/guideline4"
                     app:layout_constraintStart_toEndOf="parent"
