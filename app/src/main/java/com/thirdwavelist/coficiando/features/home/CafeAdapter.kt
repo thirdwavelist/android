@@ -32,12 +32,10 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.net.Uri
-import android.support.v4.content.ContextCompat.startActivity
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -107,24 +105,6 @@ class CafeAdapter(private val filterPrefs: FilterPrefsManager,
 
     override fun onBindViewHolder(holder: CafeItemViewHolder, position: Int) {
         data[position].let {
-            val socialAction: () -> Unit = {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-                    data = it.social.facebookUri
-                }
-                startActivity(holder.itemView.context, intent, null)
-            }
-
-            val navigateToAction: () -> Unit = {
-                val intent = Intent().apply {
-                    action = Intent.ACTION_VIEW
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-                    data = Uri.parse("https://www.google.com/maps/search/?api=1&query=0,0&query_place_id=${it.googlePlaceId}")
-                }
-                startActivity(holder.itemView.context, intent, null)
-            }
-
             holder.bind(CafeItemViewModel(title = it.name,
                 thumbnailUri = it.thumbnail,
                 hasEspresso = it.brewInfo.hasEspresso,

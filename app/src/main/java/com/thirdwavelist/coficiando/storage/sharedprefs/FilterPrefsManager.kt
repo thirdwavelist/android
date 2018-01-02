@@ -94,7 +94,7 @@ class FilterPrefsManager @Inject constructor(@AppContext context: Context) {
         }
 
     companion object {
-        private const val SHARED_PREFS_FILENAME = "filterPrefs"
+        internal const val SHARED_PREFS_FILENAME = "filterPrefs"
 
         private const val INTERESTED_IN_BREW_METHOD_ESPRESSO = "FILTER_BREW_METHOD_ESPRESSO"
         private const val INTERESTED_IN_BREW_METHOD_AEROPRESS = "FILTER_BREW_METHOD_AEROPRESS"

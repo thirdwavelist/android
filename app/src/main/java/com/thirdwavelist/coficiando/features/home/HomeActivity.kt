@@ -76,10 +76,10 @@ class HomeActivity : DaggerAppCompatActivity() {
         viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter(filterPrefs, userPrefs))
         binding.viewModel = viewModel
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setHomeButtonEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setHomeButtonEnabled(true)
 
-        setupDrawer();
+        setupDrawer()
 
         binding.recycler.layoutManager = getLayoutManager()
         viewModel.adapter.setItemClickListener { position ->
@@ -327,5 +327,10 @@ class HomeActivity : DaggerAppCompatActivity() {
             (it.actionView as CompoundButton).isEnabled = value
         }
         viewModel.adapter.resetData()
+    }
+
+    companion object {
+        fun getStartIntent(context: Context): Intent =
+            Intent(context, HomeActivity::class.java)
     }
 }

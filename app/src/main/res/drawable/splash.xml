@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ BSD 3-Clause License
   ~
   ~ Copyright (c) 2017, Antal János Monori
@@ -31,9 +30,7 @@
   ~ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
   -->
 
-<resources>
-    <color name="colorPrimary">#447fba</color>
-    <color name="colorPrimaryDark">#3F51B5</color>
-    <color name="colorAccent">#71b8ed</color>
-    <color name="launcher_background">#D8DFF9</color>
-</resources>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@android:color/white" />
+    <!-- TODO: Missing graphics for splash screen -->
+</layer-list>

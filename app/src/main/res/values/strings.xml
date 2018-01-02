@@ -36,7 +36,7 @@
 
     <string name="action_search">Search</string>
 
-    <string name="alt_bean_info_icon">Bean infomation</string>
+    <string name="alt_bean_info_icon">Bean information</string>
     <string name="alt_espresso_machine_icon">Espresso machine</string>
     <string name="alt_grinder_machine_icon">Grinder</string>
     <string name="alt_detail_thumbnail">Thumbnail</string>
@@ -60,7 +60,7 @@
 
     <string name="details_brew_method_headline">Available brewing methods:</string>
 
-    <string name="drawer_switch_city">Switch city</string>
+    <string name="drawer_switch_city">City</string>
     <string name="drawer_brew_method">Brew method</string>
     <string name="drawer_filters">Filters</string>
     <string name="drawer_brew_method_espresso">Espresso</string>
@@ -78,4 +78,5 @@
     <string name="drawer_bean_roast_dark">Dark</string>
     <string name="alt_navigation_drawer_open">Open navigation drawer</string>
     <string name="alt_navigation_drawer_close">Close navigation drawer</string>
+    <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.thirdwavelist.com\",\n  }\n}]</string>
 </resources>

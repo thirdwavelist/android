@@ -52,7 +52,7 @@ class UserPrefsManager @Inject constructor(@AppContext context: Context) {
         }
 
     companion object {
-        private const val SHARED_PREFS_FILENAME = "userPrefs"
+        internal const val SHARED_PREFS_FILENAME = "userPrefs"
 
         private const val FILTER_ENABLED = "FILTER_ENABLED"
     }

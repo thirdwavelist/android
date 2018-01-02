@@ -11,3 +11,6 @@
 
 # https://stackoverflow.com/questions/22582006/cannot-instantiate-class-android-support-v7-widget-searchview
 -keep class android.support.v7.widget.SearchView { *; }
+
+# https://firebase.google.com/docs/crashlytics/get-deobfuscated-reports?authuser=0
+-dontwarn com.crashlytics.**

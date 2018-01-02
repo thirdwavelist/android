@@ -30,14 +30,18 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.thirdwavelist.coficiando
+package com.thirdwavelist.coficiando.features.launcher
 
-import com.thirdwavelist.coficiando.di.app.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.thirdwavelist.coficiando.features.home.HomeActivity
 
 
-class MainApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<MainApplication>
-        = DaggerAppComponent.builder().create(this)
+class LauncherActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        startActivity(HomeActivity.getStartIntent(this))
+        finish()
+    }
 }

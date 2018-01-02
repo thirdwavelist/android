@@ -30,14 +30,19 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.thirdwavelist.coficiando
+package com.thirdwavelist.coficiando.storage.sharedprefs
 
-import com.thirdwavelist.coficiando.di.app.DaggerAppComponent
-import dagger.android.AndroidInjector
-import dagger.android.support.DaggerApplication
+import android.app.backup.BackupAgentHelper
+import android.app.backup.SharedPreferencesBackupHelper
 
-
-class MainApplication : DaggerApplication() {
-    override fun applicationInjector(): AndroidInjector<MainApplication>
-        = DaggerAppComponent.builder().create(this)
+class SharedPrefsBackupAgent : BackupAgentHelper() {
+    override fun onCreate() {
+        super.onCreate()
+        FilterPrefsManager.SHARED_PREFS_FILENAME.let {
+            addHelper(it, SharedPreferencesBackupHelper(this, it))
+        }
+        UserPrefsManager.SHARED_PREFS_FILENAME.let {
+            addHelper(it, SharedPreferencesBackupHelper(this, it))
+        }
+    }
 }

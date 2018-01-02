@@ -43,7 +43,7 @@ import javax.inject.Singleton
 
 @Module
 object StorageModule {
-    private const val DB_NAME = "app-database"
+    private const val DB_NAME = "app-database.db"
 
     @Provides
     @Singleton
