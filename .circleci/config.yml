@@ -11,6 +11,9 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
+          name: Generate default_app_config.xml
+          command: echo $DEFAULT_APP_CONFIG | base64 --decode > ~/$CIRCLE_PROJECT_REPONAME/app/src/main/res/xml/default_app_config.xml
+      - run:
           name: Generate google-services.json
           command: echo $GOOGLE_SERVICES | base64 --decode > /home/circleci/code/app/google-services.json
       - run:
