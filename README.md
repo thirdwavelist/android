@@ -35,3 +35,12 @@ _More info coming soon - stay tuned._
 ## Dependencies
 
 ## License
+
+```Text
+BSD 3-Clause License
+
+Copyright (c) 2017, Antal János Monori
+All rights reserved.
+```
+
+_See [LICENSE](/LICENSE) for more._
