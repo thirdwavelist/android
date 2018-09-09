@@ -36,8 +36,8 @@ import android.databinding.DataBindingUtil
 import android.databinding.ObservableBoolean
 import android.databinding.ObservableField
 import android.net.Uri
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
