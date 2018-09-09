@@ -47,6 +47,10 @@ android {
         versionName "1.0.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         dataBinding.enabled = true
+
+        javaCompileOptions {
+            annotationProcessorOptions { arguments = ["room.schemaLocation": "$projectDir/schemas".toString()] }
+        }
     }
     buildTypes {
         release {
@@ -75,6 +79,10 @@ android {
         abortOnError false
         ignoreWarnings false
         xmlReport true
+    }
+
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
 }
 
@@ -128,7 +136,7 @@ dependencies {
 
     androidTestImplementation "com.android.support:support-annotations:27.0.2"
     androidTestImplementation "com.android.support.test:runner:1.0.1"
-
+    androidTestImplementation "android.arch.persistence.room:testing:1.0.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

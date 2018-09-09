@@ -40,6 +40,7 @@ data class ThirdWaveListCafeItem(
     @SerializedName("uid") val id: UUID,
     @SerializedName("name") val name: String?,
     @SerializedName("title") val address: String?,
+    @SerializedName("city") val city: String?,
     @SerializedName("extra_thumbnail") val thumbnail: Uri?,
     @SerializedName("social_website") val socialWebsite: Uri?,
     @SerializedName("social_facebook") val socialFacebook: Uri?,

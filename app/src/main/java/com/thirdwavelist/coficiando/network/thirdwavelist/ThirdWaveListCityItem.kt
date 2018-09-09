@@ -30,25 +30,14 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.thirdwavelist.coficiando
+package com.thirdwavelist.coficiando.network.thirdwavelist
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
-import org.junit.Assert.assertEquals
-import org.junit.Test
-import org.junit.runner.RunWith
+import com.google.gson.annotations.SerializedName
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-@RunWith(AndroidJUnit4::class)
-class ExampleInstrumentedTest {
-    @Test
-    fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("com.thirdwavelist.coficiando", appContext.packageName)
-    }
+data class ThirdWaveListCityItem(
+    @SerializedName("id") val id: String,
+    @SerializedName("label") val label: String?,
+    @SerializedName("country_flag") val countryFlag: String?
+) {
+    fun isValid() = this.id.isNotBlank() && this.label.isNullOrBlank().not() && this.countryFlag.isNullOrBlank().not()
 }

@@ -35,8 +35,12 @@ package com.thirdwavelist.coficiando.storage.db.cafe
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Embedded
 import android.arch.persistence.room.Entity
+import android.arch.persistence.room.ForeignKey
+import android.arch.persistence.room.ForeignKey.CASCADE
+import android.arch.persistence.room.OnConflictStrategy.IGNORE
 import android.arch.persistence.room.PrimaryKey
 import android.net.Uri
+import com.thirdwavelist.coficiando.storage.db.city.CityItem
 import java.util.UUID
 
 @Entity(tableName = "cafes")
@@ -48,6 +52,8 @@ data class CafeItem(
     val name: String,
     @ColumnInfo(name = "thumb")
     val thumbnail: Uri,
+    @ColumnInfo(name = "city")
+    val city: String?,
     @Embedded
     val social: SocialItem,
     @ColumnInfo(name = "place_id")

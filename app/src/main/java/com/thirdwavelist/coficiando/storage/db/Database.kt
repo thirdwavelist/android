@@ -32,14 +32,30 @@
 
 package com.thirdwavelist.coficiando.storage.db
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
 import android.arch.persistence.room.TypeConverters
+import android.arch.persistence.room.migration.Migration
+import android.support.annotation.VisibleForTesting
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.city.CityDao
+import com.thirdwavelist.coficiando.storage.db.city.CityItem
 
-@Database(version = 1, entities = [CafeItem::class])
+@Database(version = 2, entities = [CafeItem::class, CityItem::class])
 @TypeConverters(CustomTypeConverters::class)
 abstract class Database : RoomDatabase() {
     abstract fun cafeDao(): CafeDao
+    abstract fun cityDao(): CityDao
+
+    companion object Migrations {
+        @JvmStatic
+        val FROM_1_TO_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE cafes ADD COLUMN city TEXT DEFAULT(NULL)")
+                database.execSQL("CREATE TABLE IF NOT EXISTS cities (id TEXT NOT NULL, label TEXT NOT NULL, countryFlag TEXT NOT NULL, PRIMARY KEY (id))")
+            }
+        }
+    }
 }

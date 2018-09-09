@@ -32,13 +32,17 @@
 
 package com.thirdwavelist.coficiando.di.modules
 
+import android.arch.persistence.db.SupportSQLiteDatabase
 import android.arch.persistence.room.Room
+import android.arch.persistence.room.migration.Migration
 import android.content.Context
 import com.thirdwavelist.coficiando.di.qualifiers.AppContext
 import com.thirdwavelist.coficiando.storage.db.Database
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
+import com.thirdwavelist.coficiando.storage.db.city.CityDao
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
@@ -49,10 +53,17 @@ object StorageModule {
     @Singleton
     @JvmStatic
     fun provideDatabase(@AppContext context: Context) =
-        Room.databaseBuilder(context, Database::class.java, DB_NAME).build()
+        Room.databaseBuilder(context, Database::class.java, DB_NAME)
+            .addMigrations(Database.Migrations.FROM_1_TO_2)
+            .build()
 
     @Provides
     @Singleton
     @JvmStatic
     fun provideCafeDao(database: Database): CafeDao = database.cafeDao()
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideCityDao(database: Database): CityDao = database.cityDao()
 }

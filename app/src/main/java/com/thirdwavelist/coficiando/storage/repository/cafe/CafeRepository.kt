@@ -65,6 +65,7 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
                     CafeItem(id = it.id,
                         name = it.name!!,
                         thumbnail = it.thumbnail!!,
+                        city = it.city!!,
                         social = SocialItem(facebookUri = if (it.socialFacebook != null && it.socialFacebook.toString().isNotBlank()) it.socialFacebook else null,
                             instagramUri = if (it.socialInstagram != null && it.socialInstagram.toString().isNotBlank()) it.socialInstagram else null,
                             homepageUri = if (it.socialWebsite != null && it.socialWebsite.toString().isNotBlank()) it.socialWebsite else null),
@@ -87,7 +88,7 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
                     )
                 }
                 .distinct()
-        }, { dao.insertAll(it) })
+        }) { dao.insertAll(it) }
     }
 
     override fun get(cafeId: UUID): Single<CafeItem> = dao.get(cafeId)
@@ -106,8 +107,8 @@ fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
 
     return Flowable.create<Resource<LocalType>>({ emitter ->
         emitter.setDisposable(local
-            .map({ Resource.loading(it) })
-            .subscribe({ emitter.onNext(it) }))
+            .map { Resource.loading(it) }
+            .subscribe { emitter.onNext(it) })
 
         remote.map(mapper)
             .subscribeOn(Schedulers.newThread())
@@ -115,8 +116,8 @@ fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
             .subscribe({ localTypeData ->
                 persist(localTypeData)
                 emitter.setDisposable(local
-                    .map({ Resource.success(it) })
-                    .subscribe({ emitter.onNext(it) }))
+                    .map { Resource.success(it) }
+                    .subscribe { emitter.onNext(it) })
             }, { error ->
                 emitter.onNext(Resource.error(error))
             })

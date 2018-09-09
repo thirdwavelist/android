@@ -1,0 +1,197 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 2,
+    "identityHash": "5d9e46a8ad02c0ae126ea3c93cbc0ed0",
+    "entities": [
+      {
+        "tableName": "cafes",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `thumb` TEXT NOT NULL, `city` TEXT, `place_id` TEXT NOT NULL, `facebookUri` TEXT, `instagramUri` TEXT, `homepageUri` TEXT, `espressoMachineName` TEXT, `grinderMachineName` TEXT, `origin` TEXT, `roaster` TEXT, `hasSingleOrigin` INTEGER NOT NULL, `hasBlendOrigin` INTEGER NOT NULL, `hasLightRoast` INTEGER NOT NULL, `hasMediumRoast` INTEGER NOT NULL, `hasDarkRoast` INTEGER NOT NULL, `hasEspresso` INTEGER NOT NULL, `hasAeropress` INTEGER NOT NULL, `hasPourOver` INTEGER NOT NULL, `hasColdBrew` INTEGER NOT NULL, `hasSyphon` INTEGER NOT NULL, `hasFullImmersive` INTEGER NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "thumbnail",
+            "columnName": "thumb",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "city",
+            "columnName": "city",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "googlePlaceId",
+            "columnName": "place_id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "social.facebookUri",
+            "columnName": "facebookUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "social.instagramUri",
+            "columnName": "instagramUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "social.homepageUri",
+            "columnName": "homepageUri",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gearInfo.espressoMachineName",
+            "columnName": "espressoMachineName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "gearInfo.grinderMachineName",
+            "columnName": "grinderMachineName",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "beanInfo.origin",
+            "columnName": "origin",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "beanInfo.roaster",
+            "columnName": "roaster",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "beanInfo.hasSingleOrigin",
+            "columnName": "hasSingleOrigin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beanInfo.hasBlendOrigin",
+            "columnName": "hasBlendOrigin",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beanInfo.hasLightRoast",
+            "columnName": "hasLightRoast",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beanInfo.hasMediumRoast",
+            "columnName": "hasMediumRoast",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "beanInfo.hasDarkRoast",
+            "columnName": "hasDarkRoast",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasEspresso",
+            "columnName": "hasEspresso",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasAeropress",
+            "columnName": "hasAeropress",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasPourOver",
+            "columnName": "hasPourOver",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasColdBrew",
+            "columnName": "hasColdBrew",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasSyphon",
+            "columnName": "hasSyphon",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "brewInfo.hasFullImmersive",
+            "columnName": "hasFullImmersive",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "cities",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `countryFlag` TEXT NOT NULL, `label` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryFlag",
+            "columnName": "countryFlag",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "label",
+            "columnName": "label",
+            "affinity": "TEXT",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "id"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"5d9e46a8ad02c0ae126ea3c93cbc0ed0\")"
+    ]
+  }
+}

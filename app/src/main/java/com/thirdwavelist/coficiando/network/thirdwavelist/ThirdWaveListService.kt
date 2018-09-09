@@ -58,4 +58,8 @@ interface ThirdWaveListService {
     @Headers("Accept: application/json")
     @DELETE("/v1/cafe/{uid}")
     fun deleteCafe(@Path("uid") id: UUID, @Body cafeItem: ThirdWaveListCafeItem)
+
+    @Headers("Accept: application/json")
+    @GET("/v1/cities")
+    fun getCities(): Single<List<ThirdWaveListCityItem>>
 }
