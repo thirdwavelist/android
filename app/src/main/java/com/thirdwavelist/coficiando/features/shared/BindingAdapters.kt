@@ -33,13 +33,13 @@
 package com.thirdwavelist.coficiando.features.shared
 
 import android.animation.ObjectAnimator
-import android.databinding.BindingAdapter
 import android.net.Uri
 import android.os.Build
 import android.text.Html
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.BindingAdapter
 
 @BindingAdapter("image")
 internal fun setImage(imageView: ImageView, image: Uri) {

@@ -34,8 +34,8 @@ package com.thirdwavelist.coficiando.features.details
 
 import android.content.Context
 import android.content.Intent
-import android.databinding.DataBindingUtil
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import com.thirdwavelist.coficiando.DetailsActivityBinding
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
