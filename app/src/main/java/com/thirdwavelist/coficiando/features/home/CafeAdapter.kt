@@ -32,16 +32,16 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import android.databinding.DataBindingUtil
-import android.databinding.ObservableBoolean
-import android.databinding.ObservableField
 import android.net.Uri
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import com.thirdwavelist.coficiando.BR
 import com.thirdwavelist.coficiando.CafeItemBinding
 import com.thirdwavelist.coficiando.R

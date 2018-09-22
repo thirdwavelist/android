@@ -32,8 +32,8 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import android.arch.lifecycle.ViewModel
-import android.support.v7.widget.SearchView
+import androidx.lifecycle.ViewModel
+import androidx.appcompat.widget.SearchView
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem

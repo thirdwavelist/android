@@ -32,7 +32,7 @@
 
 package com.thirdwavelist.coficiando.di.modules
 
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import com.thirdwavelist.coficiando.di.qualifiers.AppContext
 import com.thirdwavelist.coficiando.storage.db.Database
