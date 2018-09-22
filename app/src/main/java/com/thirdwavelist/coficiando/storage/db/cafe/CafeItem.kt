@@ -32,15 +32,11 @@
 
 package com.thirdwavelist.coficiando.storage.db.cafe
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Embedded
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.ForeignKey.CASCADE
-import android.arch.persistence.room.OnConflictStrategy.IGNORE
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import android.net.Uri
-import com.thirdwavelist.coficiando.storage.db.city.CityItem
 import java.util.UUID
 
 @Entity(tableName = "cafes")
