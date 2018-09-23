@@ -45,6 +45,12 @@ class FilterPrefsManager @Inject constructor(@AppContext context: Context) {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(SHARED_PREFS_FILENAME, Context.MODE_PRIVATE)
 
+    var selectedCityId: String?
+        get() = preferences[SELECTED_CITY_ID]
+        set(value) {
+            preferences[SELECTED_CITY_ID] = value
+        }
+
     var isInterestedInBrewMethodEspresso: Boolean
         get() = preferences[INTERESTED_IN_BREW_METHOD_ESPRESSO]
         set(value) {
@@ -105,5 +111,7 @@ class FilterPrefsManager @Inject constructor(@AppContext context: Context) {
 
         private const val INTERESTED_IN_BEAN_ORIGIN = "FILTER_BEAN_ORIGIN_SINGLE"
         private const val INTERESTED_IN_BEAN_ROAST = "FILTER_BEAN_ROAST_DARK"
+
+        private const val SELECTED_CITY_ID = "FILTER_SELECTED_CITY_ID"
     }
 }

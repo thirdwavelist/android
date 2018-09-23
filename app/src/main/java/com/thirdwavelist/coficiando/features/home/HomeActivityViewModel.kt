@@ -37,7 +37,9 @@ import androidx.appcompat.widget.SearchView
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.city.CityItem
 import com.thirdwavelist.coficiando.storage.repository.Repository
+import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -45,9 +47,12 @@ import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import java.util.concurrent.TimeUnit
 
-
-class HomeActivityViewModel(private val repository: Repository<CafeItem>,
-                            val adapter: CafeAdapter) : ViewModel() {
+class HomeActivityViewModel(
+    private val cafeRepository: Repository<CafeItem>,
+    private val cityRepository: Repository<CityItem>,
+    val cafeAdapter: CafeAdapter,
+    val cityAdapter: ArrayList<CityItem> = arrayListOf()
+) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
@@ -55,25 +60,24 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
         add(disposable)
     }
 
-    fun loadCafes() {
-        disposables += repository
+    fun loadCities() {
+        disposables += cityRepository
             .getAll()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    /* onNext */
-                    handleResponse(it)
-                },
-                {
-                    /* onError */
-                    handleError()
-                },
-                {
-                    /* onComplete */
-                    /* do nothing */
-                }
-            )
+            .safeSubscribe {
+                handleCityResponse(it)
+            }
+    }
+
+    fun loadCafes() {
+        disposables += cafeRepository
+            .getAll()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .safeSubscribe {
+                handleCafeResponse(it)
+            }
     }
 
     fun enableSearch(searchView: SearchView) {
@@ -95,11 +99,11 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
         disposables += subject
             .subscribeOn(Schedulers.computation())
             .debounce(300, TimeUnit.MILLISECONDS)
-            .filter({ item -> item.length > 1 })
+            .filter { item -> item.length > 1 }
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ query ->
-                adapter.filter.filter(query)
-            })
+            .subscribe { query ->
+                cafeAdapter.filter.filter(query)
+            }
     }
 
     fun dispose() {
@@ -110,21 +114,52 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
         TODO("not implemented yet")
     }
 
-    private fun handleResponse(it: Resource<List<CafeItem>>) {
+    private fun handleCafeResponse(it: Resource<List<CafeItem>>) {
         when (it.status) {
             Status.LOADING -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.data = it.data
+                    cafeAdapter.data = it.data
                 }
             }
             Status.SUCCESS -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.data = it.data
-                    adapter.initialData = it.data.toMutableList()
+                    cafeAdapter.data = it.data
+                    cafeAdapter.initialData = it.data.toMutableList()
                 }
             }
             Status.ERROR -> {
+                // do nothing
             }
         }
     }
+
+    private fun handleCityResponse(it: Resource<List<CityItem>>) {
+        when (it.status) {
+            Status.LOADING, Status.SUCCESS -> {
+                if (it.data != null && it.data.isNotEmpty()) {
+                    cityAdapter.clear()
+                    cityAdapter.addAll(it.data)
+                }
+            }
+            Status.ERROR -> {
+                // do nothing
+            }
+        }
+    }
+
+    private fun <T> Flowable<T>.safeSubscribe(lambda: (T) -> Unit) =
+        this.subscribe(
+            {
+                /* onNext */
+                lambda.invoke(it)
+            },
+            {
+                /* onError */
+                handleError()
+            },
+            {
+                /* onComplete */
+                /* do nothing */
+            }
+        )
 }

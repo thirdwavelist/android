@@ -35,6 +35,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!--suppress AndroidUnknownAttribute -->
     <data class=".HomeActivityBinding">
 
         <variable
@@ -58,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:orientation="vertical"
-            app:adapter="@{viewModel.adapter}"
+            app:adapter="@{viewModel.cafeAdapter}"
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_cafe"
             tools:visibility="visible" />

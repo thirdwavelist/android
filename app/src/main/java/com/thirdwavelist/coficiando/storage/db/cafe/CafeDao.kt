@@ -46,6 +46,9 @@ interface CafeDao {
     @Query("select * from cafes")
     fun getAll(): Flowable<List<CafeItem>>
 
+    @Query("select * from cafes where city = :cityId")
+    fun getAllByCityId(cityId: String): Flowable<List<CafeItem>>
+
     @Query("select * from cafes where id = :id limit 1")
     fun get(id: UUID): Single<CafeItem>
 

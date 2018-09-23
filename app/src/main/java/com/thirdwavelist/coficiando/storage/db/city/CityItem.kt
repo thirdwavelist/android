@@ -45,5 +45,7 @@ data class CityItem(
     val countryFlag: String,
     @ColumnInfo(name = "label")
     val label: String
-)
+) {
+    override fun toString() = label
+}
 

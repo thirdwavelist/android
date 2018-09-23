@@ -47,6 +47,7 @@ internal operator fun SharedPreferences.set(key: String, value: Any?) {
 
 internal inline operator fun <reified T : Any> SharedPreferences.get(key: String): T =
     when (T::class) {
+        String::class -> getString(key, null) as T
         Boolean::class -> getBoolean(key, true) as T
         BeanRoastType::class -> BeanRoastType.values()[getInt(key, 0)] as T
         BeanOriginType::class -> BeanOriginType.values()[getInt(key, 0)] as T
