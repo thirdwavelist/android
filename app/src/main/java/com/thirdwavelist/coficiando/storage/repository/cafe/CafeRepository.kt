@@ -34,6 +34,7 @@
 
 package com.thirdwavelist.coficiando.storage.repository.cafe
 
+import android.net.Uri
 import com.thirdwavelist.coficiando.network.thirdwavelist.ThirdWaveListService
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanInfoItem
@@ -60,6 +61,11 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
 
         return createCombinedFlowable(local, remote, Function { response ->
             response
+                .map {
+                    if (it.thumbnail?.toString().isNullOrBlank()) {
+                        return@map it.copy(thumbnail = Uri.parse(PLACEHOLDER_URL))
+                    } else return@map it
+                }
                 .filter { it.isValid() }
                 .map {
                     CafeItem(id = it.id,
@@ -99,6 +105,8 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
 
     override fun delete(cafe: CafeItem) = dao.delete(cafe)
 }
+
+private const val PLACEHOLDER_URL = "https://assets.thirdwavelist.com/thumb/missing-1.jpg"
 
 fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
                                                    remote: Single<RemoteType>,
