@@ -36,10 +36,6 @@
 
     <group>
         <item
-            android:id="@+id/nav_select_city"
-            android:title="@string/drawer_switch_city"
-            app:actionLayout="@layout/widget_menu_text" />
-        <item
             android:id="@+id/nav_enable_filters"
             android:title="@string/drawer_filters"
             app:actionLayout="@layout/widget_menu_switch" />

@@ -37,7 +37,6 @@ import androidx.appcompat.widget.SearchView
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.storage.db.city.CityItem
 import com.thirdwavelist.coficiando.storage.repository.Repository
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,25 +48,13 @@ import java.util.concurrent.TimeUnit
 
 class HomeActivityViewModel(
     private val cafeRepository: Repository<CafeItem>,
-    private val cityRepository: Repository<CityItem>,
-    val cafeAdapter: CafeAdapter,
-    val cityAdapter: ArrayList<CityItem> = arrayListOf()
+    val cafeAdapter: CafeAdapter
 ) : ViewModel() {
 
     private val disposables = CompositeDisposable()
 
     private operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
         add(disposable)
-    }
-
-    fun loadCities() {
-        disposables += cityRepository
-            .getAll()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .safeSubscribe {
-                handleCityResponse(it)
-            }
     }
 
     fun loadCafes() {
@@ -125,20 +112,6 @@ class HomeActivityViewModel(
                 if (it.data != null && it.data.isNotEmpty()) {
                     cafeAdapter.data = it.data
                     cafeAdapter.initialData = it.data.toMutableList()
-                }
-            }
-            Status.ERROR -> {
-                // do nothing
-            }
-        }
-    }
-
-    private fun handleCityResponse(it: Resource<List<CityItem>>) {
-        when (it.status) {
-            Status.LOADING, Status.SUCCESS -> {
-                if (it.data != null && it.data.isNotEmpty()) {
-                    cityAdapter.clear()
-                    cityAdapter.addAll(it.data)
                 }
             }
             Status.ERROR -> {

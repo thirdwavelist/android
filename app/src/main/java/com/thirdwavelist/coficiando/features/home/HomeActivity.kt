@@ -36,31 +36,24 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.AppCompatImageView
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.CompoundButton
-import android.widget.Spinner
-import android.widget.SpinnerAdapter
 import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.AppCompatImageView
+import androidx.appcompat.widget.SearchView
+import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.features.details.DetailsActivity
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
-import com.thirdwavelist.coficiando.storage.db.city.CityItem
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
 import com.thirdwavelist.coficiando.storage.repository.city.CityRepository
 import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
@@ -85,7 +78,7 @@ class HomeActivity : DaggerAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        viewModel = HomeActivityViewModel(cafeRepository, cityRepository, CafeAdapter(filterPrefs, userPrefs))
+        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter(filterPrefs, userPrefs))
         binding.viewModel = viewModel
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -104,7 +97,6 @@ class HomeActivity : DaggerAppCompatActivity() {
         }
 
         viewModel.loadCafes()
-        viewModel.loadCities()
 
         handleIntent(intent)
     }
@@ -167,32 +159,6 @@ class HomeActivity : DaggerAppCompatActivity() {
             updateFilterPreference(checkBox?.id, value)
         }
 
-        val citySpinner = binding.drawerList.menu.findItem(R.id.nav_select_city).actionView?.let { it ->
-            Spinner(it.context, Spinner.MODE_DIALOG).also { spinner ->
-                spinner.adapter = ArrayAdapter<CityItem>(
-                    spinner.context,
-                    android.R.layout.simple_spinner_dropdown_item,
-                    viewModel.cityAdapter
-                )
-                spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-                    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                        val selectedItem = spinner.adapter.getItem(position)
-                        if (selectedItem is CityItem) {
-                            (it as TextView).text = selectedItem.label.substringBefore(",", "All")
-                            filterPrefs.selectedCityId = selectedItem.id
-                            viewModel.cafeAdapter.resetData()
-                        }
-                    }
-                }
-            }
-        }
-        binding.drawerList.menu.findItem(R.id.nav_select_city).setOnMenuItemClickListener {
-            citySpinner?.performClick()
-            true
-        }
-
         (binding.drawerList.menu.findItem(R.id.nav_enable_filters).actionView as Switch).let {
             it.isChecked = false
             userPrefs.isFilteringEnabled = false
@@ -236,7 +202,7 @@ class HomeActivity : DaggerAppCompatActivity() {
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).isChecked =
-                            false
+                        false
                 }
             }
         }
@@ -246,7 +212,7 @@ class HomeActivity : DaggerAppCompatActivity() {
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).isChecked =
-                            false
+                        false
                 }
             }
         }
@@ -256,9 +222,9 @@ class HomeActivity : DaggerAppCompatActivity() {
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked =
-                            false
+                        false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked =
-                            false
+                        false
                 }
             }
         }
@@ -268,9 +234,9 @@ class HomeActivity : DaggerAppCompatActivity() {
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked =
-                            false
+                        false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked =
-                            false
+                        false
                 }
             }
         }
@@ -280,9 +246,9 @@ class HomeActivity : DaggerAppCompatActivity() {
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked =
-                            false
+                        false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked =
-                            false
+                        false
                 }
             }
         }
@@ -327,7 +293,7 @@ class HomeActivity : DaggerAppCompatActivity() {
                         componentName
                     )
                 )
-                (searchView.findViewById(R.id.search_close_btn) as AppCompatImageView).setOnClickListener { _ ->
+                (searchView.findViewById(R.id.search_close_btn) as AppCompatImageView).setOnClickListener {
                     viewModel.cafeAdapter.resetData()
                     invalidateOptionsMenu()
                 }
