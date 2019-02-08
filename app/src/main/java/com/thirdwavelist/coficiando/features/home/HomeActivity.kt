@@ -55,7 +55,6 @@ import com.thirdwavelist.coficiando.features.details.DetailsActivity
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
 import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
-import com.thirdwavelist.coficiando.storage.repository.city.CityRepository
 import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
 import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 import dagger.android.support.DaggerAppCompatActivity
@@ -68,8 +67,6 @@ class HomeActivity : DaggerAppCompatActivity() {
     private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject
     lateinit var cafeRepository: CafeRepository
-    @Inject
-    lateinit var cityRepository: CityRepository
     @Inject
     lateinit var filterPrefs: FilterPrefsManager
     @Inject
