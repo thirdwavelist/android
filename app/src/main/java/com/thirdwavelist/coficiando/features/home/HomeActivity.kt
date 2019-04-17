@@ -36,6 +36,7 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -49,6 +50,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.Switch
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
 import com.thirdwavelist.coficiando.features.details.DetailsActivity
@@ -58,17 +62,20 @@ import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
 import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
 import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 import dagger.android.support.DaggerAppCompatActivity
+import java.lang.NullPointerException
 import javax.inject.Inject
-
 
 class HomeActivity : DaggerAppCompatActivity() {
 
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var binding: HomeActivityBinding
     private lateinit var drawerToggle: ActionBarDrawerToggle
-    @Inject lateinit var cafeRepository: CafeRepository
-    @Inject lateinit var filterPrefs: FilterPrefsManager
-    @Inject lateinit var userPrefs: UserPrefsManager
+    @Inject
+    lateinit var cafeRepository: CafeRepository
+    @Inject
+    lateinit var filterPrefs: FilterPrefsManager
+    @Inject
+    lateinit var userPrefs: UserPrefsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,10 +91,12 @@ class HomeActivity : DaggerAppCompatActivity() {
         binding.recycler.layoutManager = getLayoutManager()
         viewModel.adapter.setItemClickListener { position ->
             viewModel.adapter.getItem(position).let {
-                startActivity(DetailsActivity.getStartIntent(
-                    this@HomeActivity,
-                    it.id
-                ))
+                startActivity(
+                    DetailsActivity.getStartIntent(
+                        this@HomeActivity,
+                        it.id
+                    )
+                )
             }
         }
 
@@ -137,6 +146,13 @@ class HomeActivity : DaggerAppCompatActivity() {
     }
 
     private fun setupMenuItems() {
+        val privacyPolicyText: TextView = (binding.drawerList.menu.findItem(R.id.privacy_policy_link)).actionView as TextView
+        privacyPolicyText.text = ""
+        binding.drawerList.menu.findItem(R.id.privacy_policy_link).setOnMenuItemClickListener {
+            showPrivacyPolicy(it.actionView)
+            false
+        }
+
         val enableFiltersChangeListener = CompoundButton.OnCheckedChangeListener { checkBox, value ->
             when (checkBox?.id) {
                 R.id.nav_enable_filters -> {
@@ -182,54 +198,73 @@ class HomeActivity : DaggerAppCompatActivity() {
         }
         (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).let {
             it.isChecked = filterPrefs.beanOriginType == BeanOriginType.SINGLE
-            it.setOnCheckedChangeListener({ checkBox, value ->
+            it.setOnCheckedChangeListener { checkBox, value ->
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).isChecked = false
                 }
-            })
+            }
         }
         (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).let {
             it.isChecked = filterPrefs.beanOriginType == BeanOriginType.BLEND
-            it.setOnCheckedChangeListener({ checkBox, value ->
+            it.setOnCheckedChangeListener { checkBox, value ->
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).isChecked = false
                 }
-            })
+            }
         }
         (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).let {
             it.isChecked = filterPrefs.beanRoastType == BeanRoastType.LIGHT
-            it.setOnCheckedChangeListener({ checkBox, value ->
+            it.setOnCheckedChangeListener { checkBox, value ->
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
                 }
-            })
+            }
         }
         (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).let {
             it.isChecked = filterPrefs.beanRoastType == BeanRoastType.MEDIUM
-            it.setOnCheckedChangeListener({ checkBox, value ->
+            it.setOnCheckedChangeListener { checkBox, value ->
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
                 }
-            })
+            }
         }
         (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).let {
             it.isChecked = filterPrefs.beanRoastType == BeanRoastType.DARK
-            it.setOnCheckedChangeListener({ checkBox, value ->
+            it.setOnCheckedChangeListener { checkBox, value ->
                 if (value) {
                     updateFilterPreference(checkBox?.id, value)
                     (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
                     (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
                 }
-            })
+            }
         }
 
         updateMenuItemState(isEnabled = userPrefs.isFilteringEnabled)
+    }
+
+    private fun showPrivacyPolicy(view: View) {
+        val intent = try {
+            Intent().apply {
+                action = Intent.ACTION_VIEW
+                addCategory(Intent.CATEGORY_BROWSABLE)
+                data = Uri.parse(view.context.resources.getString(R.string.privacy_policy_url))
+            }
+        } catch (e: NullPointerException) {
+            /* silent fail */
+            null
+        }
+
+        if (intent != null) {
+            ContextCompat.startActivity(view.context, intent, null)
+        } else {
+            Toast.makeText(view.context, "Privacy Policy is not available", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun updateMenuItemState(isEnabled: Boolean) {

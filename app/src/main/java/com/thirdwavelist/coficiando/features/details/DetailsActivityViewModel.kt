@@ -32,13 +32,13 @@
 
 package com.thirdwavelist.coficiando.features.details
 
-import androidx.lifecycle.ViewModel
 import android.content.Intent
+import android.net.Uri
+import android.view.View
+import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import android.net.Uri
-import androidx.core.content.ContextCompat.startActivity
-import android.view.View
+import androidx.lifecycle.ViewModel
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
 import com.thirdwavelist.coficiando.storage.db.cafe.availableOriginTypes
 import com.thirdwavelist.coficiando.storage.db.cafe.availableRoastTypes

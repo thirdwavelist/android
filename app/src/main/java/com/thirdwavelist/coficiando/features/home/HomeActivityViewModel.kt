@@ -32,8 +32,8 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import androidx.lifecycle.ViewModel
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModel
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
@@ -97,9 +97,9 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             .debounce(300, TimeUnit.MILLISECONDS)
             .filter({ item -> item.length > 1 })
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ query ->
+            .subscribe { query ->
                 adapter.filter.filter(query)
-            })
+            }
     }
 
     fun dispose() {
