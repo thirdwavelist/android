@@ -34,14 +34,6 @@ package com.thirdwavelist.coficiando.di.modules
 
 import android.content.Context
 import android.net.ConnectivityManager
-import android.net.Uri
-import com.google.gson.FieldNamingPolicy
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import com.google.gson.TypeAdapter
-import com.google.gson.stream.JsonReader
-import com.google.gson.stream.JsonToken
-import com.google.gson.stream.JsonWriter
 import com.thirdwavelist.coficiando.BuildConfig
 import com.thirdwavelist.coficiando.di.qualifiers.AppContext
 import com.thirdwavelist.coficiando.network.CachePreference
@@ -53,35 +45,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.logging.HttpLoggingInterceptor.Level
 import javax.inject.Singleton
 
-
 @Module(includes = [CacheModule::class])
 object NetworkModule {
     private const val USER_AGENT = "User-Agent"
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    internal fun provideGson(): Gson {
-        return GsonBuilder()
-            .registerTypeAdapter(Uri::class.java, object : TypeAdapter<Uri?>() {
-                override fun write(to: JsonWriter, value: Uri?) {
-                    to.value(value.toString());
-                }
-
-                override fun read(from: JsonReader): Uri? {
-                    if (from.peek() == JsonToken.NULL) {
-                        from.nextNull();
-                        return null;
-                    }
-                    from.nextString().let {
-                        return if (it.isEmpty()) Uri.EMPTY else Uri.parse(it);
-                    }
-                }
-            })
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
-    }
 
     @Provides
     @Singleton
@@ -129,7 +96,7 @@ object NetworkModule {
 
     private fun Context.isNetworkAvailable(): Boolean {
         (this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager).let {
-            return it.activeNetworkInfo != null && it.activeNetworkInfo.isConnectedOrConnecting
+            return it.activeNetworkInfo != null && it.activeNetworkInfo.isConnected
         }
     }
 }

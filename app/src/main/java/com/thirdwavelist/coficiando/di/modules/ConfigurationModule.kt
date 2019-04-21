@@ -34,7 +34,6 @@ package com.thirdwavelist.coficiando.di.modules
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.thirdwavelist.coficiando.R
-import com.thirdwavelist.coficiando.di.qualifiers.ApiKey
 import com.thirdwavelist.coficiando.di.qualifiers.CacheDuration
 import com.thirdwavelist.coficiando.di.qualifiers.CacheSize
 import com.thirdwavelist.coficiando.network.CachePreference
@@ -45,7 +44,6 @@ import javax.inject.Singleton
 @Module
 object ConfigurationModule {
 
-    private const val CONFIG_KEY_API = "key_api"
     private const val CACHE_SIZE_1MB = 1024 * 1024L
     private const val CACHE_DURATION_ONE_DAY_IN_SECONDS = 60 * 60 * 24L
 
@@ -57,17 +55,9 @@ object ConfigurationModule {
             config.setDefaults(R.xml.default_app_config)
             config.fetch()
                 .addOnCompleteListener { task ->
-                    if (task.isSuccessful) config.activateFetched()
+                    if (task.isSuccessful) config.activate()
                 }
         }
-    }
-
-    @Provides
-    @Singleton
-    @JvmStatic
-    @ApiKey
-    fun provideApiKey(appConfig: FirebaseRemoteConfig): String {
-        return appConfig.getString(CONFIG_KEY_API)
     }
 
     @Provides
