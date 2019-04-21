@@ -123,4 +123,9 @@
             </group>
         </menu>
     </item>
+
+    <item
+        android:id="@+id/privacy_policy_link"
+        android:title="@string/privacy_policy_label"
+        app:actionLayout="@layout/widget_menu_text"/>
 </menu>

@@ -14,3 +14,6 @@
 
 # https://firebase.google.com/docs/crashlytics/get-deobfuscated-reports?authuser=0
 -dontwarn com.crashlytics.**
+
+# https://github.com/bumptech/glide/wiki/Configuration#keeping-a-glidemodule
+-keep public class * implements com.bumptech.glide.module.GlideModule
