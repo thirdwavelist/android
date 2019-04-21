@@ -81,4 +81,5 @@
     <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.thirdwavelist.com\",\n  }\n}]</string>
     <string name="privacy_policy_label">Privacy Policy</string>
     <string name="privacy_policy_url">https://thirdwavelist.com/privacy-policy</string>
+    <string name="default_city_name">Budapest</string>
 </resources>

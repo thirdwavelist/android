@@ -37,6 +37,6 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:gravity="center_vertical"
-    android:text="Budapest"
+    android:text="@string/default_city_name"
     android:textColor="@android:color/darker_gray"
     tools:ignore="MissingDefaultResource"/>
