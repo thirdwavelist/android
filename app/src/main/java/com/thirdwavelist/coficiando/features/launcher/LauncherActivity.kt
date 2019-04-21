@@ -36,7 +36,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.thirdwavelist.coficiando.features.home.HomeActivity
 
-
 class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
