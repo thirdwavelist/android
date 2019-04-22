@@ -39,11 +39,14 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.city.CityDao
+import com.thirdwavelist.coficiando.storage.db.city.CityItem
 
-@Database(version = 2, entities = [CafeItem::class])
+@Database(version = 2, entities = [CafeItem::class, CityItem::class])
 @TypeConverters(CustomTypeConverters::class)
 abstract class Database : RoomDatabase() {
     abstract fun cafeDao(): CafeDao
+    abstract fun cityDao(): CityDao
 
     companion object Migrations {
         @JvmStatic

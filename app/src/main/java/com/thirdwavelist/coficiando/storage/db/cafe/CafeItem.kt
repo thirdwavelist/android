@@ -36,17 +36,20 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import android.net.Uri
-import java.util.UUID
+import androidx.room.Embedded
+import com.thirdwavelist.coficiando.storage.db.common.LocationItem
 
 @Entity(tableName = "cafes")
 data class CafeItem(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    val id: UUID,
+    val id: String,
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "address")
     val address: String,
     @ColumnInfo(name = "thumb")
-    val thumbnail: Uri
+    val thumbnail: Uri,
+    @Embedded(prefix = "cafe_")
+    val location: LocationItem
 )

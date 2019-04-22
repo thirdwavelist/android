@@ -34,6 +34,8 @@ package com.thirdwavelist.coficiando.di.modules
 
 import com.thirdwavelist.coficiando.network.cafe.CafeApi
 import com.thirdwavelist.coficiando.network.cafe.CafeApiImpl
+import com.thirdwavelist.coficiando.network.city.CityApi
+import com.thirdwavelist.coficiando.network.city.CityApiImpl
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -46,5 +48,12 @@ object ServiceModule {
     @JvmStatic
     fun provideCafeService(): CafeApi {
         return CafeApiImpl()
+    }
+
+    @Provides
+    @Singleton
+    @JvmStatic
+    fun provideCityService(): CityApi {
+        return CityApiImpl()
     }
 }

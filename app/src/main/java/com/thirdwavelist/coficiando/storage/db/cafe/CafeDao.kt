@@ -37,9 +37,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import io.reactivex.Flowable
 import io.reactivex.Single
-import java.util.UUID
 
 @Dao
 interface CafeDao {
@@ -47,7 +45,7 @@ interface CafeDao {
     fun getAll(): Single<List<CafeItem>>
 
     @Query("select * from cafes where id = :id limit 1")
-    fun get(id: UUID): Single<CafeItem>
+    fun get(id: String): Single<CafeItem>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(cafes: List<CafeItem>)

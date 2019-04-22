@@ -128,8 +128,8 @@ dependencies {
 
     testImplementation 'junit:junit:4.13-beta-2'
 
-    androidTestImplementation 'androidx.annotation:annotation:1.0.2'
-    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.annotation:annotation:1.1.0-beta01'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.room:room-testing:2.0.0'
 }

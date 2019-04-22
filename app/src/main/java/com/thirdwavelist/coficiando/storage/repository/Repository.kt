@@ -33,14 +33,39 @@
 package com.thirdwavelist.coficiando.storage.repository
 
 import com.thirdwavelist.coficiando.storage.Resource
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single
-import java.util.UUID
+import io.reactivex.schedulers.Schedulers
 
 interface Repository<T> {
-    fun get(tId: UUID): Single<T>
+    fun get(tId: String): Single<T>
     fun getAll(): Flowable<Resource<List<T>>>
     fun insert(t: T)
     fun insertAll(ts: List<T>)
     fun delete(t: T)
+}
+
+fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
+                                                   remote: Single<RemoteType>,
+                                                   mapper: io.reactivex.functions.Function<RemoteType, LocalType>,
+                                                   persist: (LocalType) -> Unit = {}): Flowable<Resource<LocalType>> {
+
+    return Flowable.create<Resource<LocalType>>({ emitter ->
+        emitter.setDisposable(local
+            .map { Resource.loading(it) }
+            .subscribe { emitter.onNext(it) })
+
+        remote.map(mapper)
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(Schedulers.newThread())
+            .subscribe({ localTypeData ->
+                persist(localTypeData)
+                emitter.setDisposable(local
+                    .map { Resource.success(it) }
+                    .subscribe { emitter.onNext(it) })
+            }, { error ->
+                emitter.onNext(Resource.error(error))
+            })
+    }, BackpressureStrategy.LATEST)
 }

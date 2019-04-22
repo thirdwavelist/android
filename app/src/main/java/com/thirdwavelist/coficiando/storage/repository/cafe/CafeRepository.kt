@@ -39,17 +39,18 @@ import com.thirdwavelist.coficiando.network.cafe.CafeApi
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.storage.db.common.LocationItem
 import com.thirdwavelist.coficiando.storage.repository.Repository
-import io.reactivex.BackpressureStrategy
+import com.thirdwavelist.coficiando.storage.repository.createCombinedFlowable
 import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.functions.Function
-import io.reactivex.schedulers.Schedulers
-import java.util.UUID
 import javax.inject.Inject
 
-class CafeRepository @Inject constructor(private val dao: CafeDao,
-                                         private val service: CafeApi) : Repository<CafeItem> {
+class CafeRepository @Inject constructor(
+    private val dao: CafeDao,
+    private val service: CafeApi
+) : Repository<CafeItem> {
 
     override fun getAll(): Flowable<Resource<List<CafeItem>>> {
         val local = dao.getAll().toFlowable()
@@ -57,44 +58,24 @@ class CafeRepository @Inject constructor(private val dao: CafeDao,
 
         return createCombinedFlowable(local, remote, Function { response ->
             response
-                .map { CafeItem(id = UUID.fromString(it.id),
-                    name = it.name,
-                    address = it.address,
-                    thumbnail = Uri.EMPTY /*it.thumbnail!!*/
-                ) }
+                .map {
+                    CafeItem(
+                        id = it.id,
+                        name = it.name,
+                        address = it.address,
+                        thumbnail = Uri.EMPTY /*it.thumbnail!!*/,
+                        location = LocationItem(it.location.latitude, it.location.longitude)
+                    )
+                }
                 .distinct()
         }) { dao.insertAll(it) }
     }
 
-    override fun get(cafeId: UUID): Single<CafeItem> = dao.get(cafeId)
+    override fun get(cafeId: String): Single<CafeItem> = dao.get(cafeId)
 
     override fun insert(cafe: CafeItem) = dao.insert(cafe)
 
     override fun insertAll(cafes: List<CafeItem>) = dao.insertAll(cafes)
 
     override fun delete(cafe: CafeItem) = dao.delete(cafe)
-}
-
-fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
-                                                   remote: Single<RemoteType>,
-                                                   mapper: Function<RemoteType, LocalType>,
-                                                   persist: (LocalType) -> Unit = {}): Flowable<Resource<LocalType>> {
-
-    return Flowable.create<Resource<LocalType>>({ emitter ->
-        emitter.setDisposable(local
-            .map { Resource.loading(it) }
-            .subscribe { emitter.onNext(it) })
-
-        remote.map(mapper)
-            .subscribeOn(Schedulers.newThread())
-            .observeOn(Schedulers.newThread())
-            .subscribe({ localTypeData ->
-                persist(localTypeData)
-                emitter.setDisposable(local
-                    .map { Resource.success(it) }
-                    .subscribe { emitter.onNext(it) })
-            }, { error ->
-                emitter.onNext(Resource.error(error))
-            })
-    }, BackpressureStrategy.LATEST)
 }

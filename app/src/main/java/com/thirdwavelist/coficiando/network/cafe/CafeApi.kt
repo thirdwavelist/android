@@ -1,5 +1,3 @@
-@file:Suppress("EXPERIMENTAL_FEATURE_WARNING")
-
 package com.thirdwavelist.coficiando.network.cafe
 
 import androidx.annotation.Keep
@@ -8,22 +6,20 @@ import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.firestore.PropertyName
+import com.thirdwavelist.coficiando.network.shared.CafeId
+import com.thirdwavelist.coficiando.network.shared.CityId
 import io.reactivex.Single
-import java.util.UUID
 
 @Keep
 data class CafeDto(
-    @Exclude val id: String = UUID.randomUUID().toString(),
+    @Exclude val id: String = "",
     @PropertyName("name") val name: String = "",
     @PropertyName("address") val address: String = "",
     @PropertyName("city") val city: DocumentReference? = null,
-    @PropertyName("google_place_id") val googlePlacesId: String = "",
+    @PropertyName("google_place_id") val googlePlaceId: String = "",
     @PropertyName("instagram_id") val instagramId: String = "",
     @PropertyName("location") val location: GeoPoint = GeoPoint(0.0, 0.0)
 )
-
-inline class CafeId(val id: String)
-inline class CityId(val id: String)
 
 interface CafeApi {
     fun getCafes(): Single<List<CafeDto>>
@@ -37,13 +33,22 @@ internal class CafeApiImpl : CafeApi {
     override fun getCafes(): Single<List<CafeDto>> {
         return Single.create { emitter ->
             db.getCafes()
-                .addOnCompleteListener {
-                    val results = it.result?.toObjects(CafeDto::class.java)
-                    if (results != null) {
+                .addOnCompleteListener { task ->
+                    val response = task.result?.documents
+                    if (task.isSuccessful && response != null) {
+                        val results = mutableListOf<CafeDto>()
+                        for (item in response) {
+                            item.toObject(CafeDto::class.java)?.copy(id = item.id)?.let {
+                                results.plusAssign(it)
+                            }
+                        }
                         emitter.onSuccess(results)
-                    } else {
-                        emitter.onError(Throwable(it.exception))
+                    } else if (task.isCanceled || !task.isSuccessful) {
+                        emitter.onError(Throwable(task.exception))
                     }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Throwable(it))
                 }
         }
     }
@@ -51,13 +56,21 @@ internal class CafeApiImpl : CafeApi {
     override fun getCafes(cityId: CityId): Single<List<CafeDto>> {
         return Single.create { emitter ->
             db.getCafeFor(cityId)
-                .addOnCompleteListener {
-                    val results = it.result?.toObjects(CafeDto::class.java)
-                    if (results != null) {
+                .addOnCompleteListener { task ->
+                    val response = task.result?.documents
+                    if (task.isSuccessful && response != null) {
+                        val results = mutableListOf<CafeDto>()
+                        for (item in response) {
+                            item.toObject(CafeDto::class.java)?.copy(id = item.id)?.let {
+                                results.plusAssign(it)
+                            }                        }
                         emitter.onSuccess(results)
-                    } else {
-                        emitter.onError(Throwable(it.exception))
+                    } else if (task.isCanceled || !task.isSuccessful) {
+                        emitter.onError(Throwable(task.exception))
                     }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Throwable(it))
                 }
         }
     }
@@ -65,13 +78,17 @@ internal class CafeApiImpl : CafeApi {
     override fun getCafe(cafeId: CafeId): Single<CafeDto> {
         return Single.create { emitter ->
             db.getCafe(cafeId)
-                .addOnCompleteListener {
-                    val results = it.result?.toObject(CafeDto::class.java)
-                    if (results != null) {
-                        emitter.onSuccess(results)
-                    } else {
-                        emitter.onError(Throwable(it.exception))
+                .addOnCompleteListener { task ->
+                    val response = task.result
+                    if (task.isSuccessful && response != null) {
+                        val result = response.toObject(CafeDto::class.java)!!.copy(id = response.id)
+                        emitter.onSuccess(result)
+                    } else if (task.isCanceled || !task.isSuccessful) {
+                        emitter.onError(Throwable(task.exception))
                     }
+                }
+                .addOnFailureListener {
+                    emitter.onError(Throwable(it))
                 }
         }
     }
