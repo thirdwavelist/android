@@ -33,7 +33,6 @@
 package com.thirdwavelist.coficiando.storage.db.cafe
 
 import androidx.room.ColumnInfo
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import android.net.Uri
@@ -46,16 +45,8 @@ data class CafeItem(
     val id: UUID,
     @ColumnInfo(name = "name")
     val name: String,
+    @ColumnInfo(name = "address")
+    val address: String,
     @ColumnInfo(name = "thumb")
-    val thumbnail: Uri,
-    @Embedded
-    val social: SocialItem,
-    @ColumnInfo(name = "place_id")
-    val googlePlaceId: String,
-    @Embedded
-    val gearInfo: GearInfoItem,
-    @Embedded
-    val beanInfo: BeanInfoItem,
-    @Embedded
-    val brewInfo: BrewInfoItem
+    val thumbnail: Uri
 )

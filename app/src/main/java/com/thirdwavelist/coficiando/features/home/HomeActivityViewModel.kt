@@ -32,7 +32,6 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModel
 import com.thirdwavelist.coficiando.storage.Resource
 import com.thirdwavelist.coficiando.storage.Status
@@ -42,9 +41,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.subjects.BehaviorSubject
-import java.util.concurrent.TimeUnit
-
 
 class HomeActivityViewModel(private val repository: Repository<CafeItem>,
                             val adapter: CafeAdapter) : ViewModel() {
@@ -76,32 +72,6 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
             )
     }
 
-    fun enableSearch(searchView: SearchView) {
-        val subject = BehaviorSubject.create<String>()
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String): Boolean {
-                subject.onComplete()
-                return true
-            }
-
-            override fun onQueryTextChange(newText: String): Boolean {
-                if (!newText.isEmpty()) {
-                    subject.onNext(newText)
-                }
-                return true
-            }
-        })
-
-        disposables += subject
-            .subscribeOn(Schedulers.computation())
-            .debounce(300, TimeUnit.MILLISECONDS)
-            .filter({ item -> item.length > 1 })
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { query ->
-                adapter.filter.filter(query)
-            }
-    }
-
     fun dispose() {
         disposables.clear()
     }
@@ -112,18 +82,13 @@ class HomeActivityViewModel(private val repository: Repository<CafeItem>,
 
     private fun handleResponse(it: Resource<List<CafeItem>>) {
         when (it.status) {
-            Status.LOADING -> {
+            Status.LOADING, Status.SUCCESS -> {
                 if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.data = it.data
-                }
-            }
-            Status.SUCCESS -> {
-                if (it.data != null && it.data.isNotEmpty()) {
-                    adapter.data = it.data
-                    adapter.initialData = it.data.toMutableList()
+                    adapter.submitList(it.data)
                 }
             }
             Status.ERROR -> {
+                TODO("not implemented yet")
             }
         }
     }

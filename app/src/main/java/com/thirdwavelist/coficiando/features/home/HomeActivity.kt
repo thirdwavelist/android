@@ -32,86 +32,47 @@
 
 package com.thirdwavelist.coficiando.features.home
 
-import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.net.Uri
-import androidx.databinding.DataBindingUtil
 import android.os.Bundle
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.widget.AppCompatImageView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.appcompat.widget.SearchView
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.widget.CompoundButton
-import android.widget.Switch
-import android.widget.TextView
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.thirdwavelist.coficiando.HomeActivityBinding
 import com.thirdwavelist.coficiando.R
-import com.thirdwavelist.coficiando.features.details.DetailsActivity
-import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
-import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
 import com.thirdwavelist.coficiando.storage.repository.cafe.CafeRepository
-import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
-import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 import dagger.android.support.DaggerAppCompatActivity
-import java.lang.NullPointerException
 import javax.inject.Inject
 
 class HomeActivity : DaggerAppCompatActivity() {
 
     private lateinit var viewModel: HomeActivityViewModel
     private lateinit var binding: HomeActivityBinding
-    private lateinit var drawerToggle: ActionBarDrawerToggle
     @Inject
     lateinit var cafeRepository: CafeRepository
-    @Inject
-    lateinit var filterPrefs: FilterPrefsManager
-    @Inject
-    lateinit var userPrefs: UserPrefsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter(filterPrefs, userPrefs))
+        viewModel = HomeActivityViewModel(cafeRepository, CafeAdapter())
         binding.viewModel = viewModel
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeButtonEnabled(true)
 
-        setupDrawer()
-
         binding.recycler.layoutManager = getLayoutManager()
-        viewModel.adapter.setItemClickListener { position ->
-            viewModel.adapter.getItem(position).let {
-                startActivity(
-                    DetailsActivity.getStartIntent(
-                        this@HomeActivity,
-                        it.id
-                    )
-                )
-            }
-        }
 
         viewModel.loadCafes()
-
-        handleIntent(intent)
     }
 
     private fun getLayoutManager(): RecyclerView.LayoutManager {
         val smallestWidth = resources.configuration.smallestScreenWidthDp
 
-        if (smallestWidth >= 600) {
-            return GridLayoutManager(this@HomeActivity, 2)
-        } else {
-            return if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        return when {
+            smallestWidth >= 600 -> GridLayoutManager(this@HomeActivity, 2)
+            else -> if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 LinearLayoutManager(this@HomeActivity)
             } else {
                 GridLayoutManager(this@HomeActivity, 2)
@@ -122,246 +83,6 @@ class HomeActivity : DaggerAppCompatActivity() {
     override fun onStop() {
         viewModel.dispose()
         super.onStop()
-    }
-
-    private fun setupDrawer() {
-        drawerToggle = object : ActionBarDrawerToggle(this, binding.drawerLayout, R.string.alt_navigation_drawer_open, R.string.alt_navigation_drawer_close) {
-
-            /** Called when a drawer has settled in a completely open state.  */
-            override fun onDrawerOpened(drawerView: View) {
-                super.onDrawerOpened(drawerView)
-                invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
-            }
-
-            /** Called when a drawer has settled in a completely closed state.  */
-            override fun onDrawerClosed(view: View) {
-                super.onDrawerClosed(view)
-                invalidateOptionsMenu() // creates call to onPrepareOptionsMenu()
-            }
-        }
-
-        drawerToggle.isDrawerIndicatorEnabled = true
-        binding.drawerLayout.addDrawerListener(drawerToggle)
-        setupMenuItems()
-    }
-
-    private fun setupMenuItems() {
-        val privacyPolicyText: TextView = (binding.drawerList.menu.findItem(R.id.privacy_policy_link)).actionView as TextView
-        privacyPolicyText.text = ""
-        binding.drawerList.menu.findItem(R.id.privacy_policy_link).setOnMenuItemClickListener {
-            showPrivacyPolicy(it.actionView)
-            false
-        }
-
-        val enableFiltersChangeListener = CompoundButton.OnCheckedChangeListener { checkBox, value ->
-            when (checkBox?.id) {
-                R.id.nav_enable_filters -> {
-                    userPrefs.isFilteringEnabled = value
-                    updateMenuItemState(value)
-                }
-            }
-        }
-        val filterModeChangeListener = CompoundButton.OnCheckedChangeListener { checkBox, value ->
-            updateFilterPreference(checkBox?.id, value)
-        }
-
-        ((binding.drawerList.menu.findItem(R.id.nav_enable_filters)).actionView as Switch).let {
-            it.isChecked = false
-            userPrefs.isFilteringEnabled = false
-            it.setOnCheckedChangeListener(enableFiltersChangeListener)
-        }
-
-        (binding.drawerList.menu.findItem(R.id.brew_method_espresso).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodEspresso
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-
-        (binding.drawerList.menu.findItem(R.id.brew_method_aeropress).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodAeropress
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-        (binding.drawerList.menu.findItem(R.id.brew_method_cold_brew).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodColdBrew
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-        (binding.drawerList.menu.findItem(R.id.brew_method_pour_over).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodPourOver
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-        (binding.drawerList.menu.findItem(R.id.brew_method_syphon).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodSyphon
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-        (binding.drawerList.menu.findItem(R.id.brew_method_full_immersion).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.isInterestedInBrewMethodFullImmersive
-            it.setOnCheckedChangeListener(filterModeChangeListener)
-        }
-        (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.beanOriginType == BeanOriginType.SINGLE
-            it.setOnCheckedChangeListener { checkBox, value ->
-                if (value) {
-                    updateFilterPreference(checkBox?.id, value)
-                    (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).isChecked = false
-                }
-            }
-        }
-        (binding.drawerList.menu.findItem(R.id.bean_origin_blend).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.beanOriginType == BeanOriginType.BLEND
-            it.setOnCheckedChangeListener { checkBox, value ->
-                if (value) {
-                    updateFilterPreference(checkBox?.id, value)
-                    (binding.drawerList.menu.findItem(R.id.bean_origin_single).actionView as CompoundButton).isChecked = false
-                }
-            }
-        }
-        (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.LIGHT
-            it.setOnCheckedChangeListener { checkBox, value ->
-                if (value) {
-                    updateFilterPreference(checkBox?.id, value)
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
-                }
-            }
-        }
-        (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.MEDIUM
-            it.setOnCheckedChangeListener { checkBox, value ->
-                if (value) {
-                    updateFilterPreference(checkBox?.id, value)
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).isChecked = false
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
-                }
-            }
-        }
-        (binding.drawerList.menu.findItem(R.id.bean_roast_dark).actionView as CompoundButton).let {
-            it.isChecked = filterPrefs.beanRoastType == BeanRoastType.DARK
-            it.setOnCheckedChangeListener { checkBox, value ->
-                if (value) {
-                    updateFilterPreference(checkBox?.id, value)
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_medium).actionView as CompoundButton).isChecked = false
-                    (binding.drawerList.menu.findItem(R.id.bean_roast_light).actionView as CompoundButton).isChecked = false
-                }
-            }
-        }
-
-        updateMenuItemState(isEnabled = userPrefs.isFilteringEnabled)
-    }
-
-    private fun showPrivacyPolicy(view: View) {
-        val intent = try {
-            Intent().apply {
-                action = Intent.ACTION_VIEW
-                addCategory(Intent.CATEGORY_BROWSABLE)
-                data = Uri.parse(view.context.resources.getString(R.string.privacy_policy_url))
-            }
-        } catch (e: NullPointerException) {
-            /* silent fail */
-            null
-        }
-
-        if (intent != null) {
-            ContextCompat.startActivity(view.context, intent, null)
-        } else {
-            Toast.makeText(view.context, "Privacy Policy is not available", Toast.LENGTH_LONG).show()
-        }
-    }
-
-    private fun updateMenuItemState(isEnabled: Boolean) {
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_espresso), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_aeropress), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_cold_brew), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_pour_over), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_syphon), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.brew_method_full_immersion), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_origin_single), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_origin_blend), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_light), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_medium), isEnabled)
-        enableMenuItems(binding.drawerList.menu.findItem(R.id.bean_roast_dark), isEnabled)
-    }
-
-    override fun onPostCreate(savedInstanceState: Bundle?) {
-        super.onPostCreate(savedInstanceState)
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        drawerToggle.syncState()
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        drawerToggle.onConfigurationChanged(newConfig)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-
-        menu.findItem(R.id.action_search).let {
-            viewModel.enableSearch(it.actionView as SearchView)
-            (it.actionView as SearchView).let {
-                it.setSearchableInfo((getSystemService(Context.SEARCH_SERVICE) as SearchManager).getSearchableInfo(componentName))
-                (it.findViewById(R.id.search_close_btn) as AppCompatImageView).setOnClickListener {
-                    viewModel.adapter.resetData()
-                    invalidateOptionsMenu()
-                }
-            }
-
-            it.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
-                override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
-                    viewModel.adapter.resetData()
-                    return true
-                }
-
-                override fun onMenuItemActionExpand(p0: MenuItem?) = true
-            })
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Activate the navigation drawer toggle
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
-
-    override fun onNewIntent(intent: Intent) {
-        handleIntent(intent)
-        super.onNewIntent(intent)
-    }
-
-    private fun handleIntent(intent: Intent) {
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            viewModel.adapter.filter.filter(query)
-        }
-    }
-
-    private fun updateFilterPreference(id: Int?, value: Boolean) {
-        when (id) {
-            R.id.brew_method_espresso -> filterPrefs.isInterestedInBrewMethodEspresso = value
-            R.id.brew_method_aeropress -> filterPrefs.isInterestedInBrewMethodAeropress = value
-            R.id.brew_method_cold_brew -> filterPrefs.isInterestedInBrewMethodColdBrew = value
-            R.id.brew_method_pour_over -> filterPrefs.isInterestedInBrewMethodPourOver = value
-            R.id.brew_method_syphon -> filterPrefs.isInterestedInBrewMethodSyphon = value
-            R.id.brew_method_full_immersion -> filterPrefs.isInterestedInBrewMethodFullImmersive = value
-            R.id.bean_origin_single -> filterPrefs.beanOriginType = BeanOriginType.SINGLE
-            R.id.bean_origin_blend -> filterPrefs.beanOriginType = BeanOriginType.BLEND
-            R.id.bean_roast_light -> filterPrefs.beanRoastType = BeanRoastType.LIGHT
-            R.id.bean_roast_medium -> filterPrefs.beanRoastType = BeanRoastType.MEDIUM
-            R.id.bean_roast_dark -> filterPrefs.beanRoastType = BeanRoastType.DARK
-        }
-        viewModel.adapter.resetData()
-    }
-
-    private fun enableMenuItems(menuItem: MenuItem, value: Boolean) {
-        menuItem.let {
-            it.isEnabled = value
-            (it.actionView as CompoundButton).isEnabled = value
-        }
-        viewModel.adapter.resetData()
     }
 
     companion object {

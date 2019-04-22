@@ -75,27 +75,9 @@
             android:name=".features.home.HomeActivity"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.TransparentActionBar">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
 
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".features.details.DetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="www.thirdwavelist.com"
-                    android:pathPattern="/cafe/*"
-                    android:scheme="https" />
             </intent-filter>
         </activity>
     </application>

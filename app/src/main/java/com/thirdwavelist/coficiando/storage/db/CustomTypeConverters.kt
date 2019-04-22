@@ -44,7 +44,7 @@ class CustomTypeConverters {
     fun toUUID(value: String): UUID = UUID.fromString(value)
 
     @TypeConverter
-    fun fromUri(value: Uri?): String = if (value == null) Uri.EMPTY.toString() else value.toString()
+    fun fromUri(value: Uri?): String = value?.toString() ?: Uri.EMPTY.toString()
 
     @TypeConverter
     fun toUri(value: String): Uri = Uri.parse(value)

@@ -44,7 +44,7 @@ import java.util.UUID
 @Dao
 interface CafeDao {
     @Query("select * from cafes")
-    fun getAll(): Flowable<List<CafeItem>>
+    fun getAll(): Single<List<CafeItem>>
 
     @Query("select * from cafes where id = :id limit 1")
     fun get(id: UUID): Single<CafeItem>

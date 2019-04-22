@@ -33,143 +33,53 @@
 package com.thirdwavelist.coficiando.features.home
 
 import android.net.Uri
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
+import androidx.recyclerview.widget.AsyncDifferConfig
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import com.thirdwavelist.coficiando.BR
 import com.thirdwavelist.coficiando.CafeItemBinding
 import com.thirdwavelist.coficiando.R
-import com.thirdwavelist.coficiando.storage.db.cafe.BeanOriginType
-import com.thirdwavelist.coficiando.storage.db.cafe.BeanRoastType
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.storage.sharedprefs.FilterPrefsManager
-import com.thirdwavelist.coficiando.storage.sharedprefs.UserPrefsManager
 
+val diffUtil = object : DiffUtil.ItemCallback<CafeItem>() {
+    override fun areItemsTheSame(oldItem: CafeItem, newItem: CafeItem) = oldItem.id == newItem.id
+    override fun areContentsTheSame(oldItem: CafeItem, newItem: CafeItem) = oldItem == newItem
+}
 
-class CafeAdapter(private val filterPrefs: FilterPrefsManager,
-                  private val userPrefs: UserPrefsManager)
-    : RecyclerView.Adapter<CafeAdapter.CafeItemViewHolder>(), Filterable {
-
-    private var itemClickListener: (position: Int) -> Unit = { _ -> run {} }
-
-    var initialData: MutableList<CafeItem>? = null
-        set(value) {
-            if (field == null && value != null && value.isNotEmpty()) {
-                field = value
-            }
-        }
-
-    var data = listOf<CafeItem>()
-        set(value) {
-            // FIXME: Move the diffUtil calculations to the background thread with RxJava
-            var newData = value
-            val currItems = data
-            if (userPrefs.isFilteringEnabled) {
-                newData = newData
-                    .filter {
-                        (it.brewInfo.hasEspresso == filterPrefs.isInterestedInBrewMethodEspresso ||
-                            it.brewInfo.hasAeropress == filterPrefs.isInterestedInBrewMethodAeropress ||
-                            it.brewInfo.hasPourOver == filterPrefs.isInterestedInBrewMethodPourOver ||
-                            it.brewInfo.hasColdBrew == filterPrefs.isInterestedInBrewMethodColdBrew ||
-                            it.brewInfo.hasSyphon == filterPrefs.isInterestedInBrewMethodSyphon ||
-                            it.brewInfo.hasFullImmersive == filterPrefs.isInterestedInBrewMethodFullImmersive) &&
-                            (it.beanInfo.hasSingleOrigin == (filterPrefs.beanOriginType == BeanOriginType.SINGLE) &&
-                                it.beanInfo.hasBlendOrigin == (filterPrefs.beanOriginType == BeanOriginType.BLEND) &&
-                                (it.beanInfo.hasLightRoast == (filterPrefs.beanRoastType == BeanRoastType.LIGHT) &&
-                                    it.beanInfo.hasMediumRoast == (filterPrefs.beanRoastType == BeanRoastType.MEDIUM) &&
-                                    it.beanInfo.hasDarkRoast == (filterPrefs.beanRoastType == BeanRoastType.DARK)))
-                    }
-            }
-
-            val diffResults = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
-                override fun getOldListSize() = currItems.size
-
-                override fun getNewListSize() = newData.size
-
-                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                    currItems[oldItemPosition] == newData[newItemPosition]
-
-                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
-                    currItems[oldItemPosition].id == newData[newItemPosition].id
-            })
-            field = newData
-            diffResults.dispatchUpdatesTo(this@CafeAdapter)
-
-        }
+class CafeAdapter : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(AsyncDifferConfig.Builder(diffUtil).build()) {
 
     override fun onBindViewHolder(holder: CafeItemViewHolder, position: Int) {
-        data[position].let {
-            holder.bind(CafeItemViewModel(title = it.name,
-                thumbnailUri = it.thumbnail,
-                hasEspresso = it.brewInfo.hasEspresso,
-                hasAeropress = it.brewInfo.hasAeropress,
-                hasColdBrew = it.brewInfo.hasColdBrew,
-                hasPourOver = it.brewInfo.hasPourOver,
-                hasSyphon = it.brewInfo.hasSyphon,
-                hasImmersive = it.brewInfo.hasFullImmersive))
+        getItem(position).let {
+            holder.bind(
+                CafeItemViewModel(
+                    title = it.name,
+                    address = it.address,
+                    thumbnailUri = it.thumbnail
+                )
+            )
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding: CafeItemBinding = DataBindingUtil.inflate(layoutInflater, R.layout.item_cafe, parent, false)
-        return CafeItemViewHolder(binding).also { it.setItemClickListener(itemClickListener) }
+        return CafeItemViewHolder(binding)
     }
 
-    override fun getItemCount() = data.size
-
-    override fun getFilter() = object : Filter() {
-        override fun performFiltering(charSequence: CharSequence?): FilterResults {
-            val results = mutableListOf<CafeItem>()
-            val searchQuery = charSequence?.toString() ?: ""
-            if (searchQuery.isNotEmpty()) {
-                initialData?.forEach {
-                    if (it.name.contains(searchQuery, ignoreCase = true)) results.add(it)
-                }
-            }
-
-            return FilterResults().also {
-                it.values = results
-                it.count = results.size
-            }
-        }
-
-        override fun publishResults(charSequence: CharSequence?, results: FilterResults?) {
-            if (results != null) {
-                data = results.values as List<CafeItem>
-            }
-        }
-    }
-
-    fun setItemClickListener(itemClickListener: (position: Int) -> Unit) {
-        this.itemClickListener = itemClickListener
-    }
-
-    fun getItem(position: Int) = data[position]
-
-    class CafeItemViewModel(title: String,
-                            thumbnailUri: Uri,
-                            hasEspresso: Boolean,
-                            hasAeropress: Boolean,
-                            hasColdBrew: Boolean,
-                            hasPourOver: Boolean,
-                            hasSyphon: Boolean,
-                            hasImmersive: Boolean) {
+    internal class CafeItemViewModel(
+        title: String,
+        address: String,
+        thumbnailUri: Uri
+    ) {
 
         val title = ObservableField<String>(title)
+        val address = ObservableField<String>(address)
         val thumbnail = ObservableField<Uri>(thumbnailUri)
-        val hasEspresso = ObservableBoolean(hasEspresso)
-        val hasAeropress = ObservableBoolean(hasAeropress)
-        val hasColdBrew = ObservableBoolean(hasColdBrew)
-        val hasPourOver = ObservableBoolean(hasPourOver)
-        val hasSyphon = ObservableBoolean(hasSyphon)
-        val hasImmersive = ObservableBoolean(hasImmersive)
     }
 
     class CafeItemViewHolder(private val binding: CafeItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -179,17 +89,5 @@ class CafeAdapter(private val filterPrefs: FilterPrefsManager,
             }
             binding.executePendingBindings()
         }
-
-        fun setItemClickListener(itemClickListener: (position: Int) -> Unit) {
-            binding.root.setOnClickListener {
-                if (adapterPosition != RecyclerView.NO_POSITION) {
-                    itemClickListener(adapterPosition)
-                }
-            }
-        }
-    }
-
-    fun resetData() {
-        data = initialData ?: listOf()
     }
 }

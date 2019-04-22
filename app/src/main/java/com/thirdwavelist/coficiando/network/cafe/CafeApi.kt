@@ -2,19 +2,24 @@
 
 package com.thirdwavelist.coficiando.network.cafe
 
+import androidx.annotation.Keep
+import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.model.value.GeoPointValue
-import com.google.firebase.firestore.model.value.ReferenceValue
-import com.google.firebase.firestore.model.value.StringValue
+import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.PropertyName
 import io.reactivex.Single
+import java.util.UUID
 
+@Keep
 data class CafeDto(
-    val name: StringValue,
-    val address: StringValue,
-    val city: ReferenceValue,
-    val googlePlacesId: StringValue,
-    val instagramId: StringValue,
-    val location: GeoPointValue
+    @Exclude val id: String = UUID.randomUUID().toString(),
+    @PropertyName("name") val name: String = "",
+    @PropertyName("address") val address: String = "",
+    @PropertyName("city") val city: DocumentReference? = null,
+    @PropertyName("google_place_id") val googlePlacesId: String = "",
+    @PropertyName("instagram_id") val instagramId: String = "",
+    @PropertyName("location") val location: GeoPoint = GeoPoint(0.0, 0.0)
 )
 
 inline class CafeId(val id: String)
@@ -30,24 +35,45 @@ internal class CafeApiImpl : CafeApi {
     val db = FirebaseFirestore.getInstance()
 
     override fun getCafes(): Single<List<CafeDto>> {
-        return Single.just(
+        return Single.create { emitter ->
             db.getCafes()
-                .result?.toObjects(CafeDto::class.java)
-        )
+                .addOnCompleteListener {
+                    val results = it.result?.toObjects(CafeDto::class.java)
+                    if (results != null) {
+                        emitter.onSuccess(results)
+                    } else {
+                        emitter.onError(Throwable(it.exception))
+                    }
+                }
+        }
     }
 
     override fun getCafes(cityId: CityId): Single<List<CafeDto>> {
-        return Single.just(
+        return Single.create { emitter ->
             db.getCafeFor(cityId)
-                .result?.toObjects(CafeDto::class.java)
-        )
+                .addOnCompleteListener {
+                    val results = it.result?.toObjects(CafeDto::class.java)
+                    if (results != null) {
+                        emitter.onSuccess(results)
+                    } else {
+                        emitter.onError(Throwable(it.exception))
+                    }
+                }
+        }
     }
 
     override fun getCafe(cafeId: CafeId): Single<CafeDto> {
-        return Single.just(
+        return Single.create { emitter ->
             db.getCafe(cafeId)
-                .result?.toObject(CafeDto::class.java)
-        )
+                .addOnCompleteListener {
+                    val results = it.result?.toObject(CafeDto::class.java)
+                    if (results != null) {
+                        emitter.onSuccess(results)
+                    } else {
+                        emitter.onError(Throwable(it.exception))
+                    }
+                }
+        }
     }
 
     private fun FirebaseFirestore.getCafeFor(cityId: CityId) = this.collection("cafe").whereEqualTo("city", cityId.id).get()

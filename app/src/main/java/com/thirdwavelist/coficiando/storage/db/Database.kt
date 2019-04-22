@@ -35,11 +35,21 @@ package com.thirdwavelist.coficiando.storage.db
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
 
-@Database(version = 1, entities = [CafeItem::class])
+@Database(version = 2, entities = [CafeItem::class])
 @TypeConverters(CustomTypeConverters::class)
 abstract class Database : RoomDatabase() {
     abstract fun cafeDao(): CafeDao
+
+    companion object Migrations {
+        @JvmStatic
+        val FROM_1_TO_2 = object : Migration(1, 2) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+            }
+        }
+    }
 }

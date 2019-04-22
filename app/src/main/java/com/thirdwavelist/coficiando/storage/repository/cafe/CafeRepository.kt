@@ -34,14 +34,11 @@
 
 package com.thirdwavelist.coficiando.storage.repository.cafe
 
-import com.thirdwavelist.coficiando.network.thirdwavelist.ThirdWaveListService
+import android.net.Uri
+import com.thirdwavelist.coficiando.network.cafe.CafeApi
 import com.thirdwavelist.coficiando.storage.Resource
-import com.thirdwavelist.coficiando.storage.db.cafe.BeanInfoItem
-import com.thirdwavelist.coficiando.storage.db.cafe.BrewInfoItem
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeDao
 import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.storage.db.cafe.GearInfoItem
-import com.thirdwavelist.coficiando.storage.db.cafe.SocialItem
 import com.thirdwavelist.coficiando.storage.repository.Repository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -52,42 +49,21 @@ import java.util.UUID
 import javax.inject.Inject
 
 class CafeRepository @Inject constructor(private val dao: CafeDao,
-                                         private val service: ThirdWaveListService) : Repository<CafeItem> {
+                                         private val service: CafeApi) : Repository<CafeItem> {
 
     override fun getAll(): Flowable<Resource<List<CafeItem>>> {
-        val local = dao.getAll()
+        val local = dao.getAll().toFlowable()
         val remote = service.getCafes()
 
         return createCombinedFlowable(local, remote, Function { response ->
             response
-                .filter { it.isValid() }
-                .map {
-                    CafeItem(id = it.id,
-                        name = it.name!!,
-                        thumbnail = it.thumbnail!!,
-                        social = SocialItem(facebookUri = if (it.socialFacebook != null && it.socialFacebook.toString().isNotBlank()) it.socialFacebook else null,
-                            instagramUri = if (it.socialInstagram != null && it.socialInstagram.toString().isNotBlank()) it.socialInstagram else null,
-                            homepageUri = if (it.socialWebsite != null && it.socialWebsite.toString().isNotBlank()) it.socialWebsite else null),
-                        googlePlaceId = it.googlePlaceId!!,
-                        gearInfo = GearInfoItem(espressoMachineName = it.gearEspressoMachine,
-                            grinderMachineName = it.gearGrinder),
-                        beanInfo = BeanInfoItem(origin = it.beanOrigin,
-                            roaster = it.beanRoaster,
-                            hasSingleOrigin = it.beanOriginSingle ?: false,
-                            hasBlendOrigin = it.beanOriginBlend ?: false,
-                            hasLightRoast = it.beanRoastLight ?: false,
-                            hasMediumRoast = it.beanRoastMedium ?: false,
-                            hasDarkRoast = it.beanRoastDark ?: false),
-                        brewInfo = BrewInfoItem(hasEspresso = it.doesServeEspresso ?: false,
-                            hasAeropress = it.doesServeAeropress ?: false,
-                            hasColdBrew = it.doesServeColdBrew ?: false,
-                            hasFullImmersive = it.doesServeFullImmersive ?: false,
-                            hasPourOver = it.doesServePourOver ?: false,
-                            hasSyphon = it.doesServeSyphon ?: false)
-                    )
-                }
+                .map { CafeItem(id = UUID.fromString(it.id),
+                    name = it.name,
+                    address = it.address,
+                    thumbnail = Uri.EMPTY /*it.thumbnail!!*/
+                ) }
                 .distinct()
-        }, { dao.insertAll(it) })
+        }) { dao.insertAll(it) }
     }
 
     override fun get(cafeId: UUID): Single<CafeItem> = dao.get(cafeId)
@@ -106,8 +82,8 @@ fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
 
     return Flowable.create<Resource<LocalType>>({ emitter ->
         emitter.setDisposable(local
-            .map({ Resource.loading(it) })
-            .subscribe({ emitter.onNext(it) }))
+            .map { Resource.loading(it) }
+            .subscribe { emitter.onNext(it) })
 
         remote.map(mapper)
             .subscribeOn(Schedulers.newThread())
@@ -115,8 +91,8 @@ fun <LocalType, RemoteType> createCombinedFlowable(local: Flowable<LocalType>,
             .subscribe({ localTypeData ->
                 persist(localTypeData)
                 emitter.setDisposable(local
-                    .map({ Resource.success(it) })
-                    .subscribe({ emitter.onNext(it) }))
+                    .map { Resource.success(it) }
+                    .subscribe { emitter.onNext(it) })
             }, { error ->
                 emitter.onNext(Resource.error(error))
             })

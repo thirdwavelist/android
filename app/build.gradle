@@ -44,7 +44,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 28
         versionCode 5
-        versionName "1.0.1"
+        versionName "1.1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles 'proguard-rules.pro'
         dataBinding.enabled = true
@@ -57,11 +57,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-Xlint:all"
     }
-
     tasks.withType(Test) {
         testLogging {
             exceptionFormat "full"
@@ -69,7 +67,6 @@ android {
             showStandardStreams true
         }
     }
-
     lintOptions {
         checkReleaseBuilds true
         quiet false
@@ -81,13 +78,19 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
+//    javaCompileOptions {
+//        annotationProcessorOptions { arguments = ["room.schemaLocation": "$projectDir/schemas".toString()] }
+//    }
+    sourceSets {
+        androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
+    }
     buildToolsVersion = '28.0.3'
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    kapt 'androidx.databinding:databinding-compiler:3.5.0-alpha11'
+    kapt 'androidx.databinding:databinding-compiler:3.5.0-alpha12'
 
     implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha04'
     implementation 'com.google.android.material:material:1.1.0-alpha05'
@@ -125,8 +128,10 @@ dependencies {
 
     testImplementation 'junit:junit:4.13-beta-2'
 
-    androidTestImplementation 'androidx.annotation:annotation:1.1.0-beta01'
-    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
+    androidTestImplementation 'androidx.annotation:annotation:1.0.2'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.room:room-testing:2.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

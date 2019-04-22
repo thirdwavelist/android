@@ -83,81 +83,22 @@
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"
-                tools:text="Title" />
+                tools:text="Budapest Cafe" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_margin="16dp"
                 android:orientation="horizontal"
                 card_view:layout_constraintStart_toStartOf="@+id/guideline"
                 card_view:layout_constraintTop_toBottomOf="@+id/title">
 
-                <ImageView
-                    android:id="@+id/has_espresso"
-                    android:layout_width="18dp"
-                    android:layout_height="18dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="16dp"
-                    android:background="@drawable/ic_espresso"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasEspresso}"
-                    android:contentDescription="@string/alt_item_cafe_espresso_icon" />
-
-                <ImageView
-                    android:id="@+id/has_pour_over"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/ic_pourover"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasPourOver}"
-                    android:contentDescription="@string/alt_item_cafe_pour_over_icon" />
-
-                <ImageView
-                    android:id="@+id/has_cold_brew"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/ic_coldbrew"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasColdBrew}"
-                    android:contentDescription="@string/alt_item_cafe_cold_brew_icon" />
-
-                <ImageView
-                    android:id="@+id/has_immersive"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/ic_immersive"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasImmersive}"
-                    android:contentDescription="@string/alt_item_cafe_immersive_icon" />
-
-                <ImageView
-                    android:id="@+id/has_aeropress"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/ic_aeropress"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasAeropress}"
-                    android:contentDescription="@string/alt_item_cafe_aeropress_icon" />
-
-                <ImageView
-                    android:id="@+id/has_syphon"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginStart="8dp"
-                    android:background="@drawable/ic_syphon"
-                    android:gravity="start"
-                    app:isVisible="@{viewModel.hasSyphon}"
-                    android:contentDescription="@string/alt_item_cafe_syphon_icon" />
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{viewModel.address}"
+                    tools:text="Puskin u. 20, 1088, Budapest"/>
 
             </LinearLayout>
 

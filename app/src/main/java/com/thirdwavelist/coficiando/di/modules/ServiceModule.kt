@@ -44,7 +44,7 @@ object ServiceModule {
     @Provides
     @Singleton
     @JvmStatic
-    internal fun provideCafeService(): CafeApi {
+    fun provideCafeService(): CafeApi {
         return CafeApiImpl()
     }
 }
