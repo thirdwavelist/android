@@ -42,7 +42,7 @@ import com.thirdwavelist.coficiando.storage.db.cafe.CafeItem
 import com.thirdwavelist.coficiando.storage.db.city.CityDao
 import com.thirdwavelist.coficiando.storage.db.city.CityItem
 
-@Database(version = 2, entities = [CafeItem::class, CityItem::class])
+@Database(version = 2, entities = [CafeItem::class, CityItem::class], exportSchema = true)
 @TypeConverters(CustomTypeConverters::class)
 abstract class Database : RoomDatabase() {
     abstract fun cafeDao(): CafeDao

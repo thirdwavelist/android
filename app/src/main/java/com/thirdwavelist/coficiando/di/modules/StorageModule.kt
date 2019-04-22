@@ -51,6 +51,7 @@ object StorageModule {
     @JvmStatic
     fun provideDatabase(@AppContext context: Context) =
         Room.databaseBuilder(context, Database::class.java, DB_NAME)
+            .addMigrations(FROM_1_TO_2)
             .fallbackToDestructiveMigrationFrom(1)
             .fallbackToDestructiveMigrationOnDowngrade()
             .build()

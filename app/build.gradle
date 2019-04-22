@@ -48,6 +48,9 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         proguardFiles 'proguard-rules.pro'
         dataBinding.enabled = true
+        javaCompileOptions {
+            annotationProcessorOptions { arguments = ["room.schemaLocation": "$projectDir/schemas".toString()] }
+        }
     }
     kotlin { experimental { coroutines 'enable' } }
     buildTypes {
@@ -78,9 +81,6 @@ android {
         sourceCompatibility = 1.8
         targetCompatibility = 1.8
     }
-//    javaCompileOptions {
-//        annotationProcessorOptions { arguments = ["room.schemaLocation": "$projectDir/schemas".toString()] }
-//    }
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
