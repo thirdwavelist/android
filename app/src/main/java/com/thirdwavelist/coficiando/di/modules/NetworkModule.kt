@@ -70,19 +70,19 @@ object NetworkModule {
     }
 
     private fun OkHttpClient.Builder.userAgent(userAgent: String): OkHttpClient.Builder {
-        addInterceptor { interceptor ->
+        this.addInterceptor { interceptor ->
             interceptor.proceed(interceptor.request().let { request ->
                 request.newBuilder()
-                    .header(USER_AGENT, userAgent)
-                    .method(request.method(), request.body())
-                    .build()
+                        .header(USER_AGENT, userAgent)
+                        .method(request.method, request.body)
+                        .build()
             })
         }
         return this
     }
 
     private fun OkHttpClient.Builder.cachePreference(@AppContext context: Context, cachePreference: CachePreference): OkHttpClient.Builder {
-        addNetworkInterceptor { interceptor ->
+        this.addNetworkInterceptor { interceptor ->
             interceptor.proceed(interceptor.request()).newBuilder().apply {
                 if (!context.isNetworkAvailable()) {
                     this.header(HEADER_CACHE_CONTROL, cachePreference.offlineCacheSettings)

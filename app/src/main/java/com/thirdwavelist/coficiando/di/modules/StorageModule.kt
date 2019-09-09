@@ -32,8 +32,8 @@
 
 package com.thirdwavelist.coficiando.di.modules
 
-import androidx.room.Room
 import android.content.Context
+import androidx.room.Room
 import com.thirdwavelist.coficiando.di.qualifiers.AppContext
 import com.thirdwavelist.coficiando.storage.db.Database
 import com.thirdwavelist.coficiando.storage.db.Database.Migrations.FROM_1_TO_2
@@ -50,11 +50,10 @@ object StorageModule {
     @Singleton
     @JvmStatic
     fun provideDatabase(@AppContext context: Context) =
-        Room.databaseBuilder(context, Database::class.java, DB_NAME)
-            .addMigrations(FROM_1_TO_2)
-            .fallbackToDestructiveMigrationFrom(1)
-            .fallbackToDestructiveMigrationOnDowngrade()
-            .build()
+            Room.databaseBuilder(context, Database::class.java, DB_NAME)
+                    .addMigrations(FROM_1_TO_2)
+                    .fallbackToDestructiveMigrationOnDowngrade()
+                    .build()
 
     @Provides
     @Singleton
