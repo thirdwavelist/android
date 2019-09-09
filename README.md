@@ -2,7 +2,7 @@
 
 <a href='https://play.google.com/store/apps/details?id=com.thirdwavelist.coficiando&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' width='150px' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
 
-[![CircleCI](https://img.shields.io/circleci/project/github/antalindisguise/thirdwavelist-android/master.svg?style=flat-square)](https://circleci.com/gh/anthonymonori/thirdwavelist-android/tree/master) [![license](https://img.shields.io/github/license/antalindisguise/thirdwavelist-android.svg?style=flat-square)](/LICENSE) [![GitHub last commit](https://img.shields.io/github/last-commit/antalindisguise/thirdwavelist-android.svg?style=flat-square)]()
+[![CircleCI](https://img.shields.io/circleci/project/github/thirdwavelist/thirdwavelist-android/master.svg?style=flat-square)](https://circleci.com/gh/thirdwavelist/thirdwavelist-android/tree/master) [![license](https://img.shields.io/github/license/thirdwavelist/thirdwavelist-android.svg?style=flat-square)](/LICENSE) [![GitHub last commit](https://img.shields.io/github/last-commit/thirdwavelist/thirdwavelist-android.svg?style=flat-square)]()
 
 ## Features
 
@@ -92,7 +92,7 @@ _See [app/build.gradle] for more._
 ```Text
 BSD 3-Clause License
 
-Copyright (c) 2017 - 2018, Antal János Monori
+Copyright (c) 2017 - 2019, Antal János Monori
 All rights reserved.
 ```
 
