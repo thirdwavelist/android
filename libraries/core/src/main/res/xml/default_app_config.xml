@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>key_api</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>endpoint_thirdwavelistapi</key>
+        <value>https://api.thirdwavelist.com/</value>
+    </entry>
+</defaultsMap>

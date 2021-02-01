@@ -34,6 +34,7 @@ captures/
 
 # Intellij
 *.iml
+.idea/
 .idea/workspace.xml
 .idea/tasks.xml
 .idea/gradle.xml
@@ -46,13 +47,9 @@ captures/
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
-
-# Freeline
-freeline.py
-freeline/
-freeline_project_description.json
-.idea/
+# Windows
 .DS_Store
-app/src/main/res/xml/default_app_config.xml
+
+# Custom
+/app/src/release/google-services.json
+/app/src/release/release-keystore.jks
