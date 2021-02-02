@@ -49,7 +49,3 @@ captures/
 
 # Windows
 .DS_Store
-
-# Custom
-/app/src/release/google-services.json
-/app/src/release/release-keystore.jks
