@@ -10,33 +10,33 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'com.google.firebase:firebase-config-ktx:20.0.2'
+    implementation platform("com.google.firebase:firebase-bom:${Versions.firebase_bom}")
+    implementation "com.google.firebase:firebase-config-ktx"
 
     implementation "com.google.dagger:hilt-android:${Versions.hilt}"
     kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
-    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.google.code.gson:gson:${Versions.gson}"
 
-    implementation 'com.squareup.okhttp3:okhttp:3.14.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
 
-    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.5.0'
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
 
-    kapt 'androidx.room:room-compiler:2.1.0'
-    implementation 'androidx.room:room-runtime:2.1.0'
-    implementation 'androidx.room:room-rxjava2:2.1.0'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0-alpha04'
-    implementation 'androidx.lifecycle:lifecycle-reactivestreams-ktx:2.1.0-alpha04'
+    kapt "androidx.room:room-compiler:${Versions.room}"
+    implementation "androidx.room:room-runtime:${Versions.room}"
+    implementation "androidx.room:room-rxjava2:${Versions.room}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "io.reactivex.rxjava2:rxjava:${Versions.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Versions.rxandroid}"
 
-    kapt 'com.github.bumptech.glide:compiler:4.9.0'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.9.0'
+    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
+    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
 
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation "junit:junit:${Versions.junit}"
 }

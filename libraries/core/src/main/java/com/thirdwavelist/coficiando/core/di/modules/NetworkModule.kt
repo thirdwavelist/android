@@ -32,23 +32,23 @@ object NetworkModule {
     @Singleton
     internal fun provideGson(): Gson {
         return GsonBuilder()
-            .registerTypeAdapter(Uri::class.java, object : TypeAdapter<Uri?>() {
-                override fun write(to: JsonWriter, value: Uri?) {
-                    to.value(value.toString());
-                }
+                .registerTypeAdapter(Uri::class.java, object : TypeAdapter<Uri?>() {
+                    override fun write(to: JsonWriter, value: Uri?) {
+                        to.value(value.toString());
+                    }
 
-                override fun read(from: JsonReader): Uri? {
-                    if (from.peek() == JsonToken.NULL) {
-                        from.nextNull();
-                        return null;
+                    override fun read(from: JsonReader): Uri? {
+                        if (from.peek() == JsonToken.NULL) {
+                            from.nextNull();
+                            return null;
+                        }
+                        from.nextString().let {
+                            return if (it.isEmpty()) Uri.EMPTY else Uri.parse(it);
+                        }
                     }
-                    from.nextString().let {
-                        return if (it.isEmpty()) Uri.EMPTY else Uri.parse(it);
-                    }
-                }
-            })
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create()
+                })
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                .create()
     }
 
     @Provides
@@ -57,7 +57,7 @@ object NetworkModule {
         return OkHttpClient.Builder()
                 .debuggable(BuildConfig.DEBUG)
                 .userAgent("Coficiando/Android")
-                .cachePreference(context, cachePreference)
+                .cachePreference(cachePreference)
                 .cache(cache)
                 .build()
     }
@@ -73,23 +73,18 @@ object NetworkModule {
         addInterceptor { interceptor ->
             interceptor.proceed(interceptor.request().let { request ->
                 request.newBuilder()
-                    .header(USER_AGENT, userAgent)
-                    .method(request.method(), request.body())
-                    .build()
+                        .header(USER_AGENT, userAgent)
+                        .method(request.method(), request.body())
+                        .build()
             })
         }
         return this
     }
 
-    private fun OkHttpClient.Builder.cachePreference(@ApplicationContext context: Context, cachePreference: CachePreference): OkHttpClient.Builder {
+    private fun OkHttpClient.Builder.cachePreference(cachePreference: CachePreference): OkHttpClient.Builder {
         addNetworkInterceptor { interceptor ->
             interceptor.proceed(interceptor.request()).newBuilder().apply {
-                // TODO: Revisit this
-//                if (!context.isNetworkAvailable()) {
-//                    this.header(HEADER_CACHE_CONTROL, cachePreference.offlineCacheSettings)
-//                } else {
-//                    this.header(HEADER_CACHE_CONTROL, cachePreference.onlineCacheSettings)
-//                }
+                this.header(HEADER_CACHE_CONTROL, cachePreference.onlineCacheSettings)
             }.build()
         }
         return this

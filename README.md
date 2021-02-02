@@ -43,7 +43,7 @@ _More info to come here._
 ## Architecture
 
 The app is currently modularized by features and libraries: 
-<img src='app/dependency-graph.png' />
+<img src='app/dependency-graph.svg' />
 
 ## License
 

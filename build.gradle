@@ -5,12 +5,11 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha04'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.21"
-        classpath 'com.google.gms:google-services:4.3.4'
-        classpath 'com.google.firebase:firebase-plugins:1.2.0'
-        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.3.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        classpath "com.google.gms:google-services:${Versions.google_services}"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics_gradle}"
         classpath "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:2.0.0"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_components}"
     }
 }
 
