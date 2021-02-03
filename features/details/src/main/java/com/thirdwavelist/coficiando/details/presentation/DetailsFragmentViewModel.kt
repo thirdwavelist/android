@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.details
+package com.thirdwavelist.coficiando.details.presentation
 
 import android.content.Intent
 import android.net.Uri
@@ -7,20 +7,17 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.core.data.db.cafe.availableOriginTypes
-import com.thirdwavelist.coficiando.core.data.db.cafe.availableRoastTypes
-import com.thirdwavelist.coficiando.core.data.repository.Repository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableOriginTypes
+import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableRoastTypes
+import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
+import com.thirdwavelist.coficiando.details.domain.GetCafeUseCase
 import java.util.UUID
 
-class DetailsFragmentViewModel(private val repository: Repository<CafeItem>) : ViewModel() {
+class DetailsFragmentViewModel(private val getCafeUseCase: GetCafeUseCase) : ViewModel() {
+
     val name = ObservableField("")
     val thumbnail = ObservableField(Uri.EMPTY)
-    val googlePlaceId = ObservableField("")
+    private val googlePlaceId = ObservableField("")
     val espressoMachineName = ObservableField("")
     val grinderMachineName = ObservableField("")
     val availableBeanOrigin = ObservableField("")
@@ -33,12 +30,11 @@ class DetailsFragmentViewModel(private val repository: Repository<CafeItem>) : V
     val hasImmersive = ObservableBoolean()
     val isFinishedLoading = ObservableBoolean()
     val hasFacebook = ObservableBoolean()
-    val facebookUri = ObservableField(Uri.EMPTY)
+    private val facebookUri = ObservableField(Uri.EMPTY)
     val hasInstagram = ObservableBoolean()
-    val instagramUri = ObservableField(Uri.EMPTY)
+    private val instagramUri = ObservableField(Uri.EMPTY)
     val hasWebsite = ObservableBoolean()
-    val websiteUri = ObservableField(Uri.EMPTY)
-    val isError = ObservableBoolean()
+    private val websiteUri = ObservableField(Uri.EMPTY)
 
     fun mapAction(view: View) {
         val intent = Intent().apply {
@@ -76,51 +72,36 @@ class DetailsFragmentViewModel(private val repository: Repository<CafeItem>) : V
         startActivity(view.context, intent, null)
     }
 
-    private val disposables = CompositeDisposable()
-
-    private operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
-        add(disposable)
-    }
-
     fun loadCafe(cafeId: UUID) {
-        disposables += repository
-            .get(cafeId)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                {
-                    /* onSuccess */
-                    handleResponse(it)
-                    isFinishedLoading.set(true)
-                    isError.set(false)
-                },
-                {
-                    /* onError */
-                    handleError()
-                    isFinishedLoading.set(true)
-                    isError.set(true)
-                }
-            )
+        getCafeUseCase.withParams(cafeId).execute {
+            onComplete {
+                handleResponse(it)
+            }
+            onError {
+                handleError()
+            }
+        }
     }
 
     private fun handleError() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO("Not yet implemented")
     }
 
-    private fun handleResponse(it: CafeItem) {
+    private fun handleResponse(it: CafeItem?) {
+        if (it == null) return
         name.set(it.name)
-        thumbnail.set(it.thumbnail)
+        thumbnail.set(Uri.parse(it.thumbnail))
         googlePlaceId.set(it.googlePlaceId)
         espressoMachineName.set(it.gearInfo.espressoMachineName)
         grinderMachineName.set(it.gearInfo.grinderMachineName)
         availableBeanOrigin.set(it.beanInfo.availableOriginTypes())
         availableBeanRoast.set(it.beanInfo.availableRoastTypes())
-        hasFacebook.set(it.social.facebookUri != Uri.EMPTY)
-        facebookUri.set(it.social.facebookUri ?: Uri.EMPTY)
-        hasInstagram.set(it.social.instagramUri != Uri.EMPTY)
-        instagramUri.set(it.social.instagramUri ?: Uri.EMPTY)
-        hasWebsite.set(it.social.homepageUri != Uri.EMPTY)
-        websiteUri.set(it.social.homepageUri ?: Uri.EMPTY)
+        hasFacebook.set(it.social.facebookUri.isNullOrBlank())
+        facebookUri.set(if (it.social.facebookUri != null) Uri.parse(it.social.facebookUri) else Uri.EMPTY)
+        hasInstagram.set(it.social.instagramUri.isNullOrBlank())
+        instagramUri.set(if (it.social.instagramUri != null) Uri.parse(it.social.instagramUri) else Uri.EMPTY)
+        hasWebsite.set(it.social.homepageUri.isNullOrBlank())
+        websiteUri.set(if (it.social.homepageUri != null) Uri.parse(it.social.homepageUri) else Uri.EMPTY)
         hasEspresso.set(it.brewInfo.hasEspresso)
         hasAeropress.set(it.brewInfo.hasAeropress)
         hasColdBrew.set(it.brewInfo.hasColdBrew)

@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.home
+package com.thirdwavelist.coficiando.home.presentation
 
 import android.content.Context
 import android.content.res.Configuration
@@ -11,8 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.core.data.repository.cafe.CafeRepository
+import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
+import com.thirdwavelist.coficiando.home.HomeFragmentBinding
+import com.thirdwavelist.coficiando.home.R
+import com.thirdwavelist.coficiando.home.domain.GetAllCafesUseCase
 import com.thirdwavelist.coficiando.navigation.NavigationFlow
 import com.thirdwavelist.coficiando.navigation.NavigationOrchestrator
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,10 +29,11 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private val viewModel: HomeFragmentViewModel by lazy { HomeFragmentViewModel(cafeRepository, CafeAdapter(onItemClickListener)) }
+    private val viewModel: HomeFragmentViewModel by lazy { HomeFragmentViewModel(getAllCafesUseCase, CafeAdapter(onItemClickListener)) }
     private lateinit var binding: HomeFragmentBinding
+
     @Inject
-    lateinit var cafeRepository: CafeRepository
+    lateinit var getAllCafesUseCase: GetAllCafesUseCase
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false)
@@ -52,10 +55,5 @@ class HomeFragment : Fragment() {
             resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT -> LinearLayoutManager(context)
             else -> GridLayoutManager(context, 2)
         }
-    }
-
-    override fun onStop() {
-        viewModel.dispose()
-        super.onStop()
     }
 }

@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core.data.db.cafe
+package com.thirdwavelist.coficiando.core.domain.cafe
 
 data class BrewInfoItem(val hasEspresso: Boolean,
                         val hasAeropress: Boolean,

@@ -2,6 +2,7 @@ package com.thirdwavelist.coficiando.core.data
 
 enum class Status { SUCCESS, ERROR, LOADING }
 
+// TODO: Rewrite this as sealed class representing view state
 data class Resource<out T>(
         val status: Status,
         val data: T? = null,

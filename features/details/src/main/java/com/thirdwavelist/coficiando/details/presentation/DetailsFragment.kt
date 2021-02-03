@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.details
+package com.thirdwavelist.coficiando.details.presentation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
-import com.thirdwavelist.coficiando.core.data.repository.cafe.CafeRepository
+import com.thirdwavelist.coficiando.details.DetailsFragmentBinding
+import com.thirdwavelist.coficiando.details.R
+import com.thirdwavelist.coficiando.details.domain.GetCafeUseCase
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 import javax.inject.Inject
@@ -17,10 +19,11 @@ import javax.inject.Inject
 class DetailsFragment : Fragment() {
 
     private lateinit var binding: DetailsFragmentBinding
-    private val viewModel: DetailsFragmentViewModel by lazy { DetailsFragmentViewModel(cafeRepository) }
+    private val viewModel: DetailsFragmentViewModel by lazy { DetailsFragmentViewModel(getCafeUseCase) }
     private val args: DetailsFragmentArgs by navArgs()
+
     @Inject
-    lateinit var cafeRepository: CafeRepository
+    lateinit var getCafeUseCase: GetCafeUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

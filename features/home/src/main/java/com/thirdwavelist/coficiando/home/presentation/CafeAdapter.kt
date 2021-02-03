@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.home
+package com.thirdwavelist.coficiando.home.presentation
 
 import android.net.Uri
 import android.view.LayoutInflater
@@ -10,7 +10,10 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
+import com.thirdwavelist.coficiando.home.BR
+import com.thirdwavelist.coficiando.home.CafeItemBinding
+import com.thirdwavelist.coficiando.home.R
 
 private val diffUtil = object : DiffUtil.ItemCallback<CafeItem>() {
     override fun areItemsTheSame(oldItem: CafeItem, newItem: CafeItem): Boolean {
@@ -33,7 +36,7 @@ class CafeAdapter(private val onItemClickListener: OnItemSelectedListener) : Lis
     override fun onBindViewHolder(holder: CafeItemViewHolder, position: Int) {
         getItem(position).let {
             val viewModel = CafeItemViewModel(title = it.name,
-                    thumbnailUri = it.thumbnail,
+                    thumbnailUri = Uri.parse(it.thumbnail),
                     hasEspresso = it.brewInfo.hasEspresso,
                     hasAeropress = it.brewInfo.hasAeropress,
                     hasColdBrew = it.brewInfo.hasColdBrew,

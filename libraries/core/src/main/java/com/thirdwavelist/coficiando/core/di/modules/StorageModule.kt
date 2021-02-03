@@ -2,8 +2,8 @@ package com.thirdwavelist.coficiando.core.di.modules
 
 import android.content.Context
 import androidx.room.Room
+import com.thirdwavelist.coficiando.core.data.db.CafeDao
 import com.thirdwavelist.coficiando.core.data.db.Database
-import com.thirdwavelist.coficiando.core.data.db.cafe.CafeDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

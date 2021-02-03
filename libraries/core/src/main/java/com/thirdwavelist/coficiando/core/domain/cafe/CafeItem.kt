@@ -1,6 +1,5 @@
-package com.thirdwavelist.coficiando.core.data.db.cafe
+package com.thirdwavelist.coficiando.core.domain.cafe
 
-import android.net.Uri
 import androidx.room.ColumnInfo
 import androidx.room.Embedded
 import androidx.room.Entity
@@ -15,7 +14,7 @@ data class CafeItem(
         @ColumnInfo(name = "name")
         val name: String,
         @ColumnInfo(name = "thumb")
-        val thumbnail: Uri,
+        val thumbnail: String,
         @Embedded
         val social: SocialItem,
         @ColumnInfo(name = "place_id")

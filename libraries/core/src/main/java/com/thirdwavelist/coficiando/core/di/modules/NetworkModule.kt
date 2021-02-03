@@ -74,7 +74,7 @@ object NetworkModule {
             interceptor.proceed(interceptor.request().let { request ->
                 request.newBuilder()
                         .header(USER_AGENT, userAgent)
-                        .method(request.method(), request.body())
+                        .method(request.method, request.body)
                         .build()
             })
         }

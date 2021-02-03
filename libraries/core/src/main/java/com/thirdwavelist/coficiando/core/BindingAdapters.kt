@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando
+package com.thirdwavelist.coficiando.core
 
 import android.animation.ObjectAnimator
 import android.net.Uri
