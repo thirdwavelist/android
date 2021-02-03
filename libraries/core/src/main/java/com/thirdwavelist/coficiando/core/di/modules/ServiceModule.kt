@@ -2,8 +2,8 @@ package com.thirdwavelist.coficiando.core.di.modules
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.gson.Gson
+import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
 import com.thirdwavelist.coficiando.core.di.qualifiers.ApiKey
-import com.thirdwavelist.coficiando.core.network.thirdwavelist.ThirdWaveListService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

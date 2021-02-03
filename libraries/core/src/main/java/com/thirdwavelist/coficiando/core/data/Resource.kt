@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core.storage
+package com.thirdwavelist.coficiando.core.data
 
 enum class Status { SUCCESS, ERROR, LOADING }
 

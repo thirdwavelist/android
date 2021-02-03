@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core.storage.db.cafe
+package com.thirdwavelist.coficiando.core.data.db.cafe
 
 data class BeanInfoItem(val origin: String?,
                         val roaster: String?,

@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core.storage.db
+package com.thirdwavelist.coficiando.core.data.db
 
 import android.net.Uri
 import androidx.room.TypeConverter

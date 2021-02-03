@@ -1,11 +1,11 @@
 @file:Suppress("PARAMETER_NAME_CHANGED_ON_OVERRIDE")
 
-package com.thirdwavelist.coficiando.core.storage.repository.cafe
+package com.thirdwavelist.coficiando.core.data.repository.cafe
 
-import com.thirdwavelist.coficiando.core.network.thirdwavelist.ThirdWaveListService
-import com.thirdwavelist.coficiando.core.storage.Resource
-import com.thirdwavelist.coficiando.core.storage.db.cafe.*
-import com.thirdwavelist.coficiando.core.storage.repository.Repository
+import com.thirdwavelist.coficiando.core.data.Resource
+import com.thirdwavelist.coficiando.core.data.db.cafe.*
+import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
+import com.thirdwavelist.coficiando.core.data.repository.Repository
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Single

@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.thirdwavelist.coficiando.core.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.core.storage.repository.cafe.CafeRepository
+import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.data.repository.cafe.CafeRepository
 import com.thirdwavelist.coficiando.navigation.NavigationFlow
 import com.thirdwavelist.coficiando.navigation.NavigationOrchestrator
 import dagger.hilt.android.AndroidEntryPoint

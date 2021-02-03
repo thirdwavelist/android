@@ -30,27 +30,6 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package com.thirdwavelist.coficiando.core.network.thirdwavelist
+package com.thirdwavelist.coficiando.core.data.network
 
-import io.reactivex.Single
-import retrofit2.http.*
-import java.util.UUID
-
-interface ThirdWaveListService {
-
-    @Headers("Accept: application/json")
-    @GET("/v1/cafe")
-    fun getCafes(): Single<List<ThirdWaveListCafeItem>>
-
-    @Headers("Accept: application/json")
-    @POST("/v1/cafe")
-    fun postCafe(@Body cafeItem: ThirdWaveListCafeItem)
-
-    @Headers("Accept: application/json")
-    @GET("/v1/cafe/{uid}")
-    fun getCafe(@Path("uid") id: UUID): Single<ThirdWaveListCafeItem>
-
-    @Headers("Accept: application/json")
-    @DELETE("/v1/cafe/{uid}")
-    fun deleteCafe(@Path("uid") id: UUID, @Body cafeItem: ThirdWaveListCafeItem)
-}
+data class CachePreference(val offlineCacheSettings: String, val onlineCacheSettings: String)

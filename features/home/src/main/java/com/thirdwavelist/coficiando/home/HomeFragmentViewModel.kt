@@ -1,10 +1,10 @@
 package com.thirdwavelist.coficiando.home
 
 import androidx.lifecycle.ViewModel
-import com.thirdwavelist.coficiando.core.storage.Resource
-import com.thirdwavelist.coficiando.core.storage.Status
-import com.thirdwavelist.coficiando.core.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.core.storage.repository.Repository
+import com.thirdwavelist.coficiando.core.data.Resource
+import com.thirdwavelist.coficiando.core.data.Status
+import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.data.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -10,7 +10,7 @@ import androidx.databinding.ObservableField
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.thirdwavelist.coficiando.core.storage.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
 
 private val diffUtil = object : DiffUtil.ItemCallback<CafeItem>() {
     override fun areItemsTheSame(oldItem: CafeItem, newItem: CafeItem): Boolean {

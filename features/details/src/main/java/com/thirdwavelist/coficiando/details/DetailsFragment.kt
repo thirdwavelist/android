@@ -8,7 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
-import com.thirdwavelist.coficiando.core.storage.repository.cafe.CafeRepository
+import com.thirdwavelist.coficiando.core.data.repository.cafe.CafeRepository
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.UUID
 import javax.inject.Inject

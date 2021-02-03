@@ -7,10 +7,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
-import com.thirdwavelist.coficiando.core.storage.db.cafe.CafeItem
-import com.thirdwavelist.coficiando.core.storage.db.cafe.availableOriginTypes
-import com.thirdwavelist.coficiando.core.storage.db.cafe.availableRoastTypes
-import com.thirdwavelist.coficiando.core.storage.repository.Repository
+import com.thirdwavelist.coficiando.core.data.db.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.data.db.cafe.availableOriginTypes
+import com.thirdwavelist.coficiando.core.data.db.cafe.availableRoastTypes
+import com.thirdwavelist.coficiando.core.data.repository.Repository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable

@@ -10,7 +10,7 @@ import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import com.thirdwavelist.coficiando.core.BuildConfig
-import com.thirdwavelist.coficiando.core.network.CachePreference
+import com.thirdwavelist.coficiando.core.data.network.CachePreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,6 +1,6 @@
-package com.thirdwavelist.coficiando.core.storage.repository
+package com.thirdwavelist.coficiando.core.data.repository
 
-import com.thirdwavelist.coficiando.core.storage.Resource
+import com.thirdwavelist.coficiando.core.data.Resource
 import io.reactivex.Flowable
 import io.reactivex.Single
 import java.util.UUID
