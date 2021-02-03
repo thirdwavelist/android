@@ -1,64 +1,9 @@
-<!--
-  ~ BSD 3-Clause License
-  ~
-  ~ Copyright (c) 2017, Antal János Monori
-  ~ All rights reserved.
-  ~
-  ~ Redistribution and use in source and binary forms, with or without
-  ~ modification, are permitted provided that the following conditions are met:
-  ~
-  ~ * Redistributions of source code must retain the above copyright notice, this
-  ~   list of conditions and the following disclaimer.
-  ~
-  ~ * Redistributions in binary form must reproduce the above copyright notice,
-  ~   this list of conditions and the following disclaimer in the documentation
-  ~   and/or other materials provided with the distribution.
-  ~
-  ~ * Neither the name of the copyright holder nor the names of its
-  ~   contributors may be used to endorse or promote products derived from
-  ~   this software without specific prior written permission.
-  ~
-  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  ~ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  ~ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  ~ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  ~ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  ~ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  ~ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  ~ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  ~ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  ~ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ThirdWaveList</string>
     <string name="search_hint">Search by name…</string>
 
     <string name="action_search">Search</string>
-
-    <string name="alt_bean_info_icon">Bean information</string>
-    <string name="alt_espresso_machine_icon">Espresso machine</string>
-    <string name="alt_grinder_machine_icon">Grinder</string>
-    <string name="alt_detail_thumbnail">Thumbnail</string>
-    <string name="alt_syphon_icon">Syphon</string>
-    <string name="alt_aeropress_icon">Aeropress</string>
-    <string name="alt_full_immersive_icon">Full immersive</string>
-    <string name="alt_cold_brew_icon">Cold brew</string>
-    <string name="alt_pour_over_icon">Pour over</string>
-    <string name="alt_espresso_icon">Espresso</string>
-    <string name="alt_item_cafe_thumbnail">Thumbnail</string>
-    <string name="alt_item_cafe_espresso_icon">Espresso</string>
-    <string name="alt_item_cafe_pour_over_icon">Pour over</string>
-    <string name="alt_item_cafe_cold_brew_icon">Cold brew</string>
-    <string name="alt_item_cafe_immersive_icon">Immersive</string>
-    <string name="alt_item_cafe_aeropress_icon">Aeropress</string>
-    <string name="alt_item_cafe_syphon_icon">Syphon</string>
-
-    <string name="instagram_button_label">Instagram</string>
-    <string name="website_button_label">Website</string>
-    <string name="facebook_button_label">Facebook</string>
-
-    <string name="details_brew_method_headline">Available brewing methods:</string>
 
     <string name="drawer_switch_city">City</string>
     <string name="drawer_brew_method">Brew method</string>
@@ -82,4 +27,6 @@
     <string name="privacy_policy_label">Privacy Policy</string>
     <string name="privacy_policy_url">https://thirdwavelist.com/privacy-policy</string>
     <string name="default_city_name">Budapest</string>
+    <string name="title_details">Details</string>
+    <string name="title_home">Home</string>
 </resources>

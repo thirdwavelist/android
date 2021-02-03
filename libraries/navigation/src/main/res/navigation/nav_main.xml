@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/flow_main"
+    >
+
+    <include app:graph="@navigation/flow_main" />
+
+    <include app:graph="@navigation/flow_home" />
+
+    <include app:graph="@navigation/flow_details" />
+
+    <action
+        android:id="@+id/action_global_home_flow"
+        app:destination="@id/flow_home"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        app:popUpTo="@id/nav_main"
+        app:popUpToInclusive="true"
+        />
+
+    <action
+        android:id="@+id/action_global_details_flow"
+        app:destination="@id/flow_details"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        >
+
+        <argument
+            android:name="id"
+            app:argType="string"
+            />
+
+    </action>
+</navigation>

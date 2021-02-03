@@ -1,0 +1,42 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    buildFeatures.dataBinding true
+}
+
+dependencies {
+    implementation platform("com.google.firebase:firebase-bom:${Versions.firebase_bom}")
+    implementation "com.google.firebase:firebase-config-ktx"
+
+    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
+    kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+
+    implementation "com.google.code.gson:gson:${Versions.gson}"
+
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${Versions.retrofit}"
+
+    kapt "androidx.room:room-compiler:${Versions.room}"
+    implementation "androidx.room:room-runtime:${Versions.room}"
+    implementation "androidx.room:room-rxjava2:${Versions.room}"
+    implementation "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
+
+    implementation "io.reactivex.rxjava2:rxjava:${Versions.rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${Versions.rxandroid}"
+
+    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
+    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
+
+    testImplementation "junit:junit:${Versions.junit}"
+}

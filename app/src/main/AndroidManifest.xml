@@ -1,46 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ BSD 3-Clause License
-  ~
-  ~ Copyright (c) 2017, Antal János Monori
-  ~ All rights reserved.
-  ~
-  ~ Redistribution and use in source and binary forms, with or without
-  ~ modification, are permitted provided that the following conditions are met:
-  ~
-  ~ * Redistributions of source code must retain the above copyright notice, this
-  ~   list of conditions and the following disclaimer.
-  ~
-  ~ * Redistributions in binary form must reproduce the above copyright notice,
-  ~   this list of conditions and the following disclaimer in the documentation
-  ~   and/or other materials provided with the distribution.
-  ~
-  ~ * Neither the name of the copyright holder nor the names of its
-  ~   contributors may be used to endorse or promote products derived from
-  ~   this software without specific prior written permission.
-  ~
-  ~ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  ~ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  ~ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  ~ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  ~ FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  ~ DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  ~ SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  ~ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  ~ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  ~ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.thirdwavelist.coficiando">
 
     <application
         android:name=".MainApplication"
-        android:allowBackup="true"
-        android:backupAgent=".storage.sharedprefs.SharedPrefsBackupAgent"
-        android:fullBackupContent="@xml/my_backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:restoreAnyVersion="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -53,7 +18,7 @@
             android:value="AEdPqrEAAAAI-mc3nWw56Xiev1nL4p2AGzK_0KiwQ0hRNzXoIQ" />
 
         <activity
-            android:name=".features.launcher.LauncherActivity"
+            android:name=".MainActivity"
             android:theme="@style/AppTheme.Launcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -69,28 +34,6 @@
                 <data
                     android:host="www.thirdwavelist.com"
                     android:scheme="https" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".features.home.HomeActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/AppTheme.TransparentActionBar">
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-
-            <intent-filter>
-                <action android:name="android.intent.action.SEARCH" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".features.details.DetailsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
                     android:host="www.thirdwavelist.com"
@@ -98,6 +41,7 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
