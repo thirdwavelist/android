@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.thirdwavelist.coficiando.details.DetailsFragment"
+        android:name="com.thirdwavelist.coficiando.details.presentation.DetailsFragment"
         android:label="DetailsFragment"
         tools:layout="@layout/fragment_details"
         >

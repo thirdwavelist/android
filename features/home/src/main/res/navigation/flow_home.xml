@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.thirdwavelist.coficiando.home.HomeFragment"
+        android:name="com.thirdwavelist.coficiando.home.presentation.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
         />

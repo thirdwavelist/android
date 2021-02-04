@@ -13,6 +13,7 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // TODO: Fix potential leaks here
         view.findViewById<LottieAnimationView>(R.id.animation_view).addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator?) = Unit
 

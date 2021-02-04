@@ -2,10 +2,10 @@ package com.thirdwavelist.coficiando.core.di.modules
 
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.thirdwavelist.coficiando.core.R
+import com.thirdwavelist.coficiando.core.data.network.CachePreference
 import com.thirdwavelist.coficiando.core.di.qualifiers.ApiKey
 import com.thirdwavelist.coficiando.core.di.qualifiers.CacheDuration
 import com.thirdwavelist.coficiando.core.di.qualifiers.CacheSize
-import com.thirdwavelist.coficiando.core.network.CachePreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

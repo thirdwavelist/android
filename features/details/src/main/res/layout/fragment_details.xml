@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.thirdwavelist.coficiando.details.DetailsFragmentViewModel"
+            type="com.thirdwavelist.coficiando.details.presentation.DetailsFragmentViewModel"
             />
 
     </data>

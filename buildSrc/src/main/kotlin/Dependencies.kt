@@ -8,9 +8,6 @@ object Config {
 }
 
 object Versions {
-    // JetBrains
-    const val kotlin = "1.4.21"
-
     // Airbnb
     const val lottie = "3.6.0"
 
@@ -39,13 +36,12 @@ object Versions {
     // Bump Technologies
     const val glide = "4.9.0"
 
-    // ReactiveX
-    const val rxjava = "2.2.8"
-    const val rxandroid = "2.1.1"
-
     // Square
-    const val okhttp = "3.14.1"
-    const val retrofit = "2.5.0"
+    const val okhttp = "4.3.1"
+    const val retrofit = "2.7.0"
+
+    // haroldadmin
+    const val network_adapter = "4.1.0"
 
     // JUnit Org
     const val junit = "4.13.1"
