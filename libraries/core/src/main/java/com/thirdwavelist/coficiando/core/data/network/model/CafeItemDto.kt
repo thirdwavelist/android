@@ -1,6 +1,5 @@
 package com.thirdwavelist.coficiando.core.data.network.model
 
-import android.net.Uri
 import com.google.gson.annotations.SerializedName
 import java.util.UUID
 
@@ -8,10 +7,10 @@ data class CafeItemDto(
         @SerializedName("uid") val id: UUID,
         @SerializedName("name") val name: String?,
         @SerializedName("title") val address: String?,
-        @SerializedName("extra_thumbnail") val thumbnail: Uri?,
-        @SerializedName("social_website") val socialWebsite: Uri?,
-        @SerializedName("social_facebook") val socialFacebook: Uri?,
-        @SerializedName("social_instagram") val socialInstagram: Uri?,
+        @SerializedName("extra_thumbnail") val thumbnail: String?,
+        @SerializedName("social_website") val socialWebsite: String?,
+        @SerializedName("social_facebook") val socialFacebook: String?,
+        @SerializedName("social_instagram") val socialInstagram: String?,
         @SerializedName("brew_method_espresso") val doesServeEspresso: Boolean?,
         @SerializedName("brew_method_coldbrew") val doesServeColdBrew: Boolean?,
         @SerializedName("brew_method_pourover") val doesServePourOver: Boolean?,
@@ -33,5 +32,5 @@ data class CafeItemDto(
         @SerializedName("extra_google_placeid") val googlePlaceId: String?
 ) {
     fun isValid() = !this.name.isNullOrBlank() &&
-            (this.thumbnail != null && this.thumbnail.scheme.equals("https", ignoreCase = true))
+            (this.thumbnail != null && this.thumbnail.startsWith("https", ignoreCase = true))
 }

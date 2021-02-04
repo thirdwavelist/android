@@ -7,6 +7,10 @@ plugins {
 
 android {
     buildFeatures.dataBinding true
+
+    packagingOptions {
+        exclude 'META-INF/**'
+    }
 }
 
 dependencies {
@@ -34,4 +38,15 @@ dependencies {
     implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
 
     testImplementation "junit:junit:${Versions.junit}"
+    testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
+    testImplementation "com.squareup.burst:burst-junit4:${Versions.burst}"
+
+    androidTestImplementation "junit:junit:${Versions.junit}"
+    androidTestImplementation "androidx.arch.core:core-testing:${Versions.arch_core}"
+    androidTestImplementation "androidx.test:core:${Versions.test_jetpack_core}"
+    androidTestImplementation "androidx.test:runner:${Versions.test_jetpack_runner}"
+    androidTestImplementation "androidx.test.ext:junit:${Versions.test_ext_junit}"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.test_coroutines}"
+    androidTestImplementation "org.assertj:assertj-core:${Versions.assertJ}"
+
 }

@@ -8,6 +8,9 @@ object Config {
 }
 
 object Versions {
+    // Jetbrains
+    const val test_coroutines = "1.4.2"
+
     // Airbnb
     const val lottie = "3.6.0"
 
@@ -32,6 +35,9 @@ object Versions {
     const val lifecycle = "2.2.0"
     const val espresso = "3.3.0"
     const val test_ext_junit = "1.1.2"
+    const val test_jetpack_core = "1.3.0"
+    const val test_jetpack_runner = "1.3.0"
+    const val arch_core = "2.1.0"
 
     // Bump Technologies
     const val glide = "4.9.0"
@@ -39,10 +45,14 @@ object Versions {
     // Square
     const val okhttp = "4.3.1"
     const val retrofit = "2.7.0"
+    const val burst = "1.2.0"
 
     // haroldadmin
     const val network_adapter = "4.1.0"
 
     // JUnit Org
     const val junit = "4.13.1"
+
+    // AssertJ
+    const val assertJ = "3.19.0"
 }
