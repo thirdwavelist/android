@@ -32,7 +32,6 @@ data class CafeItemDto(
         @SerializedName("price_doppio") val priceDoppio: String?,
         @SerializedName("extra_google_placeid") val googlePlaceId: String?
 ) {
-    // TODO: Move this to the mapper
     fun isValid() = !this.name.isNullOrBlank() &&
             (this.thumbnail != null && this.thumbnail.scheme.equals("https", ignoreCase = true))
 }
