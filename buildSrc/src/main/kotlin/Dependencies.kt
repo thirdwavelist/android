@@ -55,4 +55,10 @@ object Versions {
 
     // AssertJ
     const val assertJ = "3.19.0"
+
+    // Mockito
+    const val mockito_kotlin = "2.2.0"
+
+    // JakeWharton
+    const val timber = "4.7.1"
 }

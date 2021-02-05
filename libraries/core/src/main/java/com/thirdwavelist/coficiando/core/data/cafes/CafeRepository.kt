@@ -1,6 +1,5 @@
 package com.thirdwavelist.coficiando.core.data.cafes
 
-import android.util.Log
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.thirdwavelist.coficiando.core.Repository
 import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
@@ -8,6 +7,7 @@ import com.thirdwavelist.coficiando.core.data.db.CafeDao
 import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
 import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
 import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
+import timber.log.Timber
 import java.util.UUID
 import javax.inject.Inject
 
@@ -22,7 +22,7 @@ class CafeRepository @Inject constructor(
 
         val remote: List<CafeItemDto> = when (val result = service.getCafes()) {
             is NetworkResponse.Success -> {
-                Log.d("CafeRepository", "Successfully fetched latest cafes")
+                Timber.tag("CafeRepository").d("Successfully fetched latest cafes")
                 result.body
             }
             is NetworkResponse.ServerError -> {
@@ -42,9 +42,10 @@ class CafeRepository @Inject constructor(
         val mappedRemote = remote.filter { it.isValid() }.map(cafeMapper).distinct()
         if (mappedRemote.isNotEmpty() && mappedRemote != local) {
             dao.insertAll(mappedRemote)
+            return mappedRemote
         }
 
-        return mappedRemote
+        return local
     }
 
     override suspend fun get(uid: UUID): CafeItem? {
@@ -52,7 +53,7 @@ class CafeRepository @Inject constructor(
 
         val remote: CafeItemDto? = when (val result = service.getCafe(uid)) {
             is NetworkResponse.Success -> {
-                Log.d("CafeRepository", "Successfully fetched latest cafe with id: $uid")
+                Timber.tag("CafeRepository").d("Successfully fetched latest cafe with id: $uid")
                 result.body
             }
             is NetworkResponse.ServerError -> {
@@ -77,6 +78,6 @@ class CafeRepository @Inject constructor(
     }
 
     private fun handleNetworkError(throwable: Throwable) {
-        Log.e("CafeRepository", throwable.message, throwable)
+        Timber.tag("CafeRepository").e(throwable)
     }
 }

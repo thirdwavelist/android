@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core.data.cafes
+package com.thirdwavelist.coficiando.core
 
 import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
 import java.util.UUID
