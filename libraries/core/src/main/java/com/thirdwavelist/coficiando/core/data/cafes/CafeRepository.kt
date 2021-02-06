@@ -1,20 +1,26 @@
 package com.thirdwavelist.coficiando.core.data.cafes
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import com.thirdwavelist.coficiando.coreutils.Repository
 import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
 import com.thirdwavelist.coficiando.core.data.db.CafeDao
 import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
 import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
 import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
-import timber.log.Timber
+import com.thirdwavelist.coficiando.core.logging.BusinessEventLogger
+import com.thirdwavelist.coficiando.core.logging.ErrorEventLogger
+import com.thirdwavelist.coficiando.coreutils.Repository
+import com.thirdwavelist.coficiando.coreutils.logging.BusinessEvent
+import com.thirdwavelist.coficiando.coreutils.logging.ErrorEvent
+import com.thirdwavelist.coficiando.coreutils.logging.ErrorPriority
 import java.util.UUID
 import javax.inject.Inject
 
 class CafeRepository @Inject constructor(
         private val dao: CafeDao,
         private val service: ThirdWaveListService,
-        private val cafeMapper: CafeItemDtoToCafeEntityMapper
+        private val cafeMapper: CafeItemDtoToCafeEntityMapper,
+        private val businessEventLogger: BusinessEventLogger,
+        private val errorEventLogger: ErrorEventLogger
 ) : Repository<CafeItem> {
 
     override suspend fun getAll(): List<CafeItem> {
@@ -22,19 +28,25 @@ class CafeRepository @Inject constructor(
 
         val remote: List<CafeItemDto> = when (val result = service.getCafes()) {
             is NetworkResponse.Success -> {
-                Timber.tag("CafeRepository").d("Successfully fetched latest cafes")
+                businessEventLogger.log(BusinessEvent("CafeRepository_getAll_remote_success", mapOf(
+                        "message" to "Successfully fetched latest cafes via #getAll()",
+                        "cafeCount" to result.body.size
+                )))
                 result.body
             }
             is NetworkResponse.ServerError -> {
-                handleNetworkError(Throwable(result.body?.message ?: "Server error"))
+                errorEventLogger.log(
+                        ErrorEvent(ErrorPriority.HIGH, TAG, Throwable(result.body?.message
+                                ?: "Server error while calling #getAll()"))
+                )
                 emptyList()
             }
             is NetworkResponse.NetworkError -> {
-                handleNetworkError(result.error)
+                errorEventLogger.log(ErrorEvent(ErrorPriority.HIGH, TAG, result.error))
                 emptyList()
             }
             is NetworkResponse.UnknownError -> {
-                handleNetworkError(result.error)
+                errorEventLogger.log(ErrorEvent(ErrorPriority.HIGH, TAG, result.error))
                 emptyList()
             }
         }
@@ -53,31 +65,42 @@ class CafeRepository @Inject constructor(
 
         val remote: CafeItemDto? = when (val result = service.getCafe(uid)) {
             is NetworkResponse.Success -> {
-                Timber.tag("CafeRepository").d("Successfully fetched latest cafe with id: $uid")
+                businessEventLogger.log(
+                        BusinessEvent("CafeRepository_get_remote_success", mapOf(
+                                "message" to "Successfully fetched latest cafe with id: $uid",
+                                "cafeId" to uid
+                        )))
                 result.body
             }
             is NetworkResponse.ServerError -> {
-                handleNetworkError(Throwable(result.body?.message ?: "Server error"))
+                errorEventLogger.log(
+                        ErrorEvent(ErrorPriority.HIGH, TAG, Throwable(result.body?.message
+                                ?: "Server error while calling #get(UUID)"))
+                )
                 null
             }
             is NetworkResponse.NetworkError -> {
-                handleNetworkError(result.error)
+                errorEventLogger.log(ErrorEvent(ErrorPriority.HIGH, TAG, result.error))
                 null
             }
             is NetworkResponse.UnknownError -> {
-                handleNetworkError(result.error)
+                errorEventLogger.log(ErrorEvent(ErrorPriority.HIGH, TAG, result.error))
                 null
             }
         }
 
-        val mappedRemote: CafeItem? = if (remote != null && remote.isValid() && remote.equals(local).not()) {
-            cafeMapper(remote).also { dao.insert(it) }
+        val mappedRemote: CafeItem? = if (remote != null && remote.isValid()) {
+            cafeMapper(remote).also {
+                if (it != local) {
+                    dao.insert(it)
+                }
+            }
         } else null
 
         return mappedRemote ?: local
     }
 
-    private fun handleNetworkError(throwable: Throwable) {
-        Timber.tag("CafeRepository").e(throwable)
+    private companion object {
+        private const val TAG = "CafeRepository"
     }
 }
