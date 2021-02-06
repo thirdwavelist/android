@@ -6,7 +6,7 @@ import java.util.UUID
 data class CafeItemDto(
         @SerializedName("uid") val id: UUID,
         @SerializedName("name") val name: String?,
-        @SerializedName("title") val address: String?,
+        @SerializedName("address") val address: String?,
         @SerializedName("extra_thumbnail") val thumbnail: String?,
         @SerializedName("social_website") val socialWebsite: String?,
         @SerializedName("social_facebook") val socialFacebook: String?,

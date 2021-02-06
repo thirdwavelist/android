@@ -1,4 +1,4 @@
-package com.thirdwavelist.coficiando.core
+package com.thirdwavelist.coficiando.core.glide
 
 import android.animation.ObjectAnimator
 import android.net.Uri
@@ -10,9 +10,10 @@ import android.widget.TextView
 import androidx.databinding.BindingAdapter
 
 @BindingAdapter("image")
-fun setImage(imageView: ImageView, image: Uri) {
+fun setImage(imageView: ImageView, imageUri: Uri) {
+    if (imageUri == Uri.EMPTY) return
     GlideApp.with(imageView)
-            .load(image)
+            .load(imageUri)
             .into(imageView)
 }
 
