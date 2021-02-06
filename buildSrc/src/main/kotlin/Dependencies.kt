@@ -41,7 +41,7 @@ object Versions {
     const val arch_core = "2.1.0"
 
     // Bump Technologies
-    const val glide = "4.9.0"
+    const val glide = "4.12.0"
 
     // Square
     const val okhttp = "4.7.2"
