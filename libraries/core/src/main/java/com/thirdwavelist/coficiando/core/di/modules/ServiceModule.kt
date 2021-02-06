@@ -8,14 +8,14 @@ import com.thirdwavelist.coficiando.core.di.qualifiers.ApiKey
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class, ConfigurationModule::class])
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ServiceModule {
 
     private const val KEY_ENDPOINT_THIRD_WAVE_LIST = "endpoint_thirdwavelistapi";

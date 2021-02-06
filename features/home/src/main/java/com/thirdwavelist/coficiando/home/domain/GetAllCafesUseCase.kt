@@ -5,8 +5,10 @@ import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
 import com.thirdwavelist.coficiando.coreutils.coroutines.CoroutineDispatcherProvider
 import com.thirdwavelist.coficiando.coreutils.usecase.None
 import com.thirdwavelist.coficiando.coreutils.usecase.UseCase
+import dagger.hilt.android.scopes.ViewModelScoped
 import javax.inject.Inject
 
+@ViewModelScoped
 internal class GetAllCafesUseCase @Inject constructor(
         private val cafeRepository: CafeRepository,
         dispatcherProvider: CoroutineDispatcherProvider

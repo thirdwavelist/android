@@ -16,7 +16,7 @@ object Versions {
 
     // Google
     const val google_services = "4.3.5"
-    const val hilt = "2.28-alpha"
+    const val hilt = "2.31.2-alpha"
     const val gson = "2.8.6"
 
     // Google Firebase

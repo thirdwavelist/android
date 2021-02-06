@@ -14,8 +14,8 @@ import com.thirdwavelist.coficiando.core.data.network.CachePreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -23,7 +23,7 @@ import okhttp3.logging.HttpLoggingInterceptor.Level
 import javax.inject.Singleton
 
 @Module(includes = [CacheModule::class])
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object NetworkModule {
     private const val USER_AGENT = "User-Agent"
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
