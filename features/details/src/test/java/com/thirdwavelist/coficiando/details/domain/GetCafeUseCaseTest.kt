@@ -25,6 +25,6 @@ class GetCafeUseCaseTest {
         useCase.withParams(expectedUUID).execute { }
 
         // Then
-        then(mockRepository).should().get(expectedUUID)
+        then(mockRepository).should().getById(expectedUUID)
     }
 }

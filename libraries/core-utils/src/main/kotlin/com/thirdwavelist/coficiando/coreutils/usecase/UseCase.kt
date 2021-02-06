@@ -5,7 +5,13 @@ import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
 /**
- * TODO
+ * Abstraction inspired by CLEAN Architecture to represent business actions by orchestrating the
+ * required data flow to and from entities
+ *
+ * Defined by it's [T] entity type that the business logic is constructed around, and [Params]
+ * that is of type [Any] and defines the input required for the use case implementation
+ *
+ * @param dispatcherProvider [CoroutineDispatcherProvider] abstraction for threading
  */
 abstract class UseCase<T, Params>(dispatcherProvider: CoroutineDispatcherProvider) where Params : Any {
 
@@ -16,13 +22,17 @@ abstract class UseCase<T, Params>(dispatcherProvider: CoroutineDispatcherProvide
     private lateinit var params: Params
 
     /**
-     * TODO
+     * Function to set the parameters required for the [UseCase] and uses method chaining.
+     *
+     * Note: This method must be called prior to [UseCase.execute] is called!
      */
     fun withParams(params: Params) = this.also { it.params = params }
 
 
     /**
-     * TODO
+     * Main entry-point into the execution of the [UseCase]
+     *
+     * @param useCaseListener [UseCaseListener] lambda for callback providing the [T] entity
      */
     fun execute(useCaseListener: UseCaseListener<T>.() -> Unit) {
         val listener = UseCaseListener<T>().apply { useCaseListener() }
@@ -69,6 +79,6 @@ abstract class UseCase<T, Params>(dispatcherProvider: CoroutineDispatcherProvide
 }
 
 /**
- * TODO
+ * Simple construct representing empty params used in conjunction with [UseCase]
  */
 object None

@@ -14,6 +14,6 @@ class GetCafeUseCase @Inject constructor(
         dispatcherProvider: CoroutineDispatcherProvider
 ) : UseCase<CafeItem?, UUID>(dispatcherProvider) {
 
-    override suspend fun executeOnBackground(): CafeItem? = cafeRepository.get(getParams())
+    override suspend fun executeOnBackground(): CafeItem? = cafeRepository.getById(getParams())
 
 }

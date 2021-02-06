@@ -133,14 +133,14 @@ class CafeRepositoryTest {
     }
 
     @Test
-    fun `Given valid remote response and local data When #get(UUID) is called Then returns remote mapped entities`(): Unit = runBlocking {
+    fun `Given valid remote response and local data When #getById(UUID) is called Then returns remote mapped entities`(): Unit = runBlocking {
         // Given
         val uuid = DataObject2.id
         givenLocalReturns(uuid, Entity2)
         givenRemoteReturns(uuid, DataObject2)
 
         // When
-        val result = repository.get(uuid)
+        val result = repository.getById(uuid)
 
         // Then
         then(mockDao).should().get(uuid)
@@ -149,27 +149,27 @@ class CafeRepositoryTest {
     }
 
     @Test
-    fun `Given valid remote response When #get(UUID) is called Then remote data is inserted into local`(): Unit = runBlocking {
+    fun `Given valid remote response When #getById(UUID) is called Then remote data is inserted into local`(): Unit = runBlocking {
         // Given
         val uuid = DataObject1.id
         givenRemoteReturns(uuid, DataObject1)
 
         // When
-        repository.get(uuid)
+        repository.getById(uuid)
 
         // Then
         then(mockDao).should().insert(Entity1)
     }
 
     @Test
-    fun `Given remote response fails with network error but local data When #get(UUID) is called Then local data is returned`(): Unit = runBlocking {
+    fun `Given remote response fails with network error but local data When #getById(UUID) is called Then local data is returned`(): Unit = runBlocking {
         // Given
         val uuid = Entity1.id
         givenLocalReturns(uuid, Entity1)
         val remoteError = givenRemoteNetworkError()
 
         // When
-        val result = repository.get(uuid)
+        val result = repository.getById(uuid)
 
         // Then
         then(mockDao).should().get(uuid)
@@ -178,14 +178,14 @@ class CafeRepositoryTest {
     }
 
     @Test
-    fun `Given remote response fails with server error but local data When #get(UUID) is called Then local data is returned`(): Unit = runBlocking {
+    fun `Given remote response fails with server error but local data When #getById(UUID) is called Then local data is returned`(): Unit = runBlocking {
         // Given
         val uuid = Entity2.id
         givenLocalReturns(uuid, Entity2)
         givenRemoteServerError()
 
         // When
-        val result = repository.get(uuid)
+        val result = repository.getById(uuid)
 
         // Then
         then(mockDao).should().get(uuid)
@@ -193,14 +193,14 @@ class CafeRepositoryTest {
     }
 
     @Test
-    fun `Given remote response fails with unknown error but local data When #get(UUID) is called Then local data is returned`(): Unit = runBlocking {
+    fun `Given remote response fails with unknown error but local data When #getById(UUID) is called Then local data is returned`(): Unit = runBlocking {
         // Given
         val uuid = Entity1.id
         givenLocalReturns(uuid, Entity1)
         val remoteError = givenRemoteUnknownError()
 
         // When
-        val result = repository.get(uuid)
+        val result = repository.getById(uuid)
 
         // Then
         then(mockDao).should().get(uuid)

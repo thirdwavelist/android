@@ -60,7 +60,7 @@ class CafeRepository @Inject constructor(
         return local
     }
 
-    override suspend fun get(uid: UUID): CafeItem? {
+    override suspend fun getById(uid: UUID): CafeItem? {
         val local: CafeItem? = dao.get(uid)
 
         val remote: CafeItemDto? = when (val result = service.getCafe(uid)) {
@@ -75,7 +75,7 @@ class CafeRepository @Inject constructor(
             is NetworkResponse.ServerError -> {
                 errorEventLogger.log(
                         ErrorEvent(ErrorPriority.HIGH, TAG, Throwable(result.body?.message
-                                ?: "Server error while calling #get(UUID)"))
+                                ?: "Server error while calling #getById(UUID)"))
                 )
                 null
             }
