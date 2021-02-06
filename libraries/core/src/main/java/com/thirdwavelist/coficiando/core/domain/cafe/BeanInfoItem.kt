@@ -15,14 +15,15 @@ data class BeanInfoItem(val origin: String?,
             if (hasMediumRoast) results.add("Medium")
             if (hasDarkRoast) results.add("Dark")
 
-            return "<b>Roast</b>: " + results.joinToString(separator = ", ")
+            return "<b>Roast</b>: " + if (results.isEmpty()) "Information not available" else results.joinToString(separator = ", ")
         }
 
         fun BeanInfoItem.availableOriginTypes(): String {
             val results = arrayListOf<String>()
             if (hasSingleOrigin) results.add("Single")
             if (hasBlendOrigin) results.add("Blend")
-            return "<b>Origin</b>: " + results.joinToString(separator = ", ")
+
+            return "<b>Origin</b>: " + if (results.isEmpty()) "Information not available" else results.joinToString(separator = ", ")
         }
     }
 }

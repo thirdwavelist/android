@@ -5,12 +5,14 @@ plugins {
 }
 
 dependencies {
+    implementation project(":libraries:core-utils")
+
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
 
-    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
-
     testImplementation "junit:junit:${Versions.junit}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
+    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
 }
 
 apply plugin: 'androidx.navigation.safeargs.kotlin'

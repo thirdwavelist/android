@@ -11,9 +11,14 @@ import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.avai
 import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableRoastTypes
 import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
 import com.thirdwavelist.coficiando.details.domain.GetCafeUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.UUID
+import javax.inject.Inject
 
-class DetailsFragmentViewModel(private val getCafeUseCase: GetCafeUseCase) : ViewModel() {
+@HiltViewModel
+internal class DetailsFragmentViewModel @Inject constructor(
+        private val getCafeUseCase: GetCafeUseCase
+) : ViewModel() {
 
     val name = ObservableField("")
     val thumbnail = ObservableField(Uri.EMPTY)

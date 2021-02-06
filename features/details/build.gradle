@@ -10,10 +10,12 @@ android {
 }
 
 dependencies {
+    implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
 
     implementation "androidx.core:core-ktx:${Versions.core_ktx}"
+    implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
     implementation "com.google.android.material:material:${Versions.material_design}"
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
@@ -32,7 +34,11 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${Versions.glide}"
     implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
 
+    testImplementation project(":libraries:core")
     testImplementation "junit:junit:${Versions.junit}"
+    testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
+    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
 
     androidTestImplementation "androidx.test.ext:junit:${Versions.test_ext_junit}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"

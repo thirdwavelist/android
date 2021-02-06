@@ -9,11 +9,11 @@ import com.thirdwavelist.coficiando.core.di.qualifiers.CacheSize
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ConfigurationModule {
 
     private const val CONFIG_KEY_API = "key_api"

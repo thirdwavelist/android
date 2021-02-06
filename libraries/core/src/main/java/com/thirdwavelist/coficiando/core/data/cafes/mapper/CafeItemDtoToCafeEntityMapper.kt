@@ -1,6 +1,6 @@
 package com.thirdwavelist.coficiando.core.data.cafes.mapper
 
-import com.thirdwavelist.coficiando.core.Mapper
+import com.thirdwavelist.coficiando.coreutils.ext.Mapper
 import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
 import com.thirdwavelist.coficiando.core.domain.cafe.*
 import javax.inject.Inject
@@ -11,9 +11,9 @@ class CafeItemDtoToCafeEntityMapper @Inject constructor() : Mapper<CafeItemDto, 
             CafeItem(id = from.id,
                     name = from.name!!,
                     thumbnail = from.thumbnail!!.toString(),
-                    social = SocialItem(facebookUri = from.socialFacebook?.toString(),
-                            instagramUri = from.socialInstagram?.toString(),
-                            homepageUri = from.socialWebsite?.toString()),
+                    social = SocialItem(facebookUri = from.socialFacebook,
+                            instagramUri = from.socialInstagram,
+                            homepageUri = from.socialWebsite),
                     googlePlaceId = from.googlePlaceId!!,
                     gearInfo = GearInfoItem(espressoMachineName = from.gearEspressoMachine,
                             grinderMachineName = from.gearGrinder),
