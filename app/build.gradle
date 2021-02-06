@@ -96,6 +96,7 @@ dependencies {
     kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
 
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
 
     implementation "com.airbnb.android:lottie:${Versions.lottie}"
 
