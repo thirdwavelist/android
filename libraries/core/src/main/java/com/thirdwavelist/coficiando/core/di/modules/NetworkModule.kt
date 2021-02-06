@@ -1,6 +1,5 @@
 package com.thirdwavelist.coficiando.core.di.modules
 
-import android.content.Context
 import android.net.Uri
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
@@ -14,7 +13,6 @@ import com.thirdwavelist.coficiando.core.data.network.CachePreference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
 import okhttp3.OkHttpClient
@@ -53,7 +51,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    internal fun provideOkHttpClient(@ApplicationContext context: Context, cache: Cache, cachePreference: CachePreference): OkHttpClient {
+    internal fun provideOkHttpClient(cache: Cache, cachePreference: CachePreference): OkHttpClient {
         return OkHttpClient.Builder()
                 .debuggable(BuildConfig.DEBUG)
                 .userAgent("Coficiando/Android")
