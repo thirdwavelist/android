@@ -47,13 +47,13 @@ dependencies {
     testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
     testImplementation "com.squareup.burst:burst-junit4:${Versions.burst}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
+    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
+    testImplementation "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
 
     androidTestImplementation "junit:junit:${Versions.junit}"
     androidTestImplementation "androidx.arch.core:core-testing:${Versions.arch_core}"
     androidTestImplementation "androidx.test:core:${Versions.test_jetpack_core}"
     androidTestImplementation "androidx.test:runner:${Versions.test_jetpack_runner}"
     androidTestImplementation "androidx.test.ext:junit:${Versions.test_ext_junit}"
-    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.test_coroutines}"
     androidTestImplementation "org.assertj:assertj-core:${Versions.assertJ}"
-
 }

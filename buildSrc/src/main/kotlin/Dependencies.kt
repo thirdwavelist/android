@@ -9,7 +9,7 @@ object Config {
 
 object Versions {
     // Jetbrains
-    const val test_coroutines = "1.4.2"
+    const val coroutines = "1.4.2"
 
     // Airbnb
     const val lottie = "3.6.0"
@@ -44,7 +44,7 @@ object Versions {
     const val glide = "4.9.0"
 
     // Square
-    const val okhttp = "4.3.1"
+    const val okhttp = "4.7.2"
     const val retrofit = "2.7.0"
     const val burst = "1.2.0"
 
@@ -59,6 +59,7 @@ object Versions {
 
     // Mockito
     const val mockito_kotlin = "2.2.0"
+    const val mockito_inline = "3.1.0"
 
     // JakeWharton
     const val timber = "4.7.1"
