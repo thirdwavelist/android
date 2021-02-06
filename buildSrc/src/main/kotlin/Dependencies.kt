@@ -31,6 +31,7 @@ object Versions {
     const val recycler_view = "1.1.0"
     const val card_view = "1.0.0"
     const val core_ktx = "1.3.2"
+    const val fragment_ktx = "1.2.5"
     const val room = "2.2.6"
     const val lifecycle = "2.2.0"
     const val espresso = "3.3.0"

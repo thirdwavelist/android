@@ -11,14 +11,18 @@ import javax.inject.Inject
 
 @HiltViewModel
 internal class HomeFragmentViewModel @Inject constructor(
-        private val getAllCafesUseCase: GetAllCafesUseCase,
-        val adapter: CafeAdapter
+        private val getAllCafesUseCase: GetAllCafesUseCase
 ) : ViewModel() {
 
-    fun loadCafes() {
+    private val _cafes: MutableLiveData<List<CafeItem>> = MutableLiveData()
+
+    val cafes: LiveData<List<CafeItem>>
+        get() = _cafes
+
+    internal fun loadCafes() {
         getAllCafesUseCase.withParams(None).execute {
             onComplete {
-                adapter.submitList(it)
+                _cafes.value = it
             }
             onError {
                 handleError()

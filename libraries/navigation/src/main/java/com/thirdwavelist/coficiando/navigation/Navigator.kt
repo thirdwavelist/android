@@ -3,6 +3,7 @@ package com.thirdwavelist.coficiando.navigation
 import android.view.View
 import androidx.navigation.NavController
 import androidx.navigation.fragment.FragmentNavigatorExtras
+import com.thirdwavelist.coficiando.coreutils.ext.exhaustive
 
 class Navigator(private val navController: NavController) {
 
@@ -11,7 +12,7 @@ class Navigator(private val navController: NavController) {
         when (navigationFlow) {
             is NavigationFlow.HomeFlow -> navController.navigate(NavMainDirections.actionGlobalHomeFlow(), extras)
             is NavigationFlow.DetailsFlow -> navController.navigate(NavMainDirections.actionGlobalDetailsFlow(navigationFlow.id), extras)
-        }
+        }.exhaustive
     }
 
 }

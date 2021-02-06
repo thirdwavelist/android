@@ -17,6 +17,7 @@ dependencies {
 
     implementation "androidx.core:core-ktx:${Versions.core_ktx}"
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
+    implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
     implementation "com.google.android.material:material:${Versions.material_design}"
     implementation "androidx.recyclerview:recyclerview:${Versions.recycler_view}"
     implementation "androidx.cardview:cardview:${Versions.card_view}"

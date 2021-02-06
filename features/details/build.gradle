@@ -15,6 +15,7 @@ dependencies {
     implementation project(":libraries:navigation")
 
     implementation "androidx.core:core-ktx:${Versions.core_ktx}"
+    implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
     implementation "com.google.android.material:material:${Versions.material_design}"
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"

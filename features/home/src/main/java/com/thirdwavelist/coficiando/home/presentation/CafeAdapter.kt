@@ -25,7 +25,9 @@ private val diffUtil = object : DiffUtil.ItemCallback<CafeItem>() {
     override fun areContentsTheSame(oldItem: CafeItem, newItem: CafeItem) = oldItem == newItem
 }
 
-class CafeAdapter(private val onItemClickListener: OnItemSelectedListener) : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(diffUtil) {
+class CafeAdapter : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(diffUtil) {
+
+    private lateinit var itemClickListener: (CafeItem, Array<Pair<View, String>>) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CafeItemViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -44,8 +46,12 @@ class CafeAdapter(private val onItemClickListener: OnItemSelectedListener) : Lis
                     hasSyphon = it.brewInfo.hasSyphon,
                     hasImmersive = it.brewInfo.hasFullImmersive)
             holder.bind(viewModel)
-            holder.setItemClickListener(onItemClickListener, it)
+            holder.setItemClickListener(itemClickListener, it)
         }
+    }
+
+    fun setOnItemClickListener(function: (CafeItem, Array<Pair<View, String>>) -> Unit) {
+        itemClickListener = function
     }
 
     class CafeItemViewModel(title: String,
@@ -76,20 +82,16 @@ class CafeAdapter(private val onItemClickListener: OnItemSelectedListener) : Lis
             binding.executePendingBindings()
         }
 
-        fun setItemClickListener(itemClickListener: OnItemSelectedListener, cafeItem: CafeItem) {
+        fun setItemClickListener(itemClickListener: (CafeItem, Array<Pair<View, String>>) -> Unit, cafeItem: CafeItem) {
             val sharedElementTransitions = arrayOf(
                     binding.thumbnail as View to "detailsThumbnail"
             )
             binding.root.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    itemClickListener.onItemSelected(cafeItem, sharedElementTransitions)
+                    itemClickListener(cafeItem, sharedElementTransitions)
                 }
             }
 
         }
-    }
-
-    interface OnItemSelectedListener {
-        fun onItemSelected(item: CafeItem, sharedElementTransitions: Array<Pair<View, String>>)
     }
 }

@@ -30,7 +30,6 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginTop="8dp"
             android:orientation="vertical"
-            app:adapter="@{viewModel.adapter}"
             tools:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_cafe"
             tools:visibility="visible"
