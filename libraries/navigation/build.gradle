@@ -5,6 +5,8 @@ plugins {
 }
 
 dependencies {
+    implementation project(":libraries:core-utils")
+
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
 

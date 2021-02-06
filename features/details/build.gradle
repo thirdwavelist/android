@@ -10,6 +10,7 @@ android {
 }
 
 dependencies {
+    implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
 

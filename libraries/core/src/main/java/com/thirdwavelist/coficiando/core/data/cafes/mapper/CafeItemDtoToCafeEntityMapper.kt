@@ -1,6 +1,6 @@
 package com.thirdwavelist.coficiando.core.data.cafes.mapper
 
-import com.thirdwavelist.coficiando.core.Mapper
+import com.thirdwavelist.coficiando.coreutils.ext.Mapper
 import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
 import com.thirdwavelist.coficiando.core.domain.cafe.*
 import javax.inject.Inject

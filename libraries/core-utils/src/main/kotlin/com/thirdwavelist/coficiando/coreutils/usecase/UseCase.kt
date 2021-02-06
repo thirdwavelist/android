@@ -1,24 +1,28 @@
-package com.thirdwavelist.coficiando.core
+package com.thirdwavelist.coficiando.coreutils.usecase
 
+import com.thirdwavelist.coficiando.coreutils.coroutines.CoroutineDispatcherProvider
 import kotlinx.coroutines.*
 import kotlin.coroutines.CoroutineContext
 
-abstract class UseCase<T, Params> where Params : Any {
+/**
+ * TODO
+ */
+abstract class UseCase<T, Params>(dispatcherProvider: CoroutineDispatcherProvider) where Params : Any {
 
-    private val backgroundContext: CoroutineContext = Dispatchers.IO
-    private val foregroundContext: CoroutineContext = Dispatchers.Main
+    private val backgroundContext: CoroutineContext = dispatcherProvider.io
+    private val foregroundContext: CoroutineContext = dispatcherProvider.main
 
     private lateinit var job: Job
     private lateinit var params: Params
 
     /**
-     *
+     * TODO
      */
     fun withParams(params: Params) = this.also { it.params = params }
 
 
     /**
-     *
+     * TODO
      */
     fun execute(useCaseListener: UseCaseListener<T>.() -> Unit) {
         val listener = UseCaseListener<T>().apply { useCaseListener() }
@@ -64,4 +68,7 @@ abstract class UseCase<T, Params> where Params : Any {
     }
 }
 
+/**
+ * TODO
+ */
 object None

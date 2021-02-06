@@ -1,7 +1,7 @@
 package com.thirdwavelist.coficiando.core.data.cafes
 
 import com.haroldadmin.cnradapter.NetworkResponse
-import com.thirdwavelist.coficiando.core.Repository
+import com.thirdwavelist.coficiando.coreutils.Repository
 import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
 import com.thirdwavelist.coficiando.core.data.db.CafeDao
 import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService

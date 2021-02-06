@@ -1,7 +1,8 @@
 package com.thirdwavelist.coficiando.home.presentation
 
 import androidx.lifecycle.ViewModel
-import com.thirdwavelist.coficiando.core.None
+import com.thirdwavelist.coficiando.coreutils.usecase.None
+import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
 import com.thirdwavelist.coficiando.home.domain.GetAllCafesUseCase
 
 class HomeFragmentViewModel(
