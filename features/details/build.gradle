@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    buildFeatures.dataBinding true
+    buildFeatures.viewBinding true
 }
 
 dependencies {
@@ -37,6 +37,7 @@ dependencies {
     testImplementation project(":libraries:core")
     testImplementation "junit:junit:${Versions.junit}"
     testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
+    testImplementation "androidx.arch.core:core-testing:${Versions.arch_core}"
     testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
     testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
 

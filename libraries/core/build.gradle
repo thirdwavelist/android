@@ -6,8 +6,6 @@ plugins {
 }
 
 android {
-    buildFeatures.dataBinding true
-
     packagingOptions {
         exclude 'META-INF/**'
     }
