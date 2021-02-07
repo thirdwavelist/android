@@ -101,11 +101,11 @@ internal class DetailsFragmentViewModel @Inject constructor(
         grinderMachineName.set(it.gearInfo.grinderMachineName)
         availableBeanOrigin.set(it.beanInfo.availableOriginTypes())
         availableBeanRoast.set(it.beanInfo.availableRoastTypes())
-        hasFacebook.set(it.social.facebookUri.isNullOrBlank())
+        hasFacebook.set(it.social.facebookUri?.isNotBlank() ?: false)
         facebookUri.set(if (it.social.facebookUri != null) Uri.parse(it.social.facebookUri) else Uri.EMPTY)
-        hasInstagram.set(it.social.instagramUri.isNullOrBlank())
+        hasInstagram.set(it.social.instagramUri?.isNotBlank() ?: false)
         instagramUri.set(if (it.social.instagramUri != null) Uri.parse(it.social.instagramUri) else Uri.EMPTY)
-        hasWebsite.set(it.social.homepageUri.isNullOrBlank())
+        hasWebsite.set(it.social.homepageUri?.isNotBlank() ?: false)
         websiteUri.set(if (it.social.homepageUri != null) Uri.parse(it.social.homepageUri) else Uri.EMPTY)
         hasEspresso.set(it.brewInfo.hasEspresso)
         hasAeropress.set(it.brewInfo.hasAeropress)
@@ -113,5 +113,6 @@ internal class DetailsFragmentViewModel @Inject constructor(
         hasSyphon.set(it.brewInfo.hasSyphon)
         hasPourOver.set(it.brewInfo.hasPourOver)
         hasImmersive.set(it.brewInfo.hasFullImmersive)
+        isFinishedLoading.set(true)
     }
 }

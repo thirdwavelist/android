@@ -17,12 +17,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        card_view:cardCornerRadius="2dp">
+        card_view:cardCornerRadius="8dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/background_light">
+            android:background="@android:color/background_light"
+            >
 
             <ImageView
                 android:id="@+id/thumbnail"
@@ -35,12 +37,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@color/colorPrimary"
+                tools:background="@tools:sample/backgrounds/scenic"
                 android:contentDescription="@string/alt_item_cafe_thumbnail" />
 
             <TextView
                 android:id="@+id/title"
-                style="@android:style/Widget.Material.Light.TextView"
+                style="@style/TextAppearance.MaterialComponents.Headline3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -50,6 +52,7 @@
                 android:text="@{viewModel.title}"
                 android:textSize="24sp"
                 android:textStyle="bold"
+                android:textColor="@color/primaryTextColor"
                 card_view:layout_constraintEnd_toEndOf="parent"
                 card_view:layout_constraintStart_toStartOf="parent"
                 card_view:layout_constraintTop_toBottomOf="@+id/thumbnail"

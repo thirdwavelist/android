@@ -1,32 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ThirdWaveList</string>
-    <string name="search_hint">Search by name…</string>
 
-    <string name="action_search">Search</string>
-
-    <string name="drawer_switch_city">City</string>
-    <string name="drawer_brew_method">Brew method</string>
-    <string name="drawer_filters">Filters</string>
-    <string name="drawer_brew_method_espresso">Espresso</string>
-    <string name="drawer_brew_method_aeropress">Aeropress</string>
-    <string name="drawer_brew_method_pour_over">Pour over</string>
-    <string name="drawer_brew_method_cold_brew">Cold brew</string>
-    <string name="drawer_brew_method_syphon">Syphon</string>
-    <string name="drawer_brew_method_immersive">Full immersion</string>
-    <string name="drawer_bean_origin">Bean origin</string>
-    <string name="drawer_bean_origin_single">Single</string>
-    <string name="drawer_bean_origin_blend">Blend</string>
-    <string name="drawer_bean_roast">Bean roast</string>
-    <string name="drawer_bean_roast_light">Light</string>
-    <string name="drawer_bean_roast_medium">Medium</string>
-    <string name="drawer_bean_roast_dark">Dark</string>
-    <string name="alt_navigation_drawer_open">Open navigation drawer</string>
-    <string name="alt_navigation_drawer_close">Close navigation drawer</string>
     <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.thirdwavelist.com\",\n  }\n}]</string>
-    <string name="privacy_policy_label">Privacy Policy</string>
-    <string name="privacy_policy_url">https://thirdwavelist.com/privacy-policy</string>
-    <string name="default_city_name">Budapest</string>
-    <string name="title_details">Details</string>
-    <string name="title_home">Home</string>
+
+    <string name="nav_home_title">Home</string>
+    <string name="nav_settings_title">Settings</string>
 </resources>

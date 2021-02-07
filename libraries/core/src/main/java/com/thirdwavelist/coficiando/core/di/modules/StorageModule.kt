@@ -13,7 +13,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object StorageModule {
+internal object StorageModule {
     private const val DB_NAME = "app-database.db"
 
     @Provides

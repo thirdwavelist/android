@@ -24,4 +24,6 @@
     <string name="facebook_button_label">Facebook</string>
 
     <string name="details_brew_method_headline">Available brewing methods:</string>
+    <string name="content_description_details_fab">View on maps</string>
+    <string name="try_again">Try again</string>
 </resources>

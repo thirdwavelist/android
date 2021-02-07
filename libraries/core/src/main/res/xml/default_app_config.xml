@@ -8,4 +8,12 @@
         <key>endpoint_thirdwavelistapi</key>
         <value>https://api.thirdwavelist.com/</value>
     </entry>
+    <entry>
+        <key>url_privacypolicy</key>
+        <value>https://www.thirdwavelist.com/privacy-policy</value>
+    </entry>
+    <entry>
+        <key>url_feedback</key>
+        <value>mailto:anthony@monori.me</value>
+    </entry>
 </defaultsMap>

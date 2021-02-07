@@ -2,14 +2,16 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main"
-    app:startDestination="@id/flow_main"
+    app:startDestination="@id/flow_splash"
     >
 
-    <include app:graph="@navigation/flow_main" />
+    <include app:graph="@navigation/flow_splash" />
 
     <include app:graph="@navigation/flow_home" />
 
     <include app:graph="@navigation/flow_details" />
+
+    <include app:graph="@navigation/flow_settings" />
 
     <action
         android:id="@+id/action_global_home_flow"
@@ -33,4 +35,11 @@
             />
 
     </action>
+
+    <action
+        android:id="@+id/action_global_settings_flow"
+        app:destination="@id/flow_settings"
+        app:enterAnim="@anim/nav_default_enter_anim"
+        app:exitAnim="@anim/nav_default_exit_anim"
+        />
 </navigation>

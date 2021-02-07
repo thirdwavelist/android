@@ -13,6 +13,7 @@ dependencies {
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
+    implementation project(":libraries:design")
 
     implementation "androidx.core:core-ktx:${Versions.core_ktx}"
     implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
@@ -22,7 +23,6 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
     implementation "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
-    implementation "androidx.lifecycle:lifecycle-reactivestreams-ktx:${Versions.lifecycle}"
 
     implementation "com.google.dagger:hilt-android:${Versions.hilt}"
     kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"

@@ -12,6 +12,7 @@ class Navigator(private val navController: NavController, private val fragmentNa
         when (navigationFlow) {
             is NavigationFlow.HomeFlow -> navController.navigate(NavMainDirections.actionGlobalHomeFlow(), extras)
             is NavigationFlow.DetailsFlow -> navController.navigate(NavMainDirections.actionGlobalDetailsFlow(navigationFlow.id), extras)
+            is NavigationFlow.SettingsFlow -> navController.navigate(NavMainDirections.actionGlobalSettingsFlow(), extras)
         }.exhaustive
     }
 

@@ -1,0 +1,9 @@
+<resources>
+    <!-- Preference Titles -->
+    <string name="legal_header">Legal</string>
+
+    <!-- Legal Preferences -->
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="feedback_title">Feedback</string>
+    <string name="feedback_summary">Report technical issues or suggest new features</string>
+</resources>
