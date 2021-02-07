@@ -1,0 +1,47 @@
+digraph {
+    graph [label = "thirdwavelist-android\n ",labelloc = t,fontsize = 30,ranksep = 1.4];
+    node [style = filled, fillcolor = "#bbbbbb"];
+    rankdir = TB;
+
+    # Projects
+
+    ":app" [fillcolor = "#71b8ed"];
+    ":features:details" [fillcolor = "#ff7a3a"];
+    ":features:home" [fillcolor = "#ff7a3a"];
+    ":features:settings" [fillcolor = "#ff7a3a"];
+    ":features:splash" [fillcolor = "#ff7a3a"];
+    ":libraries:core" [fillcolor = "#e0e0e0"];
+    ":libraries:core-utils" [fillcolor = "#e0e0e0"];
+    ":libraries:design" [fillcolor = "#e0e0e0"];
+    ":libraries:navigation" [fillcolor = "#e0e0e0"];
+
+    {rank = same;}
+
+    # Dependencies
+
+    ":app" -> ":libraries:core-utils" [style = dotted]
+    ":app" -> ":libraries:core" [style = dotted]
+    ":app" -> ":libraries:navigation" [style = dotted]
+    ":app" -> ":libraries:design" [style = dotted]
+    ":app" -> ":features:splash" [style = dotted]
+    ":app" -> ":features:home" [style = dotted]
+    ":app" -> ":features:details" [style = dotted]
+    ":app" -> ":features:settings" [style = dotted]
+    ":features:details" -> ":libraries:core-utils" [style = dotted]
+    ":features:details" -> ":libraries:core" [style = dotted, style = dotted]
+    ":features:details" -> ":libraries:navigation" [style = dotted]
+    ":features:details" -> ":libraries:design" [style = dotted]
+    ":features:home" -> ":libraries:core-utils" [style = dotted]
+    ":features:home" -> ":libraries:core" [style = dotted, style = dotted]
+    ":features:home" -> ":libraries:navigation" [style = dotted]
+    ":features:home" -> ":libraries:design" [style = dotted]
+    ":features:settings" -> ":libraries:core-utils" [style = dotted]
+    ":features:settings" -> ":libraries:core" [style = dotted]
+    ":features:settings" -> ":libraries:navigation" [style = dotted]
+    ":features:settings" -> ":libraries:design" [style = dotted]
+    ":features:splash" -> ":libraries:core-utils" [style = dotted]
+    ":features:splash" -> ":libraries:navigation" [style = dotted]
+    ":features:splash" -> ":libraries:design" [style = dotted]
+    ":libraries:core" -> ":libraries:core-utils" [style = dotted]
+    ":libraries:navigation" -> ":libraries:core-utils" [style = dotted]
+}

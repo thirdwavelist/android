@@ -25,5 +25,5 @@
 
     <string name="details_brew_method_headline">Available brewing methods:</string>
     <string name="content_description_details_fab">View on maps</string>
-    <string name="try_again">Try again</string>
+    <string name="error_retry_button_label">Retry</string>
 </resources>

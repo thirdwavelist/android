@@ -53,7 +53,7 @@ android {
         xmlReport true
     }
 
-    buildFeatures.dataBinding true
+    buildFeatures.viewBinding true
 
     buildTypes {
         release {

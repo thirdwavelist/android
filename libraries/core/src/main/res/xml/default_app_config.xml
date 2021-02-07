@@ -16,4 +16,8 @@
         <key>url_feedback</key>
         <value>mailto:anthony@monori.me</value>
     </entry>
+    <entry>
+        <key>url_googlemaps</key>
+        <value>https://www.google.com/maps/search/?api=1&amp;query=0,0&amp;query_place_id=</value>
+    </entry>
 </defaultsMap>

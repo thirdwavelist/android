@@ -6,4 +6,6 @@ plugins {
 dependencies {
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
     implementation "com.google.android.material:material:${Versions.material_design}"
+
+    api "com.airbnb.android:lottie:${Versions.lottie}"
 }

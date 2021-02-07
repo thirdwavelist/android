@@ -17,6 +17,7 @@ internal object ConfigurationModule {
     private const val CONFIG_KEY_API = "key_api"
     private const val CONFIG_PRIVACY_POLICY_URL = "url_privacypolicy"
     private const val CONFIG_FEEDBACK_URL = "url_feedback"
+    private const val CONFIG_GOOGLE_MAPS_URL = "url_googlemaps"
     private const val CACHE_SIZE_1MB = 1024 * 1024L
     private const val CACHE_DURATION_ONE_DAY_IN_SECONDS = 60 * 60 * 24L
 
@@ -51,6 +52,13 @@ internal object ConfigurationModule {
     @FeedbackLink
     fun provideFeedbackLink(appConfig: FirebaseRemoteConfig): String {
         return appConfig.getString(CONFIG_FEEDBACK_URL)
+    }
+
+    @Provides
+    @Singleton
+    @GoogleMapsLink
+    fun provideGoogleMapsLink(appConfig: FirebaseRemoteConfig): String {
+        return appConfig.getString(CONFIG_GOOGLE_MAPS_URL)
     }
 
     @Provides
