@@ -42,4 +42,17 @@ class NavigatorTest {
         // Then
         then(mockNavController).should().navigate(NavMainDirections.actionGlobalDetailsFlow(detailsId), mockNavigatorExtras)
     }
+
+    @Test
+    fun `Given Settings navigation flow When #navigateToFlow() Then navigates to settings`() {
+        // Given
+        val extras = emptyArray<Pair<View, String>>()
+        given(mockFragmentNavigatorExtrasMapper(extras)).willReturn(mockNavigatorExtras)
+
+        // When
+        navigator.navigateToFlow(NavigationFlow.SettingsFlow, emptyArray())
+
+        // Then
+        then(mockNavController).should().navigate(NavMainDirections.actionGlobalSettingsFlow(), mockNavigatorExtras)
+    }
 }

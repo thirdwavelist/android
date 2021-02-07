@@ -72,12 +72,19 @@ android {
     }
 }
 
+hilt {
+    enableExperimentalClasspathAggregation = true
+}
+
 dependencies {
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
+    implementation project(":libraries:design")
+    implementation project(":features:splash")
     implementation project(":features:home")
     implementation project(":features:details")
+    implementation project(":features:settings")
 
     implementation platform("com.google.firebase:firebase-bom:${Versions.firebase_bom}")
 
@@ -85,11 +92,10 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-config-ktx"
 
+    implementation "androidx.core:core-ktx:${Versions.core_ktx}"
     implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
     implementation "com.google.android.material:material:${Versions.material_design}"
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
-
-    implementation "com.google.code.gson:gson:${Versions.gson}"
 
     implementation "com.google.dagger:hilt-android:${Versions.hilt}"
     kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
@@ -98,8 +104,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
 
     implementation "com.airbnb.android:lottie:${Versions.lottie}"
-
-    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
 }
 
 apply plugin: 'com.google.gms.google-services'

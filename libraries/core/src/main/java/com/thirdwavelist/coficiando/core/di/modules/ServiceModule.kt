@@ -16,7 +16,7 @@ import javax.inject.Singleton
 
 @Module(includes = [NetworkModule::class, ConfigurationModule::class])
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+internal object ServiceModule {
 
     private const val KEY_ENDPOINT_THIRD_WAVE_LIST = "endpoint_thirdwavelistapi";
     private const val HEADER_API_KEY = "x-api-key"

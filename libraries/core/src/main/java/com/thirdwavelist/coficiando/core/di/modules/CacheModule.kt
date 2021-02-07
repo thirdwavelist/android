@@ -12,7 +12,7 @@ import java.io.File
 
 @Module(includes = [ConfigurationModule::class])
 @InstallIn(SingletonComponent::class)
-object CacheModule {
+internal object CacheModule {
     private const val NETWORK_CACHE_FILE = "cache/http-cache"
 
     @Provides

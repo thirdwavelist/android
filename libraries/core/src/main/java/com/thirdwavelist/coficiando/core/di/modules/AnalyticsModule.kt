@@ -10,11 +10,13 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object AnalyticsModule {
+internal object AnalyticsModule {
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideBusinessEventLogger(): BusinessEventLogger = BusinessEventLogger()
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     fun provideErrorEventLogger(): ErrorEventLogger = ErrorEventLogger()
 }

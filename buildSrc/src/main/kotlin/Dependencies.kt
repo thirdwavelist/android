@@ -39,6 +39,7 @@ object Versions {
     const val test_jetpack_core = "1.3.0"
     const val test_jetpack_runner = "1.3.0"
     const val arch_core = "2.1.0"
+    const val preference = "1.1.1"
 
     // Bump Technologies
     const val glide = "4.12.0"

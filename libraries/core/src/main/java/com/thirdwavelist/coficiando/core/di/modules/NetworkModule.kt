@@ -22,7 +22,7 @@ import javax.inject.Singleton
 
 @Module(includes = [CacheModule::class])
 @InstallIn(SingletonComponent::class)
-object NetworkModule {
+internal object NetworkModule {
     private const val USER_AGENT = "User-Agent"
     private const val HEADER_CACHE_CONTROL = "Cache-Control"
 

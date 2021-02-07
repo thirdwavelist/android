@@ -9,7 +9,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CoroutinesModule {
+internal object CoroutinesModule {
     @Provides
     fun provideDispatcherProvider(): CoroutineDispatcherProvider = AndroidDispatcherProvider()
 }
