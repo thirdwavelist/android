@@ -1,0 +1,31 @@
+pulls:
+  markComment: >
+    This pull request has been automatically marked as stale because it has not had
+    any recent activity. It will be closed if no further activity occurs. Thank you
+    for your contributions.
+  closeComment: >
+    This pull request has now been closed. If you want to continue working on it or
+    you believe it has been closed by accident, feel free to re-open it.
+  daysUntilStale: 21
+  daysUntilClose: 7
+  exemptLabels:
+    - WIP
+  staleLabel:
+    - stale
+
+issues:
+  markComment: >
+    This issue has been automatically marked as stale because it has not had
+    any recent activity. It will be closed if no further activity occurs. Thank you
+    for your contributions.
+  closeComment: >
+    This issue has now been closed. Please raise a new Issue instead of re-opening existing ones,
+    unless you believe this was closed by accident.
+  daysUntilStale: 21
+  daysUntilClose: 7
+  exemptLabels:
+    - pinned
+    - security
+    - confirmed
+  staleLabel:
+    - wont-fix
