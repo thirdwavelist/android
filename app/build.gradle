@@ -105,7 +105,7 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
 
-    implementation "com.airbnb.android:lottie:${Versions.lottie}"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
 }
 
 apply plugin: 'com.google.gms.google-services'
