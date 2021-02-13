@@ -77,6 +77,8 @@ hilt {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.30"
+
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
