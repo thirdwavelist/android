@@ -48,6 +48,7 @@ object Versions {
     const val okhttp = "4.7.2"
     const val retrofit = "2.7.0"
     const val burst = "1.2.0"
+    const val leakcanary = "2.6"
 
     // haroldadmin
     const val network_adapter = "4.1.0"
