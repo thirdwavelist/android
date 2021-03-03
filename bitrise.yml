@@ -96,6 +96,7 @@ workflows:
           inputs:
             - project_location: $PROJECT_LOCATION
             - module: $MODULE
+            - build_type: aab
             - variant: release
       - sign-apk@1:
           run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
