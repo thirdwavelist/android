@@ -7,6 +7,8 @@ trigger_map:
     workflow: deploy
   - pull_request_source_branch: '*'
     workflow: primary
+  - tag: '*'
+    workflow: release
 workflows:
   primary:
     steps:
@@ -61,6 +63,12 @@ workflows:
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
       - git-clone@4: { }
+      - script@1:
+          inputs:
+            - content: >-
+                curl -o $BITRISE_SOURCE_DIR/$MODULE/google-services.json
+                $BITRISEIO_GOOGLE_SERVICES_URL
+          title: Download google-services.json
       - install-missing-android-tools@2:
           inputs:
             - gradlew_path: $PROJECT_LOCATION/gradlew
@@ -78,6 +86,12 @@ workflows:
             - project_location: $PROJECT_LOCATION
             - module: $MODULE
             - variant: release
+      - script@1:
+          inputs:
+            - content: >-
+                curl -o $BITRISE_SOURCE_DIR/$MODULE/src/main/release.keystore
+                $BITRISEIO_ANDROID_KEYSTORE_URL
+          title: Download release.keystore
       - android-build@0:
           inputs:
             - project_location: $PROJECT_LOCATION
@@ -85,12 +99,67 @@ workflows:
             - variant: release
       - sign-apk@1:
           run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+          inputs:
+            - debuggable_permitted: 'false'
+            - use_apk_signer: 'true'
+            - output_name: app-coficiando-signed
       - firebase-app-distribution@0:
           inputs:
             - app: '1:247998859063:android:87af47d61baef106'
             - service_credentials_file: $BITRISEIO_GOOGLE_SERVICES_URL
             - firebase_token: $FIREBASE_TOKEN
+            - app_path: $BITRISE_APK_PATH
             - upgrade_firebase_tools: 'true'
+  release:
+    steps:
+      - script@1:
+          title: Switch to Java 11
+          inputs:
+            - content: >-
+                sudo update-alternatives --set javac
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+
+                sudo update-alternatives --set java
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+                export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
+
+                envman add --key JAVA_HOME --value
+                '/usr/lib/jvm/java-11-openjdk-amd64'
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4: { }
+      - script@1:
+          inputs:
+            - content: >-
+                curl -o $BITRISE_SOURCE_DIR/$MODULE/google-services.json
+                $BITRISEIO_GOOGLE_SERVICES_URL
+          title: Download google-services.json
+      - install-missing-android-tools@2:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - script@1:
+          inputs:
+            - content: >-
+                curl -o $BITRISE_SOURCE_DIR/$MODULE/src/main/release.keystore
+                $BITRISEIO_ANDROID_KEYSTORE_URL
+          title: Download release.keystore
+      - android-build@0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - build_type: aab
+            - variant: release
+      - sign-apk@1:
+          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+          inputs:
+            - debuggable_permitted: 'false'
+            - use_apk_signer: 'true'
+            - output_name: app-coficiando-signed
+      - google-play-deploy@3:
+          inputs:
+            - service_account_json_key_path: $BITRISEIO_GOOGLE_SERVICES_URL
+            - package_name: com.thirdwavelist.coficiando
 app:
   envs:
     - opts:
