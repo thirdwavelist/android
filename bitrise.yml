@@ -1,30 +1,24 @@
 ---
 format_version: '8'
-default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: android
 trigger_map:
   - push_branch: main
     workflow: deploy
-  - pull_request_source_branch: '*'
+  - pull_request_source_branch: "*"
     workflow: primary
-  - tag: '*'
+  - tag: "*"
     workflow: release
 workflows:
   primary:
     steps:
       - script@1:
           inputs:
-            - content: >-
-                sudo update-alternatives --set javac
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-
-                sudo update-alternatives --set java
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-
+            - content: |-
+                sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+                sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java
                 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
-
-                envman add --key JAVA_HOME --value
-                '/usr/lib/jvm/java-11-openjdk-amd64'
+                envman add --key JAVA_HOME --value '/usr/lib/jvm/java-11-openjdk-amd64'
           title: Switch to Java 11
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -32,73 +26,60 @@ workflows:
       - cache-pull@2: { }
       - install-missing-android-tools@2:
           inputs:
-            - gradlew_path: $PROJECT_LOCATION/gradlew
+            - gradlew_path: "$PROJECT_LOCATION/gradlew"
       - android-lint@0:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
-            - variant: $VARIANT
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
+            - variant: "$VARIANT"
       - android-unit-test@1:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
-            - variant: $VARIANT
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
+            - variant: "$VARIANT"
       - cache-push@2: { }
   deploy:
     steps:
       - script@1:
           title: Switch to Java 11
           inputs:
-            - content: >-
-                sudo update-alternatives --set javac
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-
-                sudo update-alternatives --set java
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-
+            - content: |-
+                sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+                sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java
                 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
-
-                envman add --key JAVA_HOME --value
-                '/usr/lib/jvm/java-11-openjdk-amd64'
+                envman add --key JAVA_HOME --value '/usr/lib/jvm/java-11-openjdk-amd64'
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
       - git-clone@4: { }
       - script@1:
           inputs:
-            - content: >-
-                curl -o $BITRISE_SOURCE_DIR/app/google-services.json
-                $BITRISEIO_GOOGLE_SERVICES_URL
+            - content: curl -o $BITRISE_SOURCE_DIR/$MODULE/google-services.json $BITRISEIO_GOOGLE_SERVICES_URL
           title: Download google-services.json
       - install-missing-android-tools@2:
           inputs:
-            - gradlew_path: $PROJECT_LOCATION/gradlew
+            - gradlew_path: "$PROJECT_LOCATION/gradlew"
       - change-android-versioncode-and-versionname@1:
           inputs:
-            - version_code_offset: '1'
-            - build_gradle_path: $PROJECT_LOCATION/$MODULE/build.gradle
+            - version_code_offset: ''
+            - build_gradle_path: "$PROJECT_LOCATION/$MODULE/build.gradle"
       - android-lint@0:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
             - variant: release
       - android-unit-test@1:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
             - variant: release
       - script@1:
           inputs:
-            - content: >-
-                wget -o $BITRISE_SOURCE_DIR/$MODULE/main/release.keystore
-                $BITRISEIO_ANDROID_KEYSTORE_URL
-
-                # ruby ./path/to/script.rb
+            - content: curl -o $BITRISE_SOURCE_DIR/$MODULE/src/main/release.keystore $BITRISEIO_ANDROID_KEYSTORE_URL
           title: Download release.keystore
       - android-build@0:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
-            - build_type: aab
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
             - variant: release
       - sign-apk@1:
           run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
@@ -108,51 +89,43 @@ workflows:
             - output_name: app-coficiando-signed
       - firebase-app-distribution@0:
           inputs:
-            - app: '1:247998859063:android:87af47d61baef106'
-            - service_credentials_file: $BITRISEIO_GOOGLE_SERVICES_URL
-            - firebase_token: $FIREBASE_TOKEN
-            - app_path: $BITRISE_AAB_PATH
+            - app: 1:247998859063:android:87af47d61baef106
+            - service_credentials_file: "$BITRISEIO_GOOGLE_SERVICES_URL"
+            - firebase_token: "$FIREBASE_TOKEN"
+            - app_path: "$BITRISE_APK_PATH"
             - upgrade_firebase_tools: 'true'
   release:
     steps:
       - script@1:
           title: Switch to Java 11
           inputs:
-            - content: >-
-                sudo update-alternatives --set javac
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
-
-                sudo update-alternatives --set java
-                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
-
+            - content: |-
+                sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+                sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java
                 export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
-
-                envman add --key JAVA_HOME --value
-                '/usr/lib/jvm/java-11-openjdk-amd64'
+                envman add --key JAVA_HOME --value '/usr/lib/jvm/java-11-openjdk-amd64'
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
       - git-clone@4: { }
       - script@1:
           inputs:
-            - content: >-
-                curl -o $BITRISE_SOURCE_DIR/app/google-services.json
-                $BITRISEIO_GOOGLE_SERVICES_URL
+            - content: curl -o $BITRISE_SOURCE_DIR/$MODULE/google-services.json $BITRISEIO_GOOGLE_SERVICES_URL
           title: Download google-services.json
       - install-missing-android-tools@2:
           inputs:
-            - gradlew_path: $PROJECT_LOCATION/gradlew
+            - gradlew_path: "$PROJECT_LOCATION/gradlew"
+      - change-android-versioncode-and-versionname@1:
+          inputs:
+            - version_code_offset: ''
+            - build_gradle_path: "$BITRISE_SOURCE_DIR/$MODULE/build.gradle"
       - script@1:
           inputs:
-            - content: >-
-                wget -o $BITRISE_SOURCE_DIR/$MODULE/main/release.keystore
-                $BITRISEIO_ANDROID_KEYSTORE_URL
-
-                # ruby ./path/to/script.rb
+            - content: curl -o $BITRISE_SOURCE_DIR/$MODULE/src/main/release.keystore $BITRISEIO_ANDROID_KEYSTORE_URL
           title: Download release.keystore
       - android-build@0:
           inputs:
-            - project_location: $PROJECT_LOCATION
-            - module: $MODULE
+            - project_location: "$PROJECT_LOCATION"
+            - module: "$MODULE"
             - build_type: aab
             - variant: release
       - sign-apk@1:
@@ -163,13 +136,13 @@ workflows:
             - output_name: app-coficiando-signed
       - google-play-deploy@3:
           inputs:
-            - service_account_json_key_path: $BITRISEIO_GOOGLE_SERVICES_URL
+            - service_account_json_key_path: "$BITRISEIO_PLAY_CONSOLE_ROLE_URL"
             - package_name: com.thirdwavelist.coficiando
 app:
   envs:
     - opts:
         is_expand: false
-      PROJECT_LOCATION: .
+      PROJECT_LOCATION: "."
     - opts:
         is_expand: false
       MODULE: app
