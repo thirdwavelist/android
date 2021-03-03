@@ -1,0 +1,157 @@
+---
+format_version: '8'
+default_step_lib_source: 'https://github.com/bitrise-io/bitrise-steplib.git'
+project_type: android
+trigger_map:
+  - push_branch: 'main'
+    workflow: deploy
+  - pull_request_source_branch: '*'
+    workflow: primary
+workflows:
+  deploy:
+    description: >
+      ## How to get a signed APK
+
+
+      This workflow contains the **Sign APK** step. To sign your APK all you
+      have to do is to:
+
+
+      1. Click on **Code Signing** tab
+
+      1. Find the **ANDROID KEYSTORE FILE** section
+
+      1. Click or drop your file on the upload file field
+
+      1. Fill the displayed 3 input fields:
+       1. **Keystore password**
+       1. **Keystore alias**
+       1. **Private key password**
+      1. Click on **[Save metadata]** button
+
+
+      That's it! From now on, **Sign APK** step will receive your uploaded
+      files.
+
+
+      ## To run this workflow
+
+
+      If you want to run this workflow manually:
+
+
+      1. Open the app's build list page
+
+      2. Click on **[Start/Schedule a Build]** button
+
+      3. Select **deploy** in **Workflow** dropdown input
+
+      4. Click **[Start Build]** button
+
+
+      Or if you need this workflow to be started by a GIT event:
+
+
+      1. Click on **Triggers** tab
+
+      2. Setup your desired event (push/tag/pull) and select **deploy** workflow
+
+      3. Click on **[Done]** and then **[Save]** buttons
+
+
+      The next change in your repository that matches any of your trigger map
+      event will start **deploy** workflow.
+    steps:
+      - script@1:
+          title: Switch to Java 11
+          inputs:
+            - content: >-
+                sudo update-alternatives --set javac
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+
+                sudo update-alternatives --set java
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+                export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
+
+                envman add --key JAVA_HOME --value
+                '/usr/lib/jvm/java-11-openjdk-amd64'
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4: { }
+      - install-missing-android-tools@2:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - change-android-versioncode-and-versionname@1:
+          inputs:
+            - version_code_offset: '1'
+            - new_version_code: ''
+            - build_gradle_path: $PROJECT_LOCATION/$MODULE/build.gradle
+      - android-lint@0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: release
+      - android-unit-test@1:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: release
+      - android-build@0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: release
+      - sign-apk@1:
+          run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
+      - firebase-app-distribution@0:
+          inputs:
+            - app: '1:247998859063:android:87af47d61baef106'
+            - service_credentials_file: $BITRISEIO_GOOGLE_SERVICES_URL
+            - firebase_token: $FIREBASE_TOKEN
+            - upgrade_firebase_tools: 'true'
+  primary:
+    steps:
+      - script@1:
+          inputs:
+            - content: >-
+                sudo update-alternatives --set javac
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+
+                sudo update-alternatives --set java
+                /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+                export JAVA_HOME='/usr/lib/jvm/java-11-openjdk-amd64'
+
+                envman add --key JAVA_HOME --value
+                '/usr/lib/jvm/java-11-openjdk-amd64'
+          title: Switch to Java 11
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@4: { }
+      - cache-pull@2: { }
+      - install-missing-android-tools@2:
+          inputs:
+            - gradlew_path: $PROJECT_LOCATION/gradlew
+      - android-lint@0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: $VARIANT
+      - android-unit-test@1:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: $VARIANT
+      - cache-push@2: { }
+app:
+  envs:
+    - opts:
+        is_expand: false
+      PROJECT_LOCATION: .
+    - opts:
+        is_expand: false
+      MODULE: app
+    - opts:
+        is_expand: false
+      VARIANT: debug
