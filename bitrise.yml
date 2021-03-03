@@ -96,7 +96,6 @@ workflows:
           inputs:
             - project_location: $PROJECT_LOCATION
             - module: $MODULE
-            - build_type: aab
             - variant: release
       - sign-apk@1:
           run_if: '{{getenv "BITRISEIO_ANDROID_KEYSTORE_URL" | ne ""}}'
@@ -159,7 +158,7 @@ workflows:
             - output_name: app-coficiando-signed
       - google-play-deploy@3:
           inputs:
-            - service_account_json_key_path: $BITRISEIO_GOOGLE_SERVICES_URL
+            - service_account_json_key_path: $BITRISEIO_PLAY_CONSOLE_ROLE_URL
             - package_name: com.thirdwavelist.coficiando
 app:
   envs:
