@@ -4,12 +4,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.0-alpha15'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32"
-        classpath "com.google.gms:google-services:${Versions.google_services}"
-        classpath "com.google.firebase:firebase-crashlytics-gradle:${Versions.crashlytics_gradle}"
-        classpath "com.google.dagger:hilt-android-gradle-plugin:${Versions.hilt}"
-        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:${Versions.nav_components}"
+        classpath libs.agp
+        classpath libs.kotlin.gradle
+        classpath libs.google.gms
+        classpath libs.firebase.crashlytics
+        classpath libs.hilt.gradle
+        classpath libs.androidx.navigation.component.safe.args.gradle
     }
 }
 
@@ -25,21 +25,21 @@ subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
             android {
-                compileSdkVersion Config.compileSdk
+                compileSdkVersion 30
 
                 defaultConfig {
-                    minSdkVersion Config.minSdk
-                    targetSdkVersion Config.targetSdk
+                    minSdkVersion 23
+                    targetSdkVersion 30
                     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
                 }
 
                 compileOptions {
-                    sourceCompatibility Config.javaVersion
-                    targetCompatibility Config.javaVersion
+                    sourceCompatibility JavaVersion.VERSION_1_8
+                    targetCompatibility JavaVersion.VERSION_1_8
                 }
 
                 kotlinOptions {
-                    jvmTarget = Config.javaVersion
+                    jvmTarget = JavaVersion.VERSION_1_8
                 }
             }
         }

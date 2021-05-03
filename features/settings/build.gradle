@@ -11,15 +11,12 @@ dependencies {
     implementation project(":libraries:navigation")
     implementation project(":libraries:design")
 
-    implementation "androidx.core:core-ktx:${Versions.core_ktx}"
-    implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.lifecycle.viewmodel.ktx
+    implementation libs.bundles.androidx.navigation.component
+    implementation libs.androidx.preference.ktx
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-
-    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
-    kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-
-    implementation "androidx.preference:preference-ktx:${Versions.preference}"
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 }

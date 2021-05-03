@@ -13,9 +13,7 @@ dependencies {
     implementation project(":libraries:navigation")
     implementation project(":libraries:design")
 
-    implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
-    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
-
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.constraintlayout
+    implementation libs.bundles.androidx.navigation.component
 }
