@@ -77,7 +77,7 @@ hilt {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.0"
+    implementation libs.kotlin.stdlib
 
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
@@ -88,24 +88,21 @@ dependencies {
     implementation project(":features:details")
     implementation project(":features:settings")
 
-    implementation platform("com.google.firebase:firebase-bom:${Versions.firebase_bom}")
-
+    implementation platform(libs.firebase.bom)
     implementation "com.google.firebase:firebase-crashlytics"
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-config-ktx"
 
-    implementation "androidx.core:core-ktx:${Versions.core_ktx}"
-    implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
-    implementation "com.google.android.material:material:${Versions.material_design}"
-    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material.design
+    implementation libs.androidx.constraintlayout
+    implementation libs.bundles.androidx.navigation.component
 
-    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
-    kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
-
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:${Versions.leakcanary}"
+    debugImplementation libs.leakcanary
 }
 
 apply plugin: 'com.google.gms.google-services'

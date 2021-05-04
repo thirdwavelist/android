@@ -4,8 +4,8 @@ plugins {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
-    implementation "com.google.android.material:material:${Versions.material_design}"
+    implementation libs.androidx.appcompat
+    implementation libs.material.design
 
-    api "com.airbnb.android:lottie:${Versions.lottie}"
+    api libs.lottie
 }

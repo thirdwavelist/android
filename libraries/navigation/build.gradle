@@ -6,12 +6,11 @@ plugins {
 dependencies {
     implementation project(":libraries:core-utils")
 
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
+    implementation libs.bundles.androidx.navigation.component
 
-    testImplementation "junit:junit:${Versions.junit}"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
-    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
+    testImplementation libs.junit
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.inline
 }
 
 apply plugin: 'androidx.navigation.safeargs.kotlin'

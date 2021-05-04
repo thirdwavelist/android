@@ -13,45 +13,43 @@ android {
 
 dependencies {
     implementation project(":libraries:core-utils")
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.coroutines}"
+    implementation libs.coroutines.core
 
-    implementation platform("com.google.firebase:firebase-bom:${Versions.firebase_bom}")
+    implementation platform(libs.firebase.bom)
     implementation "com.google.firebase:firebase-config-ktx"
 
-    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
-    kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
-    implementation "com.google.code.gson:gson:${Versions.gson}"
+    implementation libs.gson
 
-    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
-    implementation "com.github.haroldadmin:NetworkResponseAdapter:${Versions.network_adapter}"
+    implementation libs.okhttp.core
+    implementation libs.okhttp.logging.interceptor
+    implementation libs.retrofit.core
+    implementation libs.retrofit.ext.gson
+    implementation libs.network.adapter
 
-    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    kapt libs.androidx.room.compiler
+    implementation libs.androidx.room.runtime
+    implementation libs.androidx.room.ktx
 
-    kapt "androidx.room:room-compiler:${Versions.room}"
-    implementation "androidx.room:room-runtime:${Versions.room}"
-    implementation "androidx.room:room-ktx:${Versions.room}"
+    kapt libs.glide.compiler
+    implementation libs.bundles.glide
 
-    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
-    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
-    implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
+    implementation libs.timber
+    implementation libs.coroutines.test
 
-    implementation "com.jakewharton.timber:timber:${Versions.timber}"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    testImplementation libs.junit
+    testImplementation libs.assertj
+    testImplementation libs.burst
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.inline
+    testImplementation libs.okhttp.mockwebserver
 
-    testImplementation "junit:junit:${Versions.junit}"
-    testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
-    testImplementation "com.squareup.burst:burst-junit4:${Versions.burst}"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
-    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
-    testImplementation "com.squareup.okhttp3:mockwebserver:${Versions.okhttp}"
-
-    androidTestImplementation "junit:junit:${Versions.junit}"
-    androidTestImplementation "androidx.arch.core:core-testing:${Versions.arch_core}"
-    androidTestImplementation "androidx.test:core:${Versions.test_jetpack_core}"
-    androidTestImplementation "androidx.test:runner:${Versions.test_jetpack_runner}"
-    androidTestImplementation "androidx.test.ext:junit:${Versions.test_ext_junit}"
-    androidTestImplementation "org.assertj:assertj-core:${Versions.assertJ}"
+    androidTestImplementation libs.junit
+    androidTestImplementation libs.androidx.arch.core.testing
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.assertj
 }

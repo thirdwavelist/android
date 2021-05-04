@@ -15,34 +15,29 @@ dependencies {
     implementation project(":libraries:navigation")
     implementation project(":libraries:design")
 
-    implementation "androidx.core:core-ktx:${Versions.core_ktx}"
-    implementation "androidx.fragment:fragment-ktx:${Versions.fragment_ktx}"
-    implementation "androidx.appcompat:appcompat:${Versions.appcompat}"
-    implementation "com.google.android.material:material:${Versions.material_design}"
-    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.fragment.ktx
+    implementation libs.androidx.appcompat
+    implementation libs.material.design
+    implementation libs.androidx.constraintlayout
+    implementation libs.bundles.androidx.lifecycle
+    implementation libs.bundles.androidx.navigation.component
 
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycle}"
-    implementation "androidx.lifecycle:lifecycle-extensions:${Versions.lifecycle}"
+    implementation libs.hilt.android
+    kapt libs.hilt.compiler
 
-    implementation "com.google.dagger:hilt-android:${Versions.hilt}"
-    kapt "com.google.dagger:hilt-android-compiler:${Versions.hilt}"
-
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.nav_components}"
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.nav_components}"
-
-    kapt "com.github.bumptech.glide:compiler:${Versions.glide}"
-    implementation "com.github.bumptech.glide:glide:${Versions.glide}"
-    implementation "com.github.bumptech.glide:okhttp3-integration:${Versions.glide}"
+    kapt libs.glide.compiler
+    implementation libs.bundles.glide
 
     testImplementation project(":libraries:core")
-    testImplementation "junit:junit:${Versions.junit}"
-    testImplementation "org.assertj:assertj-core:${Versions.assertJ}"
-    testImplementation "androidx.arch.core:core-testing:${Versions.arch_core}"
-    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockito_kotlin}"
-    testImplementation "org.mockito:mockito-inline:${Versions.mockito_inline}"
+    testImplementation libs.junit
+    testImplementation libs.assertj
+    testImplementation libs.androidx.arch.core.testing
+    testImplementation libs.mockito.kotlin
+    testImplementation libs.mockito.inline
 
-    androidTestImplementation "androidx.test.ext:junit:${Versions.test_ext_junit}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.androidx.test.espresso
 }
 
 apply plugin: 'androidx.navigation.safeargs.kotlin'
