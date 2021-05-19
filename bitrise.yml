@@ -52,18 +52,19 @@ workflows:
           title: Grab download link
           inputs:
             - content: >-
-                export PR_BUILD_DOWNLOAD="$(echo $BITRISE_PERMANENT_DOWNLOAD_URL_MAP | grep --perl-regexp '(?<=>).*(?=\|)' --only-matching)"
+                export PR_BUILD_DOWNLOAD_LINK="$(echo $BITRISE_PERMANENT_DOWNLOAD_URL_MAP | grep --perl-regexp '(?<=>).*(?=\|)' --only-matching)"
+                envman add --key PR_BUILD_DOWNLOAD_LINK -- value $PR_BUILD_DOWNLOAD_LINK
       - create-install-page-qr-code@1:
           title: Generate QR code from download link
           inputs:
-            - public_install_page_url: '$PR_BUILD_DOWNLOAD'
+            - public_install_page_url: '$PR_BUILD_DOWNLOAD_LINK'
       - comment-on-github-pull-request@0:
           title: Comment with download link on PR
           inputs:
             - body: >-
                 Download link for $BITRISE_GIT_COMMIT
                 </br>
-                <a href="$PR_BUILD_DOWNLOAD"><img src="$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL" width="150" height="150"></a>
+                <a href="$PR_BUILD_DOWNLOAD_LINK"><img src="$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL" width="150" height="150"></a>
             - personal_access_token: $GH_TOKEN
   deploy:
     steps:
