@@ -52,8 +52,9 @@ workflows:
           title: Grab download link
           inputs:
             - content: >-
+                #!/bin/bash
                 export LINK="$(echo $BITRISE_PERMANENT_DOWNLOAD_URL_MAP | grep --perl-regexp '(?<=>).*(?=\|)' --only-matching)"
-                envman add --key PR_BUILD_DOWNLOAD_LINK --value $LINK
+                envman add --key PR_BUILD_DOWNLOAD_LINK --value '$LINK'
       - create-install-page-qr-code@1:
           title: Generate QR code from download link
           inputs:
