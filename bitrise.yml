@@ -37,7 +37,36 @@ workflows:
             - project_location: "$PROJECT_LOCATION"
             - module: "$MODULE"
             - variant: "$VARIANT"
-      - cache-push@2: { }
+      - android-build@0:
+          inputs:
+            - project_location: $PROJECT_LOCATION
+            - module: $MODULE
+            - variant: debug
+      - cache-push@2: {}
+      - deploy-to-bitrise-io@1:
+          inputs:
+            - notify_user_groups: none
+            - is_enable_public_page: 'false'
+            - generate_universal_apk_if_none: 'false'
+      - script@1:
+          title: Grab download link
+          inputs:
+            - content: >-
+                envman add --key PR_BUILD_DOWNLOAD_LINK --value "$(echo $BITRISE_PERMANENT_DOWNLOAD_URL_MAP | sed 's/.*apk=>//;s/|.*//')"
+      - create-install-page-qr-code@1:
+          title: Generate QR code from download link
+          inputs:
+            - public_install_page_url: $PR_BUILD_DOWNLOAD_LINK
+      - comment-on-github-pull-request@0:
+          title: Comment with download link on PR
+          run_if: '{{getenv "BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL" | ne ""}}'
+          inputs:
+            - body: >-
+                Download link for $BITRISE_GIT_COMMIT
+                </br>
+                <a href="$PR_BUILD_DOWNLOAD_LINK"><img src="$BITRISE_PUBLIC_INSTALL_PAGE_QR_CODE_IMAGE_URL" width="300" height="300"></a>
+            - personal_access_token: $GH_TOKEN
+            - update_comment_tag: $BITRISE_PULL_REQUEST
   deploy:
     steps:
       - script@1:
