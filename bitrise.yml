@@ -35,13 +35,17 @@ workflows:
             - gradlew_path: $PROJECT_LOCATION/gradlew
       - change-android-versioncode-and-versionname@1:
           inputs:
+            - new_version_code: '' # Left empty explicitly to not use default value
             - version_code_offset: '1'
             - build_gradle_path: $BITRISE_SOURCE_DIR/$MODULE/build.gradle
           title: Update versionCode and versionName
       - script@1:
           inputs:
             - content: >-
-                git commit -Sam "Update versionCode"
+                git remote origin --set-url $CI_REPO_URL_WITH_ACCESS
+                git commit -am "Update versionCode"
+                git push origin main
+                git remote origin --set-url $GIT_REPOSITORY_URL
           title: Commit new versionCode and versionName
       - android-lint@0:
           inputs:
@@ -54,23 +58,27 @@ workflows:
             - module: $MODULE
             - variant: $VARIANT
       - android-build@0:
+          run_if: '{{getenv "BITRISE_GIT_MESSAGE" | ne "Update versionCode"}}'
           inputs:
             - project_location: $PROJECT_LOCATION
             - module: $MODULE
             - variant: debug
       - cache-push@2: {}
       - deploy-to-bitrise-io@1:
+          run_if: '{{getenv "BITRISE_GIT_MESSAGE" | ne "Update versionCode"}}'
           inputs:
             - notify_user_groups: none
             - is_enable_public_page: 'false'
             - generate_universal_apk_if_none: 'false'
       - script@1:
+          run_if: '{{getenv "BITRISE_GIT_MESSAGE" | ne "Update versionCode"}}'
           title: Grab download link
           inputs:
             - content: >-
                 envman add --key PR_BUILD_DOWNLOAD_LINK --value "$(echo
                 $BITRISE_PERMANENT_DOWNLOAD_URL_MAP | sed 's/.*apk=>//;s/|.*//')"
       - create-install-page-qr-code@1:
+          run_if: '{{getenv "BITRISE_GIT_MESSAGE" | ne "Update versionCode"}}'
           title: Generate QR code from download link
           inputs:
             - public_install_page_url: $PR_BUILD_DOWNLOAD_LINK
