@@ -107,6 +107,7 @@ workflows:
           inputs:
             - new_version_code: $BITRISE_BUILD_NUMBER
             - build_gradle_path: $PROJECT_LOCATION/$MODULE/build.gradle
+          title: Temporarily set new versionCode for Firebase App Distribtion
       - script@1:
           inputs:
             - content: >-
@@ -164,11 +165,12 @@ workflows:
           inputs:
             - version_code_offset: '1'
             - build_gradle_path: $BITRISE_SOURCE_DIR/$MODULE/build.gradle
+          title: Update versionCode and versionName
       - script@1:
           inputs:
             - content: >-
                 git commit -Sam "Update versionCode"
-          title: Commit new versionCode
+          title: Commit new versionCode and versionName
       - script@1:
           inputs:
             - content: >-
