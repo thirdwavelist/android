@@ -6,7 +6,7 @@
 
 ## How to run
 
-This project was written **using Android Studio Arctic Fox | 2020.3.1 Canary 5**, and given the usage of Dagger Hilt, modularization and kapt,
+This project was written **using Android Studio Arctic Fox**, and given the usage of Dagger Hilt, modularization and kapt,
 it is required to run it on AGP 7.0.0+ and make sure you have Java 11 installed (See caveats for more info).
 
 If the compiler is complaining about JDK 11 (in case you are not using the embedded one), make sure you install that first and check
