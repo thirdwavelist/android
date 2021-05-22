@@ -49,10 +49,13 @@ workflows:
       - script@1:
           inputs:
             - content: >-
-                git remote origin --set-url $CI_REPO_URL_WITH_ACCESS
+                #!/bin/bash
+                git remote set-url --push origin "$(echo '$CI_REPO_URL_WITH_ACCESS')"
+                git config user.name "$CI_USER_NAME"
+                git config user.email "$CI_USER_EMAIL"
                 git commit -am "Update versionCode"
                 git push origin main
-                git remote origin --set-url $GIT_REPOSITORY_URL
+                git remote set-url --push origin $GIT_REPOSITORY_URL
           title: Commit new versionCode and versionName
       - android-lint@0:
           inputs:
