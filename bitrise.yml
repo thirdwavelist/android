@@ -33,10 +33,17 @@ workflows:
       - install-missing-android-tools@2:
           inputs:
             - gradlew_path: $PROJECT_LOCATION/gradlew
+      - script@1:
+          inputs:
+            - content: >-
+                envman add --key CURRENT_VERSION_CODE --value "$(grep -P
+                'versionCode(?:\s|=)+(.*?)(?:\s|\/\/|$)' $PROJECT_LOCATION/$MODULE//build.gradle |
+                awk '{ print $2}')"
+          title: Temporary solution to get current versionCode
       - change-android-versioncode-and-versionname@1:
           inputs:
-            - new_version_code: '' # Left empty explicitly to not use default value
-            - version_code_offset: '1'
+            - new_version_code: $CURRENT_VERSION_CODE
+            - version_code_offset: 1
             - build_gradle_path: $BITRISE_SOURCE_DIR/$MODULE/build.gradle
           title: Update versionCode and versionName
       - script@1:
