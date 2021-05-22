@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.thirdwavelist.coficiando"
 
-        versionCode 5
+        versionCode 22
         versionName "1.1.0"
 
         proguardFiles 'proguard-rules.pro'

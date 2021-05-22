@@ -105,7 +105,7 @@ workflows:
             - gradlew_path: $PROJECT_LOCATION/gradlew
       - change-android-versioncode-and-versionname@1:
           inputs:
-            - version_code_offset: ''
+            - new_version_code: $BITRISE_BUILD_NUMBER
             - build_gradle_path: $PROJECT_LOCATION/$MODULE/build.gradle
       - script@1:
           inputs:
@@ -162,8 +162,13 @@ workflows:
             - gradlew_path: $PROJECT_LOCATION/gradlew
       - change-android-versioncode-and-versionname@1:
           inputs:
-            - version_code_offset: ''
+            - version_code_offset: '1'
             - build_gradle_path: $BITRISE_SOURCE_DIR/$MODULE/build.gradle
+      - script@1:
+          inputs:
+            - content: >-
+                git commit -Sam "Update versionCode"
+          title: Commit new versionCode
       - script@1:
           inputs:
             - content: >-
