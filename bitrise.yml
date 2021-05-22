@@ -33,6 +33,16 @@ workflows:
       - install-missing-android-tools@2:
           inputs:
             - gradlew_path: $PROJECT_LOCATION/gradlew
+      - change-android-versioncode-and-versionname@1:
+          inputs:
+            - version_code_offset: '1'
+            - build_gradle_path: $BITRISE_SOURCE_DIR/$MODULE/build.gradle
+          title: Update versionCode and versionName
+      - script@1:
+          inputs:
+            - content: >-
+                git commit -Sam "Update versionCode"
+          title: Commit new versionCode and versionName
       - android-lint@0:
           inputs:
             - project_location: $PROJECT_LOCATION
