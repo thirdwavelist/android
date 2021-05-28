@@ -5,7 +5,10 @@ plugins {
 }
 
 android {
-    buildFeatures.viewBinding true
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
 }
 
 dependencies {

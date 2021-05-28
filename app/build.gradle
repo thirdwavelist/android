@@ -53,7 +53,10 @@ android {
         xmlReport true
     }
 
-    buildFeatures.viewBinding true
+    buildFeatures {
+        viewBinding true
+        compose true
+    }
 
     buildTypes {
         release {
@@ -69,6 +72,10 @@ android {
 
     packagingOptions {
         exclude 'META-INF/**'
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion libs.versions.composeVersion.get()
     }
 }
 
