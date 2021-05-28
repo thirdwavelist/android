@@ -21,7 +21,6 @@ So to sum up, in order to compile and run the project you will need:
 - Clicking on a RV item triggers a navigation action (Android Navigation Components) and opens detail view for the given item
 - After the initial successful network request, the data is stored in a local database using Room
 - Settings page
-- Splash screen
 - `:libraries:design` module implementing Material Design guidelines
 - Common abstractions in `:libraries:core-utils` and `:libraries:core` modules
 - Navigation abstraction in `:libraries:navigation` module implementing Android Navigation Components
