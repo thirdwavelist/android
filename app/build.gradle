@@ -90,7 +90,6 @@ dependencies {
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
     implementation project(":libraries:design")
-    implementation project(":features:splash")
     implementation project(":features:home")
     implementation project(":features:details")
     implementation project(":features:settings")
