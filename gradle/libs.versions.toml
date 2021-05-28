@@ -1,11 +1,11 @@
 [versions]
-agpVersion = "7.0.0-beta02"
+agpVersion = "7.1.0-alpha01"
 kotlinVersion = "1.4.32"
 coroutinesVersion = "1.4.2"
 lottieVersion = "3.6.0"
 googleServicesVersion = "4.3.5"
 navigationComponentVersion = "2.3.3"
-daggerVersion = "2.35.1"
+daggerVersion = "2.36"
 gsonVersion = "2.8.6"
 firebaseBomVersion = "26.4.0"
 crashlyticsVersion = "2.4.1"
