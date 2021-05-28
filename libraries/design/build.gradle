@@ -6,6 +6,7 @@ plugins {
 dependencies {
     implementation libs.androidx.appcompat
     implementation libs.material.design
+    api libs.bundles.compose
 
     api libs.lottie
 }
