@@ -6,14 +6,14 @@
 
 ## How to run
 
-This project was written **using Android Studio Arctic Fox**, and given the usage of Dagger Hilt, modularization and kapt,
-it is required to run it on AGP 7.0.0+ and make sure you have Java 11 installed (See caveats for more info).
+This project was written **using Android Studio Bumblebee**, and given the usage of Dagger Hilt, modularization and kapt,
+it is required to run it on AGP 7.1.0+ and make sure you have Java 11 installed (See caveats for more info).
 
 If the compiler is complaining about JDK 11 (in case you are not using the embedded one), make sure you install that first and check
 the Project Structure -> SDK Location -> JDK location settings.
 
 So to sum up, in order to compile and run the project you will need:
-- AS Arctic Fox with AGP >7.0.0
+- AS Bumblebee with AGP >7.1.0
 - Java 11 SDK installed
 
 ## Features:
