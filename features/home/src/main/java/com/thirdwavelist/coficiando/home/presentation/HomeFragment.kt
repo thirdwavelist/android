@@ -26,11 +26,13 @@ import dagger.hilt.android.AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val viewModel: HomeFragmentViewModel by viewModels()
-    private lateinit var binding: FragmentHomeBinding
-    private lateinit var cafeAdapter: CafeAdapter
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private var _cafeAdapter: CafeAdapter? = null
+    private val cafeAdapter get() = _cafeAdapter!!
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -40,7 +42,7 @@ class HomeFragment : Fragment() {
             v.updatePadding(top = insets.systemWindowInsetTop)
             insets
         }
-        cafeAdapter = CafeAdapter().apply {
+        _cafeAdapter = CafeAdapter().apply {
             setOnItemClickListener { cafeItem, sharedElementTransitions ->
                 viewModel.onCafeTapped(cafeItem, sharedElementTransitions)
             }
@@ -59,6 +61,12 @@ class HomeFragment : Fragment() {
         }
 
         viewModel.loadCafes()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        _cafeAdapter = null
     }
 
     private fun handle(liveEvent: LiveEvent<HomeEvents>) {
