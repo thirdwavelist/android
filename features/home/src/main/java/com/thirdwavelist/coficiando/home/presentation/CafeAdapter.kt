@@ -47,6 +47,11 @@ class CafeAdapter : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(diffUt
         }
     }
 
+    override fun onViewRecycled(holder: CafeItemViewHolder) {
+        super.onViewRecycled(holder)
+        holder.unBind()
+    }
+
     fun setOnItemClickListener(function: (CafeItem, List<Pair<View, String>>) -> Unit) {
         itemClickListener = function
     }
@@ -60,7 +65,11 @@ class CafeAdapter : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(diffUt
                                  val hasSyphon: Boolean,
                                  val hasImmersive: Boolean)
 
-    class CafeItemViewHolder(private val binding: ItemCafeBinding) : RecyclerView.ViewHolder(binding.root) {
+    class CafeItemViewHolder(binding: ItemCafeBinding) : RecyclerView.ViewHolder(binding.root) {
+
+        private var _binding: ItemCafeBinding? = binding
+        private val binding get() = _binding!!
+
         fun bind(viewModel: Any) {
             when (viewModel) {
                 is CafeItemViewModel -> {
@@ -89,6 +98,10 @@ class CafeAdapter : ListAdapter<CafeItem, CafeAdapter.CafeItemViewHolder>(diffUt
                 }
             }
 
+        }
+
+        fun unBind() {
+            _binding = null
         }
     }
 }

@@ -25,7 +25,9 @@ import java.util.UUID
 @AndroidEntryPoint
 class DetailsFragment : Fragment() {
 
-    private lateinit var binding: FragmentDetailsBinding
+
+    private var _binding: FragmentDetailsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: DetailsFragmentViewModel by viewModels()
     private val args: DetailsFragmentArgs by navArgs()
 
@@ -35,7 +37,7 @@ class DetailsFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -52,6 +54,11 @@ class DetailsFragment : Fragment() {
         }
 
         viewModel.loadCafe(UUID.fromString(args.id))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
     private fun handle(liveEvent: LiveEvent<DetailsEvents>) {
