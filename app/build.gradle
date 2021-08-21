@@ -80,7 +80,7 @@ android {
 }
 
 hilt {
-    enableExperimentalClasspathAggregation = true
+    enableAggregatingTask = true
 }
 
 dependencies {
