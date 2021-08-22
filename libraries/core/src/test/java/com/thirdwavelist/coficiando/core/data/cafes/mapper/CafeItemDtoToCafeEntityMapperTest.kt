@@ -1,8 +1,9 @@
 package com.thirdwavelist.coficiando.core.data.cafes.mapper
 
 import com.squareup.burst.BurstJUnit4
-import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
-import com.thirdwavelist.coficiando.core.domain.cafe.*
+import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
+import com.thirdwavelist.coficiando.coroutines.data.network.model.CafeItemDto
+import com.thirdwavelist.coficiando.coroutines.cafe.*
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatNullPointerException
 import org.junit.Test
@@ -18,7 +19,7 @@ class CafeItemDtoToCafeEntityMapperTest {
     fun `Given valid dto, when mapped, then expected entity is created`() {
         // Given
         val validInput = generateCafeItemDto()
-        val expectedOutput = CafeItem(
+        val expectedOutput = Cafe(
                 validInput.id,
                 validInput.name!!,
                 validInput.thumbnail.toString(),

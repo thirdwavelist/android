@@ -5,17 +5,17 @@ import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.given
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.then
-import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
-import com.thirdwavelist.coficiando.core.data.db.CafeDao
-import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
-import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
-import com.thirdwavelist.coficiando.core.data.network.model.ErrorResponseDto
-import com.thirdwavelist.coficiando.core.domain.cafe.*
-import com.thirdwavelist.coficiando.core.logging.BusinessEventLogger
-import com.thirdwavelist.coficiando.core.logging.ErrorEventLogger
-import com.thirdwavelist.coficiando.coreutils.logging.BusinessEvent
-import com.thirdwavelist.coficiando.coreutils.logging.ErrorEvent
-import com.thirdwavelist.coficiando.coreutils.logging.ErrorPriority
+import com.thirdwavelist.coficiando.coroutines.data.cafes.mapper.CafeItemDtoToCafeEntityMapper
+import com.thirdwavelist.coficiando.coroutines.data.db.CafeDao
+import com.thirdwavelist.coficiando.coroutines.data.network.ThirdWaveListService
+import com.thirdwavelist.coficiando.coroutines.data.network.model.CafeItemDto
+import com.thirdwavelist.coficiando.coroutines.data.network.model.ErrorResponseDto
+import com.thirdwavelist.coficiando.coroutines.logging.BusinessEventLogger
+import com.thirdwavelist.coficiando.coroutines.cafe.*
+import com.thirdwavelist.coficiando.coroutines.logging.ErrorEventLogger
+import com.thirdwavelist.coficiando.core.util.logging.BusinessEvent
+import com.thirdwavelist.coficiando.core.util.logging.ErrorEvent
+import com.thirdwavelist.coficiando.core.util.logging.ErrorPriority
 import kotlinx.coroutines.runBlocking
 import okio.IOException
 import org.assertj.core.api.Assertions.assertThat
@@ -228,11 +228,11 @@ class CafeRepositoryTest {
         return givenException
     }
 
-    private fun givenLocalReturns(listOf: List<CafeItem>) {
+    private fun givenLocalReturns(listOf: List<Cafe>) {
         given { runBlocking { mockDao.getAll() } }.willReturn(listOf)
     }
 
-    private fun givenLocalReturns(forCafeId: UUID, cafe: CafeItem) {
+    private fun givenLocalReturns(forCafeId: UUID, cafe: Cafe) {
         given { runBlocking { mockDao.get(forCafeId) } }.willReturn(cafe)
     }
 
@@ -250,8 +250,8 @@ class CafeRepositoryTest {
         private val Entity1 = generateEntity("38031424-7bca-419d-a17e-cfc87e032ed8")
         private val Entity2 = generateEntity("4cbabfab-4190-460a-bd59-f45ca73429af")
 
-        private fun generateEntity(uuidString: String): CafeItem {
-            return CafeItem(
+        private fun generateEntity(uuidString: String): Cafe {
+            return Cafe(
                     UUID.fromString(uuidString), "cafeName", "https://thumbnailUrl",
                     SocialItem("https://facebookPageUrl", "https://instagramUrl", "https://websiteUrl"),
                     "googlePlaceId",

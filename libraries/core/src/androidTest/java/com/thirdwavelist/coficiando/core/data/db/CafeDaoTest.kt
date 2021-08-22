@@ -63,7 +63,7 @@ class CafeDaoTest : DbTest() {
 
     @Suppress("BooleanLiteralArgument")
     private companion object {
-        private val TestEntity1 = CafeItem(
+        private val TestEntity1 = Cafe(
                 UUID.fromString("4029172e-c30e-40a9-957b-c85252db248a"),
                 "Fekete",
                 "https://assets.thirdwavelist.com/thumb/4029172e-c30e-40a9-957b-c85252db248a.jpg",
@@ -73,7 +73,7 @@ class CafeDaoTest : DbTest() {
                 BeanInfoItem("", "Casino Mocca", true, false, true, false, false),
                 BrewInfoItem(true, false, true, true, false, true)
         )
-        private val TestEntity2 = CafeItem(
+        private val TestEntity2 = Cafe(
                 UUID.fromString("8818c4e0-1e48-4107-9926-eac06ac5829c"),
                 "Budapest Baristas",
                 "https://assets.thirdwavelist.com/thumb/8818c4e0-1e48-4107-9926-eac06ac5829c.jpg",

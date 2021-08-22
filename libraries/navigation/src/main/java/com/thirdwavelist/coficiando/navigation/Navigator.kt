@@ -1,19 +1,44 @@
 package com.thirdwavelist.coficiando.navigation
 
-import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.fragment.FragmentNavigator
-import com.thirdwavelist.coficiando.coreutils.ext.exhaustive
+import android.os.Parcelable
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcher
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.toMutableStateList
+import javax.inject.Singleton
 
-class Navigator(private val navController: NavController, private val fragmentNavigatorExtrasMapper: (Array<Pair<View, String>>) -> FragmentNavigator.Extras) {
+@Singleton
+class Navigator<T : Parcelable> constructor(
+    initialBackStack: List<T>,
+    backDispatcher: OnBackPressedDispatcher
+) {
+    private val backStack = initialBackStack.toMutableStateList()
+    private val backCallback = object : OnBackPressedCallback(canGoBack()) {
+        override fun handleOnBackPressed() {
+            back()
+        }
+    }.also { callback ->
+        backDispatcher.addCallback(callback)
+    }
+    val current: T get() = backStack.last()
 
-    fun navigateToFlow(navigationFlow: NavigationFlow, sharedElementTransitions: Array<Pair<View, String>>) {
-        val extras = fragmentNavigatorExtrasMapper(sharedElementTransitions)
-        when (navigationFlow) {
-            is NavigationFlow.HomeFlow -> navController.navigate(NavMainDirections.actionGlobalHomeFlow(), extras)
-            is NavigationFlow.DetailsFlow -> navController.navigate(NavMainDirections.actionGlobalDetailsFlow(navigationFlow.id), extras)
-            is NavigationFlow.SettingsFlow -> navController.navigate(NavMainDirections.actionGlobalSettingsFlow(), extras)
-        }.exhaustive
+    fun back() {
+        backStack.removeAt(backStack.lastIndex)
+        backCallback.isEnabled = canGoBack()
     }
 
+    fun navigate(destination: T) {
+        backStack += destination
+        backCallback.isEnabled = canGoBack()
+    }
+
+    private fun canGoBack(): Boolean = backStack.size > 1
+
+    companion object {
+        fun <T : Parcelable> saver(backDispatcher: OnBackPressedDispatcher) =
+            listSaver<Navigator<T>, T>(
+                save = { navigator -> navigator.backStack.toList() },
+                restore = { backstack -> Navigator(backstack, backDispatcher) }
+            )
+    }
 }

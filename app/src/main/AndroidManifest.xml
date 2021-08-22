@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:allowBackup="true"
         android:fullBackupOnly="true"
-        android:theme="@style/AppTheme"
         >
 
         <meta-data
@@ -23,8 +22,8 @@
             />
 
         <activity
-            android:name=".presentation.MainActivity"
-            android:theme="@style/AppTheme"
+            android:name=".MainActivity"
+            android:exported="true"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

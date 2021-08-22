@@ -1,12 +1,12 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'com.google.firebase.crashlytics'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+}
 
 android {
-
     defaultConfig {
         applicationId "com.thirdwavelist.coficiando"
 
@@ -53,15 +53,10 @@ android {
         xmlReport true
     }
 
-    buildFeatures {
-        viewBinding true
-        compose true
-    }
-
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
         debug {
             debuggable true
@@ -74,8 +69,12 @@ android {
         exclude 'META-INF/**'
     }
 
+    buildFeatures {
+        compose true
+    }
+
     composeOptions {
-        kotlinCompilerExtensionVersion libs.versions.composeVersion.get()
+        kotlinCompilerExtensionVersion = libs.versions.composeVersion.get()
     }
 }
 
@@ -99,11 +98,14 @@ dependencies {
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-config-ktx"
 
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.ui
+    implementation libs.compose.ui.material
+    implementation libs.compose.ui.insets
+    implementation libs.compose.ui.activity
+
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
-    implementation libs.material.design
-    implementation libs.androidx.constraintlayout
-    implementation libs.bundles.androidx.navigation.component
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler

@@ -1,8 +1,9 @@
 package com.thirdwavelist.coficiando.core.domain.cafe
 
 import com.squareup.burst.BurstJUnit4
-import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableOriginTypes
-import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableRoastTypes
+import com.thirdwavelist.coficiando.coroutines.cafe.BeanInfoItem.Companion.availableOriginTypes
+import com.thirdwavelist.coficiando.coroutines.cafe.BeanInfoItem.Companion.availableRoastTypes
+import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 import org.junit.runner.RunWith

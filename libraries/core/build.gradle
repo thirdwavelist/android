@@ -12,6 +12,8 @@ android {
 }
 
 dependencies {
+    implementation libs.kotlin.stdlib
+
     implementation project(":libraries:core-utils")
     implementation libs.coroutines.core
 
@@ -32,9 +34,6 @@ dependencies {
     kapt libs.androidx.room.compiler
     implementation libs.androidx.room.runtime
     implementation libs.androidx.room.ktx
-
-    kapt libs.glide.compiler
-    implementation libs.bundles.glide
 
     implementation libs.timber
     implementation libs.coroutines.test

@@ -1,7 +1,7 @@
 package com.thirdwavelist.coficiando.core.data.network
 
-import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
-import com.thirdwavelist.coficiando.core.data.network.model.ErrorResponseDto
+import com.thirdwavelist.coficiando.coroutines.data.network.model.CafeItemDto
+import com.thirdwavelist.coficiando.coroutines.data.network.model.ErrorResponseDto
 import java.util.UUID
 
 internal object CafeItemResponseBuilder {

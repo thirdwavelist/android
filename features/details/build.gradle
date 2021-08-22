@@ -6,30 +6,32 @@ plugins {
 }
 
 android {
-    buildFeatures.viewBinding true
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeVersion.get()
+    }
 }
 
 dependencies {
+    implementation libs.kotlin.stdlib
+
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
-    implementation project(":libraries:navigation")
-    implementation project(":libraries:design")
 
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.ui
+    implementation libs.compose.viewmodel
     implementation libs.androidx.core.ktx
     implementation libs.androidx.fragment.ktx
     implementation libs.androidx.appcompat
-    implementation libs.material.design
-    implementation libs.androidx.constraintlayout
-    implementation libs.bundles.androidx.lifecycle
-    implementation libs.bundles.androidx.navigation.component
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler
 
-    kapt libs.glide.compiler
-    implementation libs.bundles.glide
-
-    testImplementation project(":libraries:core")
     testImplementation libs.junit
     testImplementation libs.assertj
     testImplementation libs.androidx.arch.core.testing
@@ -39,5 +41,3 @@ dependencies {
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso
 }
-
-apply plugin: 'androidx.navigation.safeargs.kotlin'

@@ -1,7 +1,7 @@
 package com.thirdwavelist.coficiando.core.logging
 
-import com.thirdwavelist.coficiando.coreutils.logging.ErrorEvent
-import com.thirdwavelist.coficiando.coreutils.logging.EventLogger
+import com.thirdwavelist.coficiando.core.util.logging.ErrorEvent
+import com.thirdwavelist.coficiando.core.util.logging.EventLogger
 import timber.log.Timber
 
 class ErrorEventLogger : EventLogger<ErrorEvent> {

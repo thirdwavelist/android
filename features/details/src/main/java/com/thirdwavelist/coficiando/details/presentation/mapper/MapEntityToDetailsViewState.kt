@@ -1,17 +1,17 @@
 package com.thirdwavelist.coficiando.details.presentation.mapper
 
-import com.thirdwavelist.coficiando.core.di.qualifiers.GoogleMapsLink
+import com.thirdwavelist.coficiando.core.dagger.qualifiers.GoogleMapsLink
+import com.thirdwavelist.coficiando.core.domain.cafe.Cafe
+import com.thirdwavelist.coficiando.core.util.ext.Mapper
+import com.thirdwavelist.coficiando.details.presentation.DetailsViewState
 import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableOriginTypes
 import com.thirdwavelist.coficiando.core.domain.cafe.BeanInfoItem.Companion.availableRoastTypes
-import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
-import com.thirdwavelist.coficiando.coreutils.ext.Mapper
-import com.thirdwavelist.coficiando.details.presentation.DetailsViewState
 import javax.inject.Inject
 
 class MapEntityToDetailsViewState @Inject constructor(
         @GoogleMapsLink private val googleMapsUrl: String
-) : Mapper<CafeItem, DetailsViewState> {
-    override fun invoke(from: CafeItem) = DetailsViewState.Success(
+) : Mapper<Cafe, DetailsViewState> {
+    override fun invoke(from: Cafe) = DetailsViewState.Success(
             name = from.name,
             thumbnailUrl = from.thumbnail,
             googleMapsUri = composeGoogleMapsUrl(from.googlePlaceId),

@@ -6,10 +6,18 @@ plugins {
 }
 
 android {
-    buildFeatures.viewBinding true
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeVersion.get()
+    }
 }
 
 dependencies {
+    implementation libs.kotlin.stdlib
+
     implementation project(":libraries:core-utils")
     implementation project(":libraries:core")
     implementation project(":libraries:navigation")
@@ -19,17 +27,16 @@ dependencies {
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
     implementation libs.androidx.fragment.ktx
-    implementation libs.material.design
-    implementation libs.androidx.recyclerview
-    implementation libs.androidx.cardview
-    implementation libs.androidx.constraintlayout
-    implementation libs.bundles.androidx.lifecycle
+    implementation libs.androidx.lifecycle.viewmodel.ktx
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler
 
-    kapt libs.glide.compiler
-    implementation libs.bundles.glide
+    implementation libs.bundles.compose
+    implementation libs.bundles.compose.ui
+    implementation libs.compose.ui.material
+    implementation libs.compose.ui.imageloading
+    implementation libs.compose.viewmodel
 
     testImplementation libs.junit
     testImplementation libs.assertj

@@ -9,9 +9,10 @@ buildscript {
         classpath libs.google.gms
         classpath libs.firebase.crashlytics
         classpath libs.hilt.gradle
-        classpath libs.androidx.navigation.component.safe.args.gradle
     }
 }
+
+apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
 
 allprojects {
     repositories {
@@ -25,7 +26,7 @@ subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {
             android {
-                compileSdkVersion 30
+                compileSdkVersion 31
 
                 defaultConfig {
                     minSdkVersion 23

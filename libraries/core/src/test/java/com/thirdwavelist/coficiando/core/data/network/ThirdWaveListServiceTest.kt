@@ -3,6 +3,7 @@ package com.thirdwavelist.coficiando.core.data.network
 import com.google.gson.Gson
 import com.haroldadmin.cnradapter.NetworkResponse
 import com.haroldadmin.cnradapter.NetworkResponseAdapterFactory
+import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
 import com.thirdwavelist.coficiando.core.data.FileReaderUtil
 import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient

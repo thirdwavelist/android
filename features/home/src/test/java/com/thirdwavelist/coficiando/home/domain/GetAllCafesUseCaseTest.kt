@@ -4,7 +4,7 @@ import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.then
 import com.thirdwavelist.coficiando.core.coroutines.TestDispatcherProvider
 import com.thirdwavelist.coficiando.core.data.cafes.CafeRepository
-import com.thirdwavelist.coficiando.coreutils.usecase.None
+import com.thirdwavelist.coficiando.core.util.usecase.None
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Test

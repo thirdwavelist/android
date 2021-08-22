@@ -1,14 +1,14 @@
 package com.thirdwavelist.coficiando.core.data.cafes.mapper
 
-import com.thirdwavelist.coficiando.coreutils.ext.Mapper
-import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
 import com.thirdwavelist.coficiando.core.domain.cafe.*
+import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
+import com.thirdwavelist.coficiando.core.util.ext.Mapper
 import javax.inject.Inject
 
-class CafeItemDtoToCafeEntityMapper @Inject constructor() : Mapper<CafeItemDto, CafeItem> {
+class CafeItemDtoToCafeEntityMapper @Inject constructor() : Mapper<CafeItemDto, Cafe> {
 
-    override fun invoke(from: CafeItemDto): CafeItem =
-            CafeItem(id = from.id,
+    override fun invoke(from: CafeItemDto): Cafe =
+            Cafe(id = from.id,
                     name = from.name!!,
                     thumbnail = from.thumbnail!!.toString(),
                     social = SocialItem(facebookUri = from.socialFacebook,

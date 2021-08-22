@@ -1,5 +1,6 @@
 package com.thirdwavelist.coficiando.core.data.db
 
+import com.thirdwavelist.coficiando.core.data.db.CustomTypeConverters
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatIllegalArgumentException
 import org.junit.Test

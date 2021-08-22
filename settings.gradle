@@ -1,10 +1,12 @@
-include ':app'
-include ':features:home'
-include ':features:details'
-include ':features:settings'
-include ':libraries:core'
-include ':libraries:navigation'
-include ':libraries:core-utils'
-include ':libraries:design'
+include (
+    ':app',
+    ':features:home',
+    ':features:details',
+    ':features:settings',
+    ':libraries:core',
+    ':libraries:core-utils',
+    ':libraries:design',
+    ':libraries:navigation',
+)
 
 enableFeaturePreview("VERSION_CATALOGS")

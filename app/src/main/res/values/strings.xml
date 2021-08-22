@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ThirdWaveList</string>
-
     <string name="asset_statements" translatable="false">[{\n  \"relation\": [\"delegate_permission/common.handle_all_urls\"],\n  \"target\": {\n    \"namespace\": \"web\",\n    \"site\": \"https://www.thirdwavelist.com\",\n  }\n}]</string>
-
-    <string name="nav_home_title">Home</string>
-    <string name="nav_settings_title">Settings</string>
 </resources>

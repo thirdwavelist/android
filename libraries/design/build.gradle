@@ -3,10 +3,19 @@ plugins {
     id 'kotlin-android'
 }
 
-dependencies {
-    implementation libs.androidx.appcompat
-    implementation libs.material.design
-    api libs.bundles.compose
+android {
 
-    api libs.lottie
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.composeVersion.get()
+    }
+}
+
+dependencies {
+    implementation libs.kotlin.stdlib
+    implementation libs.bundles.compose
+    implementation libs.compose.ui.material
 }

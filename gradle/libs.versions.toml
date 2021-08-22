@@ -2,48 +2,47 @@
 agpVersion = "7.0.1"
 kotlinVersion = "1.5.21"
 coroutinesVersion = "1.5.1"
-lottieVersion = "3.6.0"
 googleServicesVersion = "4.3.5"
-navigationComponentVersion = "2.3.3"
 daggerVersion = "2.38.1"
 gsonVersion = "2.8.6"
 firebaseBomVersion = "26.4.0"
 crashlyticsVersion = "2.4.1"
-appCompatVersion = "1.2.0"
-constraintLayoutVersion = "2.0.4"
-materialDesignVersion = "1.2.1"
-recyclerViewVersion = "1.1.0"
-cardViewVersion = "1.0.0"
+appCompatVersion = "1.3.0"
 coreKtxVersion = "1.3.2"
-fragmentKtxVersion = "1.2.5"
+fragmentKtxVersion = "1.3.4"
 roomVersion = "2.2.6"
-lifecycleVersion = "2.2.0"
 preferenceVersion = "1.1.1"
+archCoreVersion = "2.1.0"
+timberVersion = "4.7.1"
+networkAdapterVersion = "4.1.0"
+leakCanaryVersion = "2.6"
+okhttpVersion = "4.7.2"
+retrofitVersion = "2.7.0"
+coilComposeVersion = "1.3.2"
+accompanistVersion = "0.17.0"
+activityVersion = "1.3.1"
+lifecycleVersion = "2.3.1"
+composeVersion = "1.0.1"
+composeNavigationVersion = "2.4.0-alpha07"
+composeLifecycleVersion = "1.0.0-alpha07"
+
+#test
 testRunnerVersion = "1.3.0"
 testCoreVersion = "1.3.0"
 espressoVersion = "3.3.0"
 extJunitVersion = "1.1.2"
-archCoreVersion = "2.1.0"
-glideVersion = "4.12.0"
-timberVersion = "4.7.1"
 mockitoKotlinVersion = "2.2.0"
 mockitoInlineVersion = "3.1.0"
 assertJVersion = "3.19.0"
 jUnitVersion = "4.13.1"
-networkAdapterVersion = "4.1.0"
 burstVersion = "1.2.0"
-leakCanaryVersion = "2.6"
-okhttpVersion = "4.7.2"
-retrofitVersion = "2.7.0"
-composeVersion = "1.0.1"
 
 [libraries]
 agp = { module = "com.android.tools.build :gradle", version.ref = "agpVersion" }
 kotlin-gradle = { module = "org.jetbrains.kotlin :kotlin-gradle-plugin", version.ref = "kotlinVersion" }
-kotlin-stdlib = { module = "org.jetbrains.kotlin :kotlin-stdlib-jdk7", version.ref = "kotlinVersion" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin :kotlin-stdlib-jdk8", version.ref = "kotlinVersion" }
 coroutines-core = { module = "org.jetbrains.kotlinx :kotlinx-coroutines-core", version.ref = "coroutinesVersion" }
 coroutines-test = { module = "org.jetbrains.kotlinx :kotlinx-coroutines-test", version.ref = "coroutinesVersion" }
-lottie = { module = "com.airbnb.android :lottie", version.ref = "lottieVersion" }
 google-gms = { module = "com.google.gms :google-services", version.ref = "googleServicesVersion" }
 hilt-android = { module = "com.google.dagger :hilt-android", version.ref = "daggerVersion" }
 hilt-compiler = { module = "com.google.dagger :hilt-android-compiler", version.ref = "daggerVersion" }
@@ -51,14 +50,7 @@ hilt-gradle = { module = "com.google.dagger :hilt-android-gradle-plugin", versio
 gson = { module = "com.google.code.gson :gson", version.ref = "gsonVersion" }
 firebase-bom = { module = "com.google.firebase :firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-crashlytics = { module = "com.google.firebase :firebase-crashlytics-gradle", version.ref = "crashlyticsVersion" }
-androidx-navigation-component-fragment-ktx = { module = "androidx.navigation :navigation-fragment-ktx", version.ref = "navigationComponentVersion" }
-androidx-navigation-component-ui-ktx = { module = "androidx.navigation :navigation-ui-ktx", version.ref = "navigationComponentVersion" }
-androidx-navigation-component-safe-args-gradle = { module = "androidx.navigation :navigation-safe-args-gradle-plugin", version.ref = "navigationComponentVersion" }
 androidx-appcompat = { module = "androidx.appcompat :appcompat", version.ref = "appCompatVersion" }
-androidx-constraintlayout = { module = "androidx.constraintlayout :constraintlayout", version.ref = "constraintLayoutVersion" }
-material-design = { module = "com.google.android.material :material", version.ref = "materialDesignVersion" }
-androidx-recyclerview = { module = "androidx.recyclerview :recyclerview", version.ref = "recyclerViewVersion" }
-androidx-cardview = { module = "androidx.cardview :cardview", version.ref = "cardViewVersion" }
 androidx-core-ktx = { module = "androidx.core :core-ktx", version.ref = "coreKtxVersion" }
 androidx-fragment-ktx = { module = "androidx.fragment :fragment-ktx", version.ref = "fragmentKtxVersion" }
 androidx-room-runtime = { module = "androidx.room :room-runtime", version.ref = "roomVersion" }
@@ -72,9 +64,6 @@ androidx-test-runner = { module = "androidx.test :runner", version.ref = "testRu
 androidx-test-espresso = { module = "androidx.test.espresso :espresso-core", version.ref = "espressoVersion" }
 androidx-test-junit = { module = "androidx.test.ext :junit", version.ref = "extJunitVersion" }
 androidx-arch-core-testing = { module = "androidx.arch.core :core-testing", version.ref = "archCoreVersion" }
-glide-core = { module = "com.github.bumptech.glide :glide", version.ref = "glideVersion" }
-glide-compiler = { module = "com.github.bumptech.glide :okhttp3-integration", version.ref = "glideVersion" }
-glide-ext-okhttp3 = { module = "com.github.bumptech.glide :compiler", version.ref = "glideVersion" }
 timber = { module = "com.jakewharton.timber :timber", version.ref = "timberVersion" }
 mockito-kotlin = { module = "com.nhaarman.mockitokotlin2 :mockito-kotlin", version.ref = "mockitoKotlinVersion" }
 mockito-inline = { module = "org.mockito :mockito-inline", version.ref = "mockitoInlineVersion" }
@@ -88,12 +77,18 @@ okhttp-mockwebserver = { module = "com.squareup.okhttp3 :mockwebserver", version
 leakcanary = { module = "com.squareup.leakcanary :leakcanary-android", version.ref = "leakCanaryVersion" }
 retrofit-core = { module = "com.squareup.retrofit2 :retrofit", version.ref = "retrofitVersion" }
 retrofit-ext-gson = { module = "com.squareup.retrofit2 :converter-gson", version.ref = "retrofitVersion" }
-compose-ui-core = { module = "androidx.compose.ui :ui", version.ref = "composeVersion" }
-compose-ui-tooling = { module = "androidx.compose.ui :ui-tooling", version.ref = "composeVersion" }
+compose-runtime = { module = "androidx.compose.runtime :runtime", version.ref = "composeVersion" }
 compose-foundation = { module = "androidx.compose.foundation :foundation", version.ref = "composeVersion" }
+compose-ui = { module = "androidx.compose.ui :ui", version.ref = "composeVersion" }
+compose-ui-tooling = { module = "androidx.compose.ui :ui-tooling", version.ref = "composeVersion" }
+compose-ui-material = { module = "androidx.compose.material :material", version.ref = "composeVersion" }
+compose-ui-imageloading = { module = "io.coil-kt :coil-compose", version.ref = "coilComposeVersion" }
+compose-navigation = { module = "androidx.navigation :navigation-compose", version.ref = "composeNavigationVersion" }
+compose-viewmodel = { module = "androidx.lifecycle :lifecycle-viewmodel-compose", version.ref = "composeLifecycleVersion" }
+compose-ui-insets = { module = "com.google.accompanist :accompanist-insets", version.ref = "accompanistVersion" }
+androidx-activity = { module = "androidx.activity :activity-ktx", version.ref = "activityVersion" }
+compose-ui-activity = { module = "androidx.activity :activity-compose", version.ref = "activityVersion" }
 
 [bundles]
-androidx-navigation-component = ['androidx-navigation-component-fragment-ktx', 'androidx-navigation-component-ui-ktx']
-androidx-lifecycle = ['androidx-lifecycle-viewmodel-ktx', 'androidx-lifecycle-ext']
-compose = ['compose-ui-core', 'compose-ui-tooling', 'compose-foundation']
-glide = ['glide-core', 'glide-ext-okhttp3']
+compose = [ "compose-runtime", "compose-foundation" ]
+compose-ui = [ "compose-ui", "compose-ui-tooling" ]

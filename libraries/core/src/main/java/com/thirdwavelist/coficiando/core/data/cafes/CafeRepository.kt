@@ -5,26 +5,26 @@ import com.thirdwavelist.coficiando.core.data.cafes.mapper.CafeItemDtoToCafeEnti
 import com.thirdwavelist.coficiando.core.data.db.CafeDao
 import com.thirdwavelist.coficiando.core.data.network.ThirdWaveListService
 import com.thirdwavelist.coficiando.core.data.network.model.CafeItemDto
-import com.thirdwavelist.coficiando.core.domain.cafe.CafeItem
+import com.thirdwavelist.coficiando.core.domain.cafe.Cafe
 import com.thirdwavelist.coficiando.core.logging.BusinessEventLogger
 import com.thirdwavelist.coficiando.core.logging.ErrorEventLogger
-import com.thirdwavelist.coficiando.coreutils.Repository
-import com.thirdwavelist.coficiando.coreutils.logging.BusinessEvent
-import com.thirdwavelist.coficiando.coreutils.logging.ErrorEvent
-import com.thirdwavelist.coficiando.coreutils.logging.ErrorPriority
+import com.thirdwavelist.coficiando.core.util.Repository
+import com.thirdwavelist.coficiando.core.util.logging.BusinessEvent
+import com.thirdwavelist.coficiando.core.util.logging.ErrorEvent
+import com.thirdwavelist.coficiando.core.util.logging.ErrorPriority
 import java.util.UUID
 import javax.inject.Inject
 
 class CafeRepository @Inject constructor(
-        private val dao: CafeDao,
-        private val service: ThirdWaveListService,
-        private val cafeMapper: CafeItemDtoToCafeEntityMapper,
-        private val businessEventLogger: BusinessEventLogger,
-        private val errorEventLogger: ErrorEventLogger
-) : Repository<CafeItem> {
+    private val dao: CafeDao,
+    private val service: ThirdWaveListService,
+    private val cafeMapper: CafeItemDtoToCafeEntityMapper,
+    private val businessEventLogger: BusinessEventLogger,
+    private val errorEventLogger: ErrorEventLogger
+) : Repository<Cafe> {
 
-    override suspend fun getAll(): List<CafeItem> {
-        val local: List<CafeItem> = dao.getAll()
+    override suspend fun getAll(): List<Cafe> {
+        val local: List<Cafe> = dao.getAll()
 
         val remote: List<CafeItemDto> = when (val result = service.getCafes()) {
             is NetworkResponse.Success -> {
@@ -60,8 +60,8 @@ class CafeRepository @Inject constructor(
         return local
     }
 
-    override suspend fun getById(uid: UUID): CafeItem? {
-        val local: CafeItem? = dao.get(uid)
+    override suspend fun getById(uid: UUID): Cafe? {
+        val local: Cafe? = dao.get(uid)
 
         val remote: CafeItemDto? = when (val result = service.getCafe(uid)) {
             is NetworkResponse.Success -> {
@@ -89,7 +89,7 @@ class CafeRepository @Inject constructor(
             }
         }
 
-        val mappedRemote: CafeItem? = if (remote != null && remote.isValid()) {
+        val mappedRemote: Cafe? = if (remote != null && remote.isValid()) {
             cafeMapper(remote).also {
                 if (it != local) {
                     dao.insert(it)
