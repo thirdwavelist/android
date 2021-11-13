@@ -19,8 +19,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
-      - name: Run Tests
-        run: ./gradlew check --stacktrace
       - name: Generate cache key
         run: ./checksum.sh checksum.txt
       - uses: actions/cache@v2
