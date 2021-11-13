@@ -10,6 +10,11 @@ jobs:
   publish_on_main:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+      ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+      ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
+      GOOGLE_APPLICATION_CREDENTIALS: ./app/src/release/google-services.json
     strategy:
       fail-fast: false
       matrix:
@@ -33,17 +38,10 @@ jobs:
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
-      - name: Generate
+      - name: Generate Keystore and Play Service Account file
         env:
-          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
-          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
-          ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
-          FIREBASE_SERVICE_ACCOUNT_JSON: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_BASE64 }}
-        run:
-          echo -n "$FIREBASE_SERVICE_ACCOUNT_JSON" | base64 --decode > ./app/google-services.json
-          export GOOGLE_APPLICATION_CREDENTIALS=./app/google-services.json
-          echo -n "$ANDROID_KEYSTORE" | base64 --decode > ./app/release.keystore
+          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
+        run: echo -n "$ANDROID_KEYSTORE" | base64 --decode > ./app/release.keystore
       - name: Publish
         run: ./gradlew :app:bundleRelease :app:appDistributionUploadRelease --no-build-cache --stacktrace
       - name: Cleanup
