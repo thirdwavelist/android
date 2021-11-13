@@ -8,8 +8,10 @@ buildscript {
         classpath libs.kotlin.gradle
         classpath libs.google.gms
         classpath libs.firebase.crashlytics
+        classpath libs.firebase.appdistribution
         classpath libs.hilt.gradle
         classpath libs.androidx.navigation.component.safe.args.gradle
+        classpath libs.triplet.playpublisher
     }
 }
 

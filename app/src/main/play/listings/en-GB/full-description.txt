@@ -1,0 +1,18 @@
+Have you ever thought what grinder or espresso machine your favorite coffee shop uses? How about the origin of the beans? Do they have their own roaster or they rather import?
+
+Well, ThirdWaveList is here to answer all your coffee related questions!
+
+Currently available in Budapest, but soon coming to your city as well!
+
+** Current features:
+- Filtering cafés by brew method, bean origin and bean roast
+- Detail page with extra information about each café
+- Direct link to start directions to café
+
+** Coming soon:
+- Better card design
+- New brew method illustrations
+- Map overview
+- More cities!
+
+Thanks for giving us a chance and having patience with us - without You this project would not be possible!

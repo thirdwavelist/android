@@ -36,6 +36,8 @@ leakCanaryVersion = "2.6"
 okhttpVersion = "4.7.2"
 retrofitVersion = "2.7.0"
 composeVersion = "1.0.1"
+appDistributionVersion = "2.2.0"
+gradlePlayPublisherVersion = "3.6.0"
 
 [libraries]
 agp = { module = "com.android.tools.build :gradle", version.ref = "agpVersion" }
@@ -51,6 +53,7 @@ hilt-gradle = { module = "com.google.dagger :hilt-android-gradle-plugin", versio
 gson = { module = "com.google.code.gson :gson", version.ref = "gsonVersion" }
 firebase-bom = { module = "com.google.firebase :firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-crashlytics = { module = "com.google.firebase :firebase-crashlytics-gradle", version.ref = "crashlyticsVersion" }
+firebase-appdistribution = { module = "com.google.firebase :firebase-appdistribution-gradle", version.ref = "appDistributionVersion" }
 androidx-navigation-component-fragment-ktx = { module = "androidx.navigation :navigation-fragment-ktx", version.ref = "navigationComponentVersion" }
 androidx-navigation-component-ui-ktx = { module = "androidx.navigation :navigation-ui-ktx", version.ref = "navigationComponentVersion" }
 androidx-navigation-component-safe-args-gradle = { module = "androidx.navigation :navigation-safe-args-gradle-plugin", version.ref = "navigationComponentVersion" }
@@ -91,6 +94,7 @@ retrofit-ext-gson = { module = "com.squareup.retrofit2 :converter-gson", version
 compose-ui-core = { module = "androidx.compose.ui :ui", version.ref = "composeVersion" }
 compose-ui-tooling = { module = "androidx.compose.ui :ui-tooling", version.ref = "composeVersion" }
 compose-foundation = { module = "androidx.compose.foundation :foundation", version.ref = "composeVersion" }
+triplet-playpublisher = { module = "com.github.triplet.gradle :play-publisher", version.ref = "gradlePlayPublisherVersion" }
 
 [bundles]
 androidx-navigation-component = ['androidx-navigation-component-fragment-ktx', 'androidx-navigation-component-ui-ktx']
