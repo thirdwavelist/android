@@ -65,7 +65,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseAppDistribution {
                 artifactType="AAB"
-                serviceCredentialsFile=System.getenv("FIREBASE_SERVICE_CREDENTIAL")
             }
 
         }
