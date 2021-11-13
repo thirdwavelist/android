@@ -3,14 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'dagger.hilt.android.plugin'
+apply plugin: 'com.google.firebase.appdistribution'
+apply plugin: 'com.github.triplet.play'
 apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
 
 android {
-
     defaultConfig {
         applicationId "com.thirdwavelist.coficiando"
 
-        versionCode 5
+        versionCode 6
         versionName "1.1.0"
 
         proguardFiles 'proguard-rules.pro'
@@ -19,10 +20,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("src/main/release.keystore")
-            storePassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PASSWORD")
-            keyAlias System.getenv("BITRISEIO_ANDROID_KEYSTORE_ALIAS")
-            keyPassword System.getenv("BITRISEIO_ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
+            storeFile file("release.keystore")
+            storePassword System.getenv("ANDROID_KEYSTORE_PASSWORD")
+            keyAlias System.getenv("ANDROID_KEYSTORE_ALIAS")
+            keyPassword System.getenv("ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD")
         }
 
         debug {
@@ -62,6 +63,10 @@ android {
         release {
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            firebaseAppDistribution {
+                artifactType="AAB"
+            }
+
         }
         debug {
             debuggable true
@@ -81,6 +86,10 @@ android {
 
 hilt {
     enableAggregatingTask = true
+}
+
+play {
+    track.set("alpha")
 }
 
 dependencies {

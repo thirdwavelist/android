@@ -1,6 +1,2 @@
-build
-release
-.gradle
-
-src/release/google-services.json
-src/release/release-keystore.jks
+build/
+.gradle/
