@@ -1,11 +1,10 @@
 name: Release
 
 on:
-  pull_request:
-#  workflow_run:
-#    workflows: ["CI build"]
-#    types:
-#      - completed
+  workflow_run:
+    workflows: [ Build ]
+    types:
+      - completed
 
 jobs:
   publish_on_main:
