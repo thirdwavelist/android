@@ -39,8 +39,8 @@ jobs:
           java-version: ${{ matrix.java }}
       - name: Generate Keystore and Play Service Account file
         env:
-          ANDROID_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE }}
-        run: echo -n "$ANDROID_KEYSTORE" | base64 --decode > ./app/release.keystore
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        run: echo -n "$ANDROID_KEYSTORE_BASE64" | base64 --decode > ./app/release.keystore
       - name: Publish
         run: ./gradlew :app:bundleRelease :app:appDistributionUploadRelease --no-build-cache --stacktrace
       - name: Cleanup
