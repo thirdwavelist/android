@@ -32,4 +32,4 @@ jobs:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
       - name: Run Tests
-        run: ./gradlew check --stacktrace
+        run: ./gradlew test --stacktrace
