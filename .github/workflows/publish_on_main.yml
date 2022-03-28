@@ -26,7 +26,7 @@ jobs:
         uses: gradle/wrapper-validation-action@v1
       - name: Generate cache key
         run: ./checksum.sh checksum.txt
-      - uses: actions/cache@v2
+      - uses: actions/cache@v3
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ matrix.java }}-${{ hashFiles('checksum.txt') }}
