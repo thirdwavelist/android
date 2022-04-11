@@ -27,7 +27,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ matrix.java }}-${{ hashFiles('checksum.txt') }}
           restore-keys: ${{ runner.os }}-gradle-${{ matrix.java }}-
       - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
