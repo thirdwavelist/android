@@ -52,8 +52,11 @@ hilt-compiler = { module = "com.google.dagger :hilt-android-compiler", version.r
 hilt-gradle = { module = "com.google.dagger :hilt-android-gradle-plugin", version.ref = "daggerVersion" }
 gson = { module = "com.google.code.gson :gson", version.ref = "gsonVersion" }
 firebase-bom = { module = "com.google.firebase :firebase-bom", version.ref = "firebaseBomVersion" }
-firebase-crashlytics = { module = "com.google.firebase :firebase-crashlytics-gradle", version.ref = "crashlyticsVersion" }
-firebase-appdistribution = { module = "com.google.firebase :firebase-appdistribution-gradle", version.ref = "appDistributionVersion" }
+firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
+firebase-appdistribution = { module = "com.google.firebase:firebase-appdistribution-gradle" }
+firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
+firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlyticsVersion" }
+firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 androidx-navigation-component-fragment-ktx = { module = "androidx.navigation :navigation-fragment-ktx", version.ref = "navigationComponentVersion" }
 androidx-navigation-component-ui-ktx = { module = "androidx.navigation :navigation-ui-ktx", version.ref = "navigationComponentVersion" }
 androidx-navigation-component-safe-args-gradle = { module = "androidx.navigation :navigation-safe-args-gradle-plugin", version.ref = "navigationComponentVersion" }

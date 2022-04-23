@@ -7,4 +7,4 @@ include ':libraries:navigation'
 include ':libraries:core-utils'
 include ':libraries:design'
 
-enableFeaturePreview("VERSION_CATALOGS")
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

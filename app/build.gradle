@@ -95,18 +95,18 @@ play {
 dependencies {
     implementation libs.kotlin.stdlib
 
-    implementation project(":libraries:core-utils")
-    implementation project(":libraries:core")
-    implementation project(":libraries:navigation")
-    implementation project(":libraries:design")
-    implementation project(":features:home")
-    implementation project(":features:details")
-    implementation project(":features:settings")
+    implementation projects.libraries.coreUtils
+    implementation projects.libraries.core
+    implementation projects.libraries.navigation
+    implementation projects.libraries.design
+    implementation projects.features.home
+    implementation projects.features.details
+    implementation projects.features.settings
 
     implementation platform(libs.firebase.bom)
-    implementation "com.google.firebase:firebase-crashlytics"
-    implementation "com.google.firebase:firebase-analytics"
-    implementation "com.google.firebase:firebase-config-ktx"
+    implementation libs.firebase.crashlytics
+    implementation libs.firebase.analytics
+    implementation libs.firebase.config
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat

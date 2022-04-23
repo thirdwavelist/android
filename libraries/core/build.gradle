@@ -12,11 +12,11 @@ android {
 }
 
 dependencies {
-    implementation project(":libraries:core-utils")
+    implementation projects.libraries.coreUtils
     implementation libs.coroutines.core
 
     implementation platform(libs.firebase.bom)
-    implementation "com.google.firebase:firebase-config-ktx"
+    implementation libs.firebase.config
 
     implementation libs.hilt.android
     kapt libs.hilt.compiler
