@@ -1,10 +1,31 @@
-include ':app'
-include ':features:home'
-include ':features:details'
-include ':features:settings'
-include ':libraries:core'
-include ':libraries:navigation'
-include ':libraries:core-utils'
-include ':libraries:design'
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
 
-enableFeaturePreview("VERSION_CATALOGS")
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+            content {
+                includeModule("com.github.haroldadmin", "NetworkResponseAdapter")
+            }
+        }
+    }
+}
+
+include ':app',
+        ':features:home',
+        ':features:details',
+        ':features:settings',
+        ':libraries:core',
+        ':libraries:navigation',
+        ':libraries:core-utils',
+        ':libraries:design'
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

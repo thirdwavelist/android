@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -10,10 +11,11 @@ android {
 }
 
 dependencies {
-    implementation project(":libraries:core-utils")
-    implementation project(":libraries:core")
-    implementation project(":libraries:navigation")
-    implementation project(":libraries:design")
+    implementation projects.libraries.coreUtils
+    implementation projects.libraries.core
+    implementation projects.libraries.navigation
+    implementation projects.libraries.design
+    testImplementation projects.libraries.core
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.fragment.ktx
@@ -29,7 +31,6 @@ dependencies {
     kapt libs.glide.compiler
     implementation libs.bundles.glide
 
-    testImplementation project(":libraries:core")
     testImplementation libs.junit
     testImplementation libs.assertj
     testImplementation libs.androidx.arch.core.testing
@@ -39,5 +40,3 @@ dependencies {
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso
 }
-
-apply plugin: 'androidx.navigation.safeargs.kotlin'

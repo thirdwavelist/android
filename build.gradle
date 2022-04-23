@@ -6,21 +6,16 @@ buildscript {
     dependencies {
         classpath libs.agp
         classpath libs.kotlin.gradle
-        classpath libs.google.gms
-        classpath libs.firebase.crashlytics
-        classpath libs.firebase.appdistribution
+        classpath libs.firebase.appdistribution.gradle
+        classpath libs.firebase.crashlytics.gradle
         classpath libs.hilt.gradle
         classpath libs.androidx.navigation.component.safe.args.gradle
-        classpath libs.triplet.playpublisher
     }
 }
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
+plugins {
+    alias(libs.plugins.versions.gradlePlugin)
+    alias(libs.plugins.versionCatalogUpdate.gradlePlugin)
 }
 
 subprojects {

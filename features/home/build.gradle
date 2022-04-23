@@ -10,11 +10,11 @@ android {
 }
 
 dependencies {
-    implementation project(":libraries:core-utils")
-    implementation project(":libraries:core")
-    implementation project(":libraries:navigation")
-    implementation project(":libraries:design")
-    testImplementation project(":libraries:core")
+    implementation projects.libraries.coreUtils
+    implementation projects.libraries.core
+    implementation projects.libraries.navigation
+    implementation projects.libraries.design
+    testImplementation projects.libraries.core
 
     implementation libs.androidx.core.ktx
     implementation libs.androidx.appcompat
