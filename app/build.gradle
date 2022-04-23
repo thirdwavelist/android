@@ -1,11 +1,13 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'com.google.firebase.crashlytics'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'dagger.hilt.android.plugin'
-apply plugin: 'com.google.firebase.appdistribution'
-apply plugin: 'com.github.triplet.play'
-apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'com.google.firebase.crashlytics'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.firebase.appdistribution'
+    id 'com.github.triplet.play'
+    alias(libs.plugins.google.services.gradle)
+}
 
 android {
     defaultConfig {
@@ -93,8 +95,6 @@ play {
 }
 
 dependencies {
-    implementation libs.kotlin.stdlib
-
     implementation projects.libraries.coreUtils
     implementation projects.libraries.core
     implementation projects.libraries.navigation
@@ -120,4 +120,4 @@ dependencies {
     debugImplementation libs.leakcanary
 }
 
-apply plugin: 'com.google.gms.google-services'
+apply from: 'https://raw.githubusercontent.com/JakeWharton/SdkSearch/master/gradle/projectDependencyGraph.gradle'

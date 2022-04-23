@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 dependencies {
@@ -12,5 +13,3 @@ dependencies {
     testImplementation libs.mockito.kotlin
     testImplementation libs.mockito.inline
 }
-
-apply plugin: 'androidx.navigation.safeargs.kotlin'
