@@ -53,7 +53,7 @@ hilt-gradle = { module = "com.google.dagger:hilt-android-gradle-plugin", version
 gson = { module = "com.google.code.gson:gson", version.ref = "gsonVersion" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBomVersion" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
-firebase-appdistribution = { module = "com.google.firebase:firebase-appdistribution-gradle" }
+firebase-appdistribution-gradle = { module = "com.google.firebase:firebase-appdistribution-gradle", version.ref = "appDistributionVersion" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx" }
 firebase-crashlytics-gradle = { module = "com.google.firebase:firebase-crashlytics-gradle", version.ref = "crashlyticsVersion" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
@@ -97,7 +97,6 @@ retrofit-ext-gson = { module = "com.squareup.retrofit2:converter-gson", version.
 compose-ui-core = { module = "androidx.compose.ui:ui", version.ref = "composeVersion" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeVersion" }
 compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeVersion" }
-triplet-playpublisher = { module = "com.github.triplet.gradle:play-publisher", version.ref = "gradlePlayPublisherVersion" }
 
 [bundles]
 androidx-navigation-component = ['androidx-navigation-component-fragment-ktx', 'androidx-navigation-component-ui-ktx']
@@ -109,3 +108,4 @@ glide = ['glide-core', 'glide-ext-okhttp3']
 googleServices-gradlePlugin = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 versions-gradlePlugin = { id = "com.github.ben-manes.versions", version.ref = "benManesVersion" }
 versionCatalogUpdate-gradlePlugin = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
+tripletPlay-gradlePlugin = { id = "com.github.triplet.play", version.ref = "gradlePlayPublisherVersion" }

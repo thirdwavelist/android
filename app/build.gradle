@@ -5,7 +5,7 @@ plugins {
     id 'com.google.firebase.crashlytics'
     id 'dagger.hilt.android.plugin'
     id 'com.google.firebase.appdistribution'
-    id 'com.github.triplet.play'
+    alias(libs.plugins.tripletPlay.gradlePlugin)
     alias(libs.plugins.googleServices.gradlePlugin)
 }
 
