@@ -36,6 +36,8 @@ leakCanaryVersion = "2.6"
 okhttpVersion = "4.7.2"
 retrofitVersion = "2.7.0"
 composeVersion = "1.0.1"
+versionCatalogUpdate = "0.3.1"
+benManesVersion = "0.42.0"
 appDistributionVersion = "2.2.0"
 gradlePlayPublisherVersion = "3.6.0"
 
@@ -104,4 +106,6 @@ compose = ['compose-ui-core', 'compose-ui-tooling', 'compose-foundation']
 glide = ['glide-core', 'glide-ext-okhttp3']
 
 [plugins]
-google-services-gradle = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
+googleServices-gradlePlugin = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
+versions-gradlePlugin = { id = "com.github.ben-manes.versions", version.ref = "benManesVersion" }
+versionCatalogUpdate-gradlePlugin = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }

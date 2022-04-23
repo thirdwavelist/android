@@ -14,6 +14,11 @@ buildscript {
     }
 }
 
+plugins {
+    alias(libs.plugins.versions.gradlePlugin)
+    alias(libs.plugins.versionCatalogUpdate.gradlePlugin)
+}
+
 subprojects {
     afterEvaluate { project ->
         if (project.hasProperty('android')) {

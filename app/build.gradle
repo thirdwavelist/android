@@ -6,7 +6,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'com.google.firebase.appdistribution'
     id 'com.github.triplet.play'
-    alias(libs.plugins.google.services.gradle)
+    alias(libs.plugins.googleServices.gradlePlugin)
 }
 
 android {
