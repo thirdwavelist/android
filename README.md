@@ -6,14 +6,8 @@
 
 ## How to run
 
-This project was written **using Android Studio Arctic Fox Patch 1**, and given the usage of Dagger Hilt, modularization and kapt,
-it is required to run it on AGP 7.1.0+ and make sure you have Java 11 installed (See caveats for more info).
-
-If the compiler is complaining about JDK 11 (in case you are not using the embedded one), make sure you install that first and check
-the Project Structure -> SDK Location -> JDK location settings.
-
-So to sum up, in order to compile and run the project you will need:
-- AS Arctic Fox Patch 1
+In order to compile and run the project you will need:
+- Android Studio supporting the Gradle plugin defined [here](https://github.com/thirdwavelist/android/blob/main/gradle/libs.versions.toml#L10)
 - Java 11 SDK installed
 
 ## Features:
@@ -32,13 +26,7 @@ So to sum up, in order to compile and run the project you will need:
 
 ## Caveats
 
-1. Running this project on older Android Studio that does not support running AGP 7.0.0 or higher,
-because of an experimental flag required to make the build of multi module kapt annotation more stable 
-for the Dagger Hilt library used across this project. While this is something that would not be acceptable 
-at a large scale in an organization, for a project like this, I have accepted this drawback in hindsight,
-since Dagger Hilt gave a lot more help in writing succinct, boilerplate free code.
-
-2. The original codebase that was written >3 years ago was built on pure MVVM approach (with DataBinding and a bi-directional data flow).
+1. The original codebase that was written >3 years ago was built on pure MVVM approach (with DataBinding and a bi-directional data flow).
 This was problematic, since it didn't reflect my current thinking and its also going against some bigger trends in the industry: 
 Compose (Data Binding is problematic), MVI (bi-directional data flow is problematic), so I removed the use of Data Binding, replaced it with ViewBinding,
 finite View State (machine), and while I didn't really capture true unidirectional data flow (UDF), it also does not go against some of the practices
@@ -60,7 +48,7 @@ would have required me to touch the API (which I developed as well 3 years ago),
 ```Text
 BSD 3-Clause License
 
-Copyright (c) 2017 - 2021, Antal János Monori & Kristoffer Tjalve
+Copyright (c) 2017 - 2022, Antal János Monori & Kristoffer Tjalve
 All rights reserved.
 ```
 
