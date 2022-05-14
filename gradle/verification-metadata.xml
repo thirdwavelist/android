@@ -3,6 +3,10 @@
    <configuration>
       <verify-metadata>true</verify-metadata>
       <verify-signatures>true</verify-signatures>
+      <trusted-artifacts>
+         <trust group="^androidx($|([.].*))" regex="true"/> <!-- not signed yet -->
+         <trust group="^com[.]android($|([.].*))" regex="true"/> <!-- b/215430394 -->
+      </trusted-artifacts>
       <trusted-keys>
          <trusted-key id="04543577d6a9cc626239c50c7ecbd740ff06aeb5">
             <trusting group="org.glassfish.jaxb"/>
