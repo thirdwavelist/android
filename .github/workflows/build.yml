@@ -38,3 +38,11 @@ jobs:
 
       - name: Run Tests
         run: ./gradlew test --stacktrace
+
+      - name: Archive Build Reports
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          retention-days: 7
+          name: test-results
+          path: build/reports
