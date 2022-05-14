@@ -16,6 +16,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.net.HttpURLConnection
 import java.util.UUID
+import java.util.function.Consumer
 
 class ThirdWaveListServiceTest {
 
@@ -52,11 +53,11 @@ class ThirdWaveListServiceTest {
         val result = api.getCafes()
 
         // Then
-        assertThat((result as NetworkResponse.Success)).satisfies {
+        assertThat((result as NetworkResponse.Success)).satisfies(Consumer {
             assertThat(it.code).isEqualTo(200)
             assertThat(it.body.size).isEqualTo(2)
             assertThat(it.body).usingRecursiveComparison().isEqualTo(CafeItemResponseBuilder.multiple())
-        }
+        })
     }
 
     @Test
@@ -71,10 +72,10 @@ class ThirdWaveListServiceTest {
         val result = api.getCafes()
 
         // Then
-        assertThat((result as NetworkResponse.ServerError)).satisfies {
+        assertThat((result as NetworkResponse.ServerError)).satisfies(Consumer {
             assertThat(it.code).isEqualTo(403)
             assertThat(it.body).usingRecursiveComparison().isEqualTo(CafeItemResponseBuilder.forbidden())
-        }
+        })
     }
 
     @Test
@@ -90,10 +91,10 @@ class ThirdWaveListServiceTest {
         val result = api.getCafe(cafeId)
 
         // Then
-        assertThat((result as NetworkResponse.Success)).satisfies {
+        assertThat((result as NetworkResponse.Success)).satisfies(Consumer {
             assertThat(it.code).isEqualTo(200)
             assertThat(it.body).usingRecursiveComparison().isEqualTo(CafeItemResponseBuilder.single())
-        }
+        })
     }
 
     @Test
@@ -108,9 +109,9 @@ class ThirdWaveListServiceTest {
         val result = api.getCafe(UUID.randomUUID())
 
         // Then
-        assertThat((result as NetworkResponse.ServerError)).satisfies {
+        assertThat((result as NetworkResponse.ServerError)).satisfies(Consumer {
             assertThat(it.code).isEqualTo(403)
             assertThat(it.body).usingRecursiveComparison().isEqualTo(CafeItemResponseBuilder.forbidden())
-        }
+        })
     }
 }
