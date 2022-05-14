@@ -1,4 +1,5 @@
 name: Release
+
 on:
   release:
     types: [created]
@@ -18,20 +19,16 @@ jobs:
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
+
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
-      - name: Generate cache key
-        run: ./checksum.sh checksum.txt
-      - uses: actions/cache@v3
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ matrix.java }}-${{ hashFiles('checksum.txt') }}
-          restore-keys: ${{ runner.os }}-gradle-${{ matrix.java }}-
+
       - name: Install JDK ${{ matrix.java }}
         uses: actions/setup-java@v3
         with:
           distribution: 'adopt'
           java-version: ${{ matrix.java }}
+
       - name: Generate Keystore and Play Service Account file
         env:
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
@@ -39,7 +36,9 @@ jobs:
         run:
           echo -n "$ANDROID_KEYSTORE_BASE64" | base64 --decode > ./app/release.keystore
           export ANDROID_PUBLISHER_CREDENTIALS=$(echo -n "$PLAY_SERVICE_ACCOUNT_JSON" | base64 --decode)
+
       - name: Publish
         run: ./gradlew :app:publishReleaseBundle --no-build-cache --stacktrace
+
       - name: Cleanup
         run: rm -f ./app/release.keystore
