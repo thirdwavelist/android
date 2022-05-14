@@ -17,11 +17,14 @@ import com.thirdwavelist.coficiando.coreutils.logging.BusinessEvent
 import com.thirdwavelist.coficiando.coreutils.logging.ErrorEvent
 import com.thirdwavelist.coficiando.coreutils.logging.ErrorPriority
 import kotlinx.coroutines.runBlocking
+import okhttp3.ResponseBody.Companion.toResponseBody
 import okio.IOException
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Before
 import org.junit.Test
+import retrofit2.Response
 import java.util.UUID
+import java.util.function.Consumer
 
 class CafeRepositoryTest {
 
@@ -51,10 +54,10 @@ class CafeRepositoryTest {
         then(mockDao).should().getAll()
         then(mockService).should().getCafes()
         then(mockErrorEventLogger).shouldHaveNoInteractions()
-        assertThat(result).satisfies {
+        assertThat(result).satisfies(Consumer {
             assertThat(it).hasSize(2)
             assertThat(it).usingRecursiveComparison().isEqualTo(listOf(Entity1, Entity2))
-        }
+        })
     }
 
     @Test
@@ -215,16 +218,16 @@ class CafeRepositoryTest {
         return givenException
     }
 
-    private fun givenRemoteServerError(errorResponseDto: ErrorResponseDto = ErrorResponseDto("Server Error"), errorResponseCode: Int = 500): ErrorResponseDto {
-        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.ServerError(errorResponseDto, errorResponseCode, null))
-        given { runBlocking { mockService.getCafe(any()) } }.willReturn(NetworkResponse.ServerError(errorResponseDto, errorResponseCode, null))
+    private fun givenRemoteServerError(errorResponseDto: ErrorResponseDto = ErrorResponseDto("Server Error"), errorResponse: Response<ErrorResponseDto> = Response.error(500, "".toResponseBody())): ErrorResponseDto {
+        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.ServerError(errorResponseDto, errorResponse))
+        given { runBlocking { mockService.getCafe(any()) } }.willReturn(NetworkResponse.ServerError(errorResponseDto, errorResponse))
         return errorResponseDto
     }
 
-    private fun givenRemoteUnknownError(): Throwable {
+    private fun givenRemoteUnknownError(errorResponse: Response<ErrorResponseDto> = Response.error(500, "".toResponseBody())): Throwable {
         val givenException = RuntimeException()
-        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.UnknownError(givenException))
-        given { runBlocking { mockService.getCafe(any()) } }.willReturn(NetworkResponse.UnknownError(givenException))
+        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.UnknownError(givenException, errorResponse))
+        given { runBlocking { mockService.getCafe(any()) } }.willReturn(NetworkResponse.UnknownError(givenException, errorResponse))
         return givenException
     }
 
@@ -237,11 +240,11 @@ class CafeRepositoryTest {
     }
 
     private fun givenRemoteReturns(listOf: List<CafeItemDto>) {
-        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.Success(listOf, null, 200))
+        given { runBlocking { mockService.getCafes() } }.willReturn(NetworkResponse.Success(listOf, Response.success<CafeItemDto>(200, null)))
     }
 
     private fun givenRemoteReturns(forCafeId: UUID, cafe: CafeItemDto) {
-        given { runBlocking { mockService.getCafe(forCafeId) } }.willReturn(NetworkResponse.Success(cafe, null, 200))
+        given { runBlocking { mockService.getCafe(forCafeId) } }.willReturn(NetworkResponse.Success(cafe, Response.success<CafeItemDto>(200, null)))
     }
 
     private companion object {
