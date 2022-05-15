@@ -24,7 +24,6 @@ daggerVersion = "2.41"
 firebaseBomVersion = "29.3.1"
 firebaseCrashlyticsVersion = "2.8.1"
 glideVersion = "4.13.1"
-googleServicesVersion = "4.3.10"
 gradlePlayPublisherVersion = "3.7.0"
 gsonVersion = "2.9.0"
 jUnitVersion = "4.13.2"
@@ -105,7 +104,6 @@ android-compose = ["compose-foundation", "compose-ui-core", "compose-ui-tooling"
 glide = ["glide-core", "glide-ext-okhttp3"]
 
 [plugins]
-googleServices-gradlePlugin = { id = "com.google.gms.google-services", version.ref = "googleServicesVersion" }
 tripletPlay-gradlePlugin = { id = "com.github.triplet.play", version.ref = "gradlePlayPublisherVersion" }
 versionCatalogUpdate-gradlePlugin = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
 versions-gradlePlugin = { id = "com.github.ben-manes.versions", version.ref = "benManesVersion" }

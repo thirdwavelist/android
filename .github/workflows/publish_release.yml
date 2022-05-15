@@ -41,4 +41,6 @@ jobs:
         run: ./gradlew :app:publishReleaseBundle --no-build-cache --stacktrace
 
       - name: Cleanup
-        run: rm -f ./app/release.keystore
+        run:
+          rm -f ./app/release.keystore
+          unset ANDROID_PUBLISHER_CREDENTIALS

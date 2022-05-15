@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ThirdWaveList (Debug)</string>
+
+    <string name="google_app_id" translatable="false">1:247998859063:android:483e93d0fdb8a76b39bcb2</string>
+    <string name="google_api_key" translatable="false">AIzaSyB-Ky7ye45ecLuSL0X62scKfsoIEqiEmWM</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyB-Ky7ye45ecLuSL0X62scKfsoIEqiEmWM</string>
+    <string name="google_storage_bucket" translatable="false">coficiando.appspot.com</string>
+    <string name="project_id" translatable="false">coficiando</string>
+    <string name="firebase_database_url" translatable="false">https://coficiando.firebaseio.com</string>
+    <string name="default_web_client_id" translatable="false">247998859063-g0p30iumdlgvpc8j4inivkttt1bfg34k.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">247998859063</string>
 </resources>
