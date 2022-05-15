@@ -66,6 +66,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             firebaseAppDistribution {
                 artifactType="AAB"
+                appId="1:247998859063:android:87af47d61baef106"
             }
 
         }
