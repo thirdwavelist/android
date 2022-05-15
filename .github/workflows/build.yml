@@ -9,11 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: anthonymonori/android-ci-image:v2.0.0-rc01
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [ '11' ]
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
@@ -29,12 +27,6 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ matrix.java }}-${{ hashFiles('checksum.txt') }}
           restore-keys: ${{ runner.os }}-gradle-${{ matrix.java }}-
-
-      - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: ${{ matrix.java }}
 
       - name: Run Tests
         run: ./gradlew test --stacktrace

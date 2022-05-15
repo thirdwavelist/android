@@ -9,28 +9,20 @@ on:
 jobs:
   publish_on_main:
     runs-on: ubuntu-latest
+    container:
+      image: anthonymonori/android-ci-image:v2.0.0-rc01
     timeout-minutes: 30
     env:
       ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
       ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
       ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PRIVATE_KEY_PASSWORD }}
       FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-    strategy:
-      fail-fast: false
-      matrix:
-        java: [ '11' ]
     steps:
       - name: Checkout the code
         uses: actions/checkout@v3
 
       - name: Gradle Wrapper Validation
         uses: gradle/wrapper-validation-action@v1
-
-      - name: Install JDK ${{ matrix.java }}
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'adopt'
-          java-version: ${{ matrix.java }}
 
       - name: Generate Keystore file
         env:
