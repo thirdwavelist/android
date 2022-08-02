@@ -16,6 +16,7 @@ buildscript {
 plugins {
     alias(libs.plugins.versions.gradlePlugin)
     alias(libs.plugins.versionCatalogUpdate.gradlePlugin)
+    alias(libs.plugins.dependencyAnalysis.gradlePlugin)
 }
 
 subprojects {

@@ -21,6 +21,7 @@ assertJVersion = "3.22.0"
 benManesVersion = "0.42.0"
 burstVersion = "1.2.0"
 daggerVersion = "2.41"
+dependencyAnalysisVersion = "1.12.0"
 firebaseBomVersion = "29.3.1"
 firebaseCrashlyticsVersion = "2.8.1"
 glideVersion = "4.13.1"
@@ -104,6 +105,7 @@ android-compose = ["compose-foundation", "compose-ui-core", "compose-ui-tooling"
 glide = ["glide-core", "glide-ext-okhttp3"]
 
 [plugins]
+dependencyAnalysis-gradlePlugin = { id = "com.autonomousapps.dependency-analysis", version.ref = "dependencyAnalysisVersion" }
 tripletPlay-gradlePlugin = { id = "com.github.triplet.play", version.ref = "gradlePlayPublisherVersion" }
 versionCatalogUpdate-gradlePlugin = { id = "nl.littlerobots.version-catalog-update", version.ref = "versionCatalogUpdate" }
 versions-gradlePlugin = { id = "com.github.ben-manes.versions", version.ref = "benManesVersion" }
