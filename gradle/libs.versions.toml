@@ -1,5 +1,5 @@
 [versions]
-androidAppCompatVersion = "1.5.0-alpha01"
+androidAppCompatVersion = "1.6.1"
 androidArchCoreVersion = "2.1.0"
 androidCardViewVersion = "1.0.0"
 androidComposeVersion = "1.2.0-beta01"
