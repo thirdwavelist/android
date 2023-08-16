@@ -38,7 +38,7 @@ networkAdapterVersion = "5.0.0"
 okhttpVersion = "5.0.0-alpha.6"
 retrofitVersion = "2.9.0"
 timberVersion = "5.0.1"
-versionCatalogUpdate = "0.3.1"
+versionCatalogUpdate = "0.8.1"
 
 [libraries]
 agp = { module = "com.android.tools.build:gradle", version.ref = "androidGradlePluginVersion" }
