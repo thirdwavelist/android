@@ -4,9 +4,12 @@
       <verify-metadata>true</verify-metadata>
       <verify-signatures>true</verify-signatures>
       <trusted-artifacts>
-         <trust group="^androidx($|([.].*))" regex="true"/> <!-- not signed yet -->
-         <trust group="^com[.]android($|([.].*))" regex="true"/> <!-- b/215430394 -->
+         <trust group="^androidx($|([.].*))" regex="true"/>
+         <trust group="^com[.]android($|([.].*))" regex="true"/>
       </trusted-artifacts>
+      <ignored-keys>
+         <ignored-key id="4eb27db2a3b88b8b" reason="Key couldn't be downloaded from any key server"/>
+      </ignored-keys>
       <trusted-keys>
          <trusted-key id="04543577d6a9cc626239c50c7ecbd740ff06aeb5">
             <trusting group="org.glassfish.jaxb"/>
@@ -72,7 +75,10 @@
          <trusted-key id="90ee19787a7bcf6fd37a1e9180c08b1c29100955" group="^com[.]squareup($|([.].*))" regex="true"/>
          <trusted-key id="95115197c5227c0887299d000f9fe62f88e938d8" group="com.google.dagger"/>
          <trusted-key id="9e84765a7aa3e3d3d5598a408e3f0de7ae354651" group="com.google.code.gson"/>
-         <trusted-key id="a413f67d71beec23add0ce0acb43338e060cf9fa" group="org.jacoco"/>
+         <trusted-key id="a413f67d71beec23add0ce0acb43338e060cf9fa">
+            <trusting group="com.google.code.findbugs" name="jsr305" version="2.0.2"/>
+            <trusting group="org.jacoco"/>
+         </trusted-key>
          <trusted-key id="a5bd02b93e7a40482eb1d66a5f69ad087600b22c" group="org.ow2.asm"/>
          <trusted-key id="a6d6c97108b8585f91b158748671a8df71296252" group="^com[.]squareup($|([.].*))" regex="true"/>
          <trusted-key id="a7892505cf1a58076453e52d7999befba1039e8b" group="net.bytebuddy"/>
